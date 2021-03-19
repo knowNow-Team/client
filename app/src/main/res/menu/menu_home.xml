@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="홈" />
+
+    <item
+        android:id="@+id/nav_test"
+        android:enabled="true"
+        android:icon="@drawable/ic_test"
+        android:title="테스트" />
+
+    <item
+        android:id="@+id/nav_ranking"
+        android:enabled="true"
+        android:icon="@drawable/ic_ranking"
+        android:title="랭킹" />
+
+    <item
+        android:id="@+id/nav_mypage"
+        android:enabled="true"
+        android:icon="@drawable/ic_mypage"
+        android:title="마이페이지" />
+
+</menu>

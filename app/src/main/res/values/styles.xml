@@ -1,0 +1,57 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="FontHeadLine">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#C4C4C4</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="FontSubHead1">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#C4C4C4</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+    </style>
+
+    <style name="FontSubHead2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#C4C4C4</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontWeight">700</item>
+    </style>
+
+    <style name="FontSubHead3">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#C4C4C4</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:fontWeight" tools:targetApi="o">500</item>
+    </style>
+
+    <style name="FontBody1">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#C4C4C4</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+    </style>
+
+    <style name="FontBody2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#C4C4C4</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+    </style>
+
+    <style name="FontCaption">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#C4C4C4</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:fontWeight" tools:targetApi="o">500</item>
+    </style>
+
+</resources>
