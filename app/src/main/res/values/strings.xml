@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">KonwNow</string>
 
+    <!-- Common-->
+    <string name="start">시작 하기</string>
+
     <!-- Sign In -->
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -21,4 +24,14 @@
     <string name="ranking">Ranking</string>
     <string name="mypage">MyPage</string>
 
+
+    <!-- Test -->
+    <string name="test_title">단어 시험</string>
+    <string name="word_puzzle">단어 퍼즐 맞추기</string>
+    <string name="word_dictation">단어 받아쓰기</string>
+
+    <!-- Word -->
+    <string name="not_know">몰라요</string>
+    <string name="confuse">헷갈려요</string>
+    <string name="know">다 외웠어요</string>
 </resources>

@@ -1,16 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <androidx.appcompat.widget.Toolbar
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/tb_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@style/FontHeadLine"
+            android:text="@string/test_title">
+        </TextView>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_test_log"
+            android:layout_gravity="end"
+            android:layout_marginRight="20dp" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/test"
-        android:layout_gravity="center"
-        android:gravity="center"
+        android:id="@+id/ll_test_main"
+        android:layout_below="@+id/tb_test"
+        android:orientation="vertical"
         >
-    </TextView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            >
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <RadioButton
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_margin="15dp"
+                    android:text="@string/word_puzzle"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/btn_test_mode"
+                    android:gravity="center"
+                    android:textColor="@color/text_selector"
+                    >
+                </RadioButton>
+
+                <RadioButton
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_margin="15dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/btn_test_mode"
+                    android:text="@string/word_dictation"
+                    android:gravity="center"
+                    android:textColor="@color/text_selector"
+                    >
+                </RadioButton>
+            </RadioGroup>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_word_folder"
+                android:scrollbars="vertical"
+                android:layout_width="382dp"
+                android:layout_height="220dp"
+                android:background="@color/white"
+                android:elevation="10dp"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:gravity="top"
+            >
+            <LinearLayout
+                android:id="@+id/ll_set_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginVertical="30dp">
+                <CheckBox
+                    android:id="@+id/not_know"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/cb_tag"
+                    android:text="@string/not_know"
+                    android:layout_marginHorizontal="10dp"
+                    android:paddingHorizontal="20dp"
+                    android:textColor="@color/text_selector"
+                    />
+                <CheckBox
+                    android:id="@+id/confuse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/cb_tag"
+                    android:text="@string/confuse"
+                    android:layout_marginHorizontal="10dp"
+                    android:paddingHorizontal="20dp"
+                    android:textColor="@color/text_selector"/>
+                <CheckBox
+                    android:id="@+id/know"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/cb_tag"
+                    android:text="@string/know"
+                    android:layout_marginHorizontal="10dp"
+                    android:paddingHorizontal="20dp"
+                    android:textColor="@color/text_selector"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_set_quiz_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/ll_set_tag"
+                android:gravity="center">
+                <SeekBar
+                    android:id="@+id/skb_quiz_num"
+                    android:layout_width="382dp"
+                    android:layout_height="wrap_content"
+                    android:thumb="@drawable/ic_seekbar_thumb"
+                    android:progressDrawable="@drawable/skb_progress"
+                    android:layout_marginVertical="15dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="문제 수 / Total"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_test_start"
+                style="@style/FontBold3"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_set_quiz_num"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/btn_test_start"
+                android:textColor="@color/white"
+                android:text="@string/start"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
 
 </RelativeLayout>

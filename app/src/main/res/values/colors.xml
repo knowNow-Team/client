@@ -11,11 +11,12 @@
     <color name="red">#F91212</color>
     <color name="bw_b">#222222</color>
     <color name="bw_g7">#495055</color>
-    <color name="bw_g6">#999DA4</color>
+    <color name="bw_g6">#969393</color>
     <color name="bw_g5">#AEB5BC</color>
     <color name="bw_g4">#D1D5DA</color>
     <color name="bw_g3">#E7E9EB</color>
     <color name="bw_g2">#ECECEC</color>
     <color name="bw_g1">#F8F8F8</color>
+    <color name="bw_g0">#F3F3F3</color>
     <color name="bw_w">#FFFFFF</color>
 </resources>

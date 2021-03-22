@@ -7,49 +7,76 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- 타이틀 (맨 위 )-->
     <style name="FontHeadLine">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Font1 - 제목-->
+    <style name="FontBold1">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">#C4C4C4</item>
-        <item name="fontFamily">@font/notosanskr_regular</item>
         <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="FontSubHead1">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">#C4C4C4</item>
+    <style name="Font1">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
     </style>
 
-    <style name="FontSubHead2">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#C4C4C4</item>
-        <item name="fontFamily">@font/notosanskr_regular</item>
+    <!-- Font2 - 부제목 -->
+    <style name="FontBold2">
         <item name="android:textStyle">bold</item>
-        <item name="fontWeight">700</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
     </style>
 
-    <style name="FontSubHead3">
+    <style name="Font2">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+    </style>
+
+
+    <!-- Font3 - 버튼에 주로 사용 -->
+    <style name="FontBold3">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#C4C4C4</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/bw_g6</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
-        <item name="android:fontWeight" tools:targetApi="o">500</item>
     </style>
 
+    <style name="Font3">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/bw_g6</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+    </style>
+
+
+    <!-- 내용 -->
     <style name="FontBody1">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">#C4C4C4</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
     </style>
 
     <style name="FontBody2">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#C4C4C4</item>
+        <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
     </style>
 
+    <!-- 젤 작음-->
     <style name="FontCaption">
         <item name="android:textSize">11sp</item>
-        <item name="android:textColor">#C4C4C4</item>
+        <item name="android:textColor">@color/bw_g6</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
         <item name="android:fontWeight" tools:targetApi="o">500</item>
     </style>
