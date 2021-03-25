@@ -1,7 +1,6 @@
 package com.example.konwnow.ui.view.test
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.FolderDTO
+import com.example.konwnow.data.model.dto.FolderDTO
 import com.example.konwnow.ui.adapter.FolderAdapter
 
 class TestFragment: Fragment() {
