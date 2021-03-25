@@ -9,6 +9,7 @@ import com.example.konwnow.ui.view.mypage.MypageFragment
 import com.example.konwnow.ui.view.ranking.RankingFragment
 import com.example.konwnow.ui.view.test.TestFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
     var bnvHome: BottomNavigationView? = null
@@ -18,6 +19,9 @@ class MainActivity : AppCompatActivity() {
     private val testFragment : TestFragment by lazy { TestFragment() }
     private val rankingFragment : RankingFragment by lazy { RankingFragment() }
     private val mypageFragment : MypageFragment by lazy { MypageFragment() }
+
+    private lateinit var fab : FloatingActionButton
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,19 +33,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initBottomNavigation() {
+        fab = findViewById(R.id.fab)
+
         bnvHome?.run {
             setOnNavigationItemSelectedListener {
                 when(it.itemId){
                     R.id.nav_home ->{
+                        fab.show()
                         setFragment(homeFragment)
                     }
                     R.id.nav_test -> {
+                        fab.hide()
                         setFragment(testFragment)
                     }
                     R.id.nav_ranking -> {
+                        fab.hide()
                         setFragment(rankingFragment)
                     }
                     R.id.nav_mypage ->{
+                        fab.hide()
                         setFragment(mypageFragment)
                     }
                 }
