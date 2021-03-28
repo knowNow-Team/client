@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="1dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/words_item_radius"
+    android:elevation="2dp"
+    android:orientation="vertical"
+    android:padding="18dp">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:background="@drawable/ic_menu"
+        />
+
+    <TextView
+        android:id="@+id/tv_test_score"
+        style="@style/FontBodyBold1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:gravity="center"
+        android:text="점수" />
+    <TextView
+        android:id="@+id/tv_test_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        style="@style/FontCaption"
+        android:text="30 / 50"
+        />
+
+    <TextView
+        android:id="@+id/tv_test_group"
+        style="@style/FontBody3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:includeFontPadding="false"
+        android:text="그룹 이름(그루비룸 아님)" />
+
+    <TextView
+        android:id="@+id/tv_test_date"
+        style="@style/FontBody3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:includeFontPadding="false"
+        android:text="2021.03.28" />
+</LinearLayout>

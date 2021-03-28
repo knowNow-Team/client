@@ -96,14 +96,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4"
+            android:layout_weight="0.5"
             android:gravity="top">
 
             <LinearLayout
                 android:id="@+id/ll_set_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="30dp"
+                android:layout_marginVertical="20dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -153,7 +153,7 @@
                     android:id="@+id/skb_quiz_num"
                     android:layout_width="382dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="15dp"
+                    android:layout_marginVertical="7dp"
                     android:progressDrawable="@drawable/skb_progress"
                     android:thumb="@drawable/ic_seekbar_thumb" />
 
@@ -168,10 +168,10 @@
                 android:id="@+id/btn_test_start"
                 style="@style/Font3"
                 android:layout_width="150dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_below="@+id/ll_set_quiz_num"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="61dp"
+                android:layout_marginTop="21dp"
                 android:background="@drawable/btn_test_start"
                 android:text="@string/start"
                 android:textColor="@color/white"

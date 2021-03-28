@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.FolderDTO
+import com.example.konwnow.data.model.dto.Folder
 import com.example.konwnow.ui.adapter.FolderAdapter
 
 
 class TestFragment: Fragment() {
-    var folderList = arrayListOf<FolderDTO>()
+    var folderList = arrayListOf<Folder>()
     private lateinit var v: View
     private lateinit var puzzleTestButton: RadioButton
     private lateinit var dictationTestButton: RadioButton
@@ -45,11 +45,11 @@ class TestFragment: Fragment() {
 
     private fun setFolderList() {
         //폴더 리스트 데이터
-        folderList.add(FolderDTO("name1"))
-        folderList.add(FolderDTO("name2"))
-        folderList.add(FolderDTO("name3"))
-        folderList.add(FolderDTO("name4"))
-        folderList.add(FolderDTO("name5"))
+        folderList.add(Folder("name1"))
+        folderList.add(Folder("name2"))
+        folderList.add(Folder("name3"))
+        folderList.add(Folder("name4"))
+        folderList.add(Folder("name5"))
 
         folderListRv = v.findViewById(R.id.rv_word_folder) as RecyclerView
         folderListRv.setHasFixedSize(true)

@@ -1,15 +1,14 @@
 package com.example.konwnow.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.FolderDTO
+import com.example.konwnow.data.model.dto.Folder
 
-class FolderAdapter(private val folderList: ArrayList<FolderDTO>) :
+class FolderAdapter(private val folderList: ArrayList<Folder>) :
         RecyclerView.Adapter<FolderAdapter.Holder>() {
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {

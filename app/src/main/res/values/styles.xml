@@ -74,6 +74,14 @@
 
 
     <!-- 내용 -->
+    <style name="FontBodyBold1">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
     <style name="FontBody1">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
@@ -84,6 +92,13 @@
 
     <style name="FontBody2">
         <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="FontBody3">
+        <item name="android:textSize">10sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
         <item name="android:includeFontPadding">false</item>
