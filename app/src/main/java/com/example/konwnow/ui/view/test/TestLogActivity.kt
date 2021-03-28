@@ -1,9 +1,13 @@
 package com.example.konwnow.ui.view.test
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,6 +50,23 @@ class TestLogActivity : AppCompatActivity() {
         testLogRv = findViewById<RecyclerView>(R.id.rv_test_log)
         testLogRv.setHasFixedSize(true)
         testLogRv.layoutManager = LinearLayoutManager(this)
-        testLogRv.adapter = TestLogAdapter(this,testLogList)
+        testLogRv.adapter = TestLogAdapter(this,testLogList){
+            reTestDialog(it)
+        }
     }
+
+    private fun reTestDialog(position: Int) {
+        val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+        dlg.setTitle(R.string.reTest)
+        dlg.setPositiveButton("네", DialogInterface.OnClickListener { dialog, which ->
+            toast(position.toString())
+        })
+        dlg.setNegativeButton("아니요") { dialog, which ->
+            toast("아니요")
+        }
+        dlg.show()
+    }
+
+    private fun toast(message:String){ Toast.makeText(this, message, Toast.LENGTH_SHORT).show() }
+
 }
