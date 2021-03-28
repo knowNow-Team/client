@@ -19,6 +19,7 @@
         </TextView>
 
         <ImageButton
+            android:id="@+id/btn_test_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_test_log"
@@ -43,11 +44,13 @@
             android:gravity="center"
             >
             <RadioGroup
+                android:id="@+id/rg_test_mode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 >
                 <RadioButton
+                    android:id="@+id/rb_word_puzzle"
                     android:layout_width="170dp"
                     android:layout_height="170dp"
                     android:layout_margin="15dp"
@@ -60,6 +63,7 @@
                 </RadioButton>
 
                 <RadioButton
+                    android:id="@+id/rb_test_dictation"
                     android:layout_width="170dp"
                     android:layout_height="170dp"
                     android:layout_margin="15dp"
@@ -80,7 +84,7 @@
             android:gravity="center"
             >
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcv_word_folder"
+                android:id="@+id/rv_word_folder"
                 android:scrollbars="vertical"
                 android:layout_width="382dp"
                 android:layout_height="220dp"
@@ -93,80 +97,85 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.4"
-            android:gravity="top"
-            >
+            android:gravity="top">
+
             <LinearLayout
                 android:id="@+id/ll_set_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginVertical="30dp"
                 android:gravity="center"
-                android:layout_marginVertical="30dp">
+                android:orientation="horizontal">
+
                 <CheckBox
                     android:id="@+id/not_know"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:button="@android:color/transparent"
-                    android:background="@drawable/cb_tag"
-                    android:text="@string/not_know"
                     android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/cb_tag"
+                    android:button="@android:color/transparent"
                     android:paddingHorizontal="20dp"
-                    android:textColor="@color/text_selector"
-                    />
+                    android:text="@string/not_know"
+                    android:textColor="@color/text_selector" />
+
                 <CheckBox
                     android:id="@+id/confuse"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:button="@android:color/transparent"
-                    android:background="@drawable/cb_tag"
-                    android:text="@string/confuse"
                     android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/cb_tag"
+                    android:button="@android:color/transparent"
                     android:paddingHorizontal="20dp"
-                    android:textColor="@color/text_selector"/>
+                    android:text="@string/confuse"
+                    android:textColor="@color/text_selector" />
+
                 <CheckBox
                     android:id="@+id/know"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:button="@android:color/transparent"
-                    android:background="@drawable/cb_tag"
-                    android:text="@string/know"
                     android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/cb_tag"
+                    android:button="@android:color/transparent"
                     android:paddingHorizontal="20dp"
-                    android:textColor="@color/text_selector"/>
+                    android:text="@string/know"
+                    android:textColor="@color/text_selector" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_set_quiz_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_below="@+id/ll_set_tag"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
+
                 <SeekBar
                     android:id="@+id/skb_quiz_num"
                     android:layout_width="382dp"
                     android:layout_height="wrap_content"
-                    android:thumb="@drawable/ic_seekbar_thumb"
-                    android:progressDrawable="@drawable/skb_progress"
                     android:layout_marginVertical="15dp"
-                    />
+                    android:progressDrawable="@drawable/skb_progress"
+                    android:thumb="@drawable/ic_seekbar_thumb" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="문제 수 / Total"/>
+                    android:text="문제 수 / Total" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/btn_test_start"
-                style="@style/FontBold3"
+                style="@style/Font3"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_below="@+id/ll_set_quiz_num"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="61dp"
                 android:background="@drawable/btn_test_start"
+                android:text="@string/start"
                 android:textColor="@color/white"
-                android:text="@string/start"/>
+                android:includeFontPadding="false"/>
 
         </RelativeLayout>
 

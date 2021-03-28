@@ -13,6 +13,7 @@
         <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <!-- Font1 - 제목-->
@@ -21,12 +22,14 @@
         <item name="android:textStyle">bold</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
         <item name="android:textColor">@color/black</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="Font1">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <!-- Font2 - 부제목 -->
@@ -35,12 +38,14 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="Font2">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
 
@@ -50,12 +55,21 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/bw_g6</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="Font3">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/bw_g6</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="Font4">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/bw_g6</item>
+        <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
 
@@ -65,12 +79,14 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="FontBody2">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <!-- 젤 작음-->
@@ -79,6 +95,7 @@
         <item name="android:textColor">@color/bw_g6</item>
         <item name="fontFamily">@font/notosanskr_regular</item>
         <item name="android:fontWeight" tools:targetApi="o">500</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
 </resources>

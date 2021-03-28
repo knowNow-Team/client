@@ -17,7 +17,6 @@ class FolderAdapter(private val folderList: ArrayList<FolderDTO>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        Log.d("폴더 수 ",folderList.toString())
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_folder, parent, false)
         return Holder(view)
     }
