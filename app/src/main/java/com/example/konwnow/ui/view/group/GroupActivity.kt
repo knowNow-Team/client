@@ -12,7 +12,7 @@ class GroupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group)
 
-        btnBack = findViewById(R.id.ib_group_back)
+        btnBack = findViewById(R.id.ib_back)
         btnBack!!.setOnClickListener{
             finish()
         }

@@ -29,6 +29,7 @@
     <string name="test_title">단어 시험</string>
     <string name="word_puzzle">단어 퍼즐 맞추기</string>
     <string name="word_dictation">단어 받아쓰기</string>
+    <string name="test_log_title">테스트 기록</string>
 
     <!-- Word -->
     <string name="not_know">몰라요</string>

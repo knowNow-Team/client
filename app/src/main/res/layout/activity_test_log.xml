@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.group.GroupActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
     <include
+        android:id="@+id/tb_test_log"
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,5 +15,14 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="10dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tb_test_log"
+        android:text="Test Log"
+        style="@style/FontHeadLine"
+        >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </TextView>
+
+</RelativeLayout>
