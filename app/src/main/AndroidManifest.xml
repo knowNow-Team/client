@@ -10,8 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KonwNow">
-        <activity android:name=".ui.view.group.GroupActivity"></activity>
-        <activity android:name=".ui.view.test.TestLogActivity"></activity>
+        <activity android:name=".ui.view.write.WriteActivity"></activity>
+        <activity android:name=".ui.view.group.GroupActivity" />
+        <activity android:name=".ui.view.test.TestLogActivity" />
         <activity android:name=".ui.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
