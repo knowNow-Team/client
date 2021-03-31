@@ -10,11 +10,9 @@ import android.widget.ImageButton
 import android.widget.TextView
 import com.example.konwnow.App
 import com.example.konwnow.R
-import com.example.konwnow.ui.adapter.WordsAdapter
 
 class MyDialog(context: Context) {
     private val dlg = Dialog(context)   //부모 액티비티의 context 가 들어감
-    private lateinit var listener: MyDialogOKClickedListener
     private lateinit var btnCancel: ImageButton
     private lateinit var tvEng: TextView
 
@@ -35,19 +33,6 @@ class MyDialog(context: Context) {
         dlg.show()
     }
 
-
-    fun setOnOKClickedListener(listener: (String) -> Unit) {
-        this.listener = object : MyDialogOKClickedListener {
-            override fun onOKClicked(content: String) {
-                listener(content)
-            }
-        }
-    }
-
-
-    interface MyDialogOKClickedListener {
-        fun onOKClicked(content: String)
-    }
 
     fun Context.dialogResize(dialog: Dialog, width: Float, height: Float){
         val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
