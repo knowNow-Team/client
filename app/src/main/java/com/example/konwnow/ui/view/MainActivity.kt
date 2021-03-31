@@ -1,5 +1,6 @@
 package com.example.konwnow.ui.view
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +17,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class MainActivity : AppCompatActivity() {
     var bnvHome: BottomNavigationView? = null
 
+    open lateinit var context_main : Context
+
     //Fragment
     private val homeFragment : HomeFragment by lazy { HomeFragment() }
     private val testFragment : TestFragment by lazy { TestFragment() }
@@ -28,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        context_main = this
 
         //bnv설정
         bnvHome = findViewById(R.id.bnv_home)

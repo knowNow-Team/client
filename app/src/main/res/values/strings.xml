@@ -36,4 +36,10 @@
     <string name="confuse">헷갈려요</string>
     <string name="know">다 외웠어요</string>
 
+    <string-array name="groups_list">
+        <item>전체</item>
+        <item>틀린 문제</item>
+        <item>휴지통</item>
+    </string-array>
+
 </resources>

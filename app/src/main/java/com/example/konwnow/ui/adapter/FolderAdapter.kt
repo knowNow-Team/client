@@ -1,6 +1,5 @@
 package com.example.konwnow.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,7 @@ class FolderAdapter(private val folderList: ArrayList<FolderDTO>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_folder, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_folder_checkbox, parent, false)
         return Holder(view)
     }
 
