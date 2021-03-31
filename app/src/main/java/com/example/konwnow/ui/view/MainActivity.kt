@@ -1,5 +1,7 @@
 package com.example.konwnow.ui.view
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,11 +10,14 @@ import com.example.konwnow.ui.view.home.HomeFragment
 import com.example.konwnow.ui.view.mypage.MypageFragment
 import com.example.konwnow.ui.view.ranking.RankingFragment
 import com.example.konwnow.ui.view.test.TestFragment
+import com.example.konwnow.ui.view.write.WriteActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
     var bnvHome: BottomNavigationView? = null
+
+    open lateinit var context_main : Context
 
     //Fragment
     private val homeFragment : HomeFragment by lazy { HomeFragment() }
@@ -27,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        context_main = this
+
         //bnv설정
         bnvHome = findViewById(R.id.bnv_home)
         initBottomNavigation()
@@ -34,6 +41,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBottomNavigation() {
         fab = findViewById(R.id.fab)
+
+        fab.setOnClickListener {
+            val intent = Intent(this,WriteActivity::class.java)
+            startActivity(intent)
+        }
 
         bnvHome?.run {
             setOnNavigationItemSelectedListener {
