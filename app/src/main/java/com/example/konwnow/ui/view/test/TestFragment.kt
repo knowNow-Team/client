@@ -11,18 +11,21 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.FolderDTO
+import com.example.konwnow.data.model.dto.Folder
 import com.example.konwnow.ui.adapter.FolderAdapter
 
 
 class TestFragment: Fragment() {
-    var folderList = arrayListOf<FolderDTO>()
+    var folderList = arrayListOf<Folder>()
     private lateinit var v: View
     private lateinit var puzzleTestButton: RadioButton
     private lateinit var dictationTestButton: RadioButton
     private lateinit var folderListRv: RecyclerView
     private lateinit var startButton: Button
     private lateinit var testLogButton: ImageButton
+    //0: 단어퍼즐
+    //1: 단어 받아쓰기
+    private var testMode: Int =0
 
     private val testModeRg: RadioGroup by lazy {
         view?.findViewById(R.id.rg_test_mode) as RadioGroup
@@ -45,11 +48,11 @@ class TestFragment: Fragment() {
 
     private fun setFolderList() {
         //폴더 리스트 데이터
-        folderList.add(FolderDTO("name1"))
-        folderList.add(FolderDTO("name2"))
-        folderList.add(FolderDTO("name3"))
-        folderList.add(FolderDTO("name4"))
-        folderList.add(FolderDTO("name5"))
+        folderList.add(Folder("name1"))
+        folderList.add(Folder("name2"))
+        folderList.add(Folder("name3"))
+        folderList.add(Folder("name4"))
+        folderList.add(Folder("name5"))
 
         folderListRv = v.findViewById(R.id.rv_word_folder) as RecyclerView
         folderListRv.setHasFixedSize(true)
@@ -65,13 +68,26 @@ class TestFragment: Fragment() {
 
     private fun setStartButton() {
         startButton = v.findViewById(R.id.btn_test_start)
+        var mIntent : Intent
         startButton.setOnClickListener {
             //테스트 모드 체크
             getCheckedTestMode()
+            when(testMode){
+                0 -> {
+                    mIntent = Intent(activity, PuzzleTestActivity::class.java)
+                }
+                1 -> {
+                    mIntent = Intent(activity, DictationTestActivity::class.java)
+                }
+                else -> {
+                    mIntent = Intent(activity, PuzzleTestActivity::class.java)
+                }
+            }
             //폴더 리스트체크
             //태그 체크
             //문제수 체크
             Log.d("버튼 ","온클릭")
+            startActivity(mIntent)
         }
     }
 
@@ -88,19 +104,25 @@ class TestFragment: Fragment() {
         testModeRg.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
             if(group.id == R.id.rg_test_mode){
                 when(checkedId){
-                    R.id.rb_word_puzzle -> Log.d("버튼", "퍼즐")
-                    R.id.rb_test_dictation -> Log.d("버튼", "받아쓰기")
+                    R.id.rb_word_puzzle -> testMode=0
+                    R.id.rb_test_dictation -> testMode=1
                 }
+                Log.d("선택: ",testMode.toString())
             }
         })
     }
 
-    private fun getCheckedTestMode(){
-        var testMode = testModeRg.checkedRadioButtonId
-        when(testMode){
-            R.id.rb_word_puzzle -> Log.d("버튼", "퍼즐")
-            R.id.rb_test_dictation -> Log.d("버튼", "받아쓰기")
+    private fun getCheckedTestMode() {
+        var selectedTestMode = testModeRg.checkedRadioButtonId
+        when(selectedTestMode){
+            R.id.rb_word_puzzle -> {
+                testMode=0
+            }
+            R.id.rb_test_dictation -> {
+                testMode=1
+            }
         }
+        Log.d("선택된 놈",testMode.toString())
     }
 
 

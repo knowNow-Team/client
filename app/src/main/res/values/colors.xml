@@ -7,8 +7,9 @@
     <color name="colorSub">#EEF7FF</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorPrimary">#87B9E7</color>
-    <color name="green">#00D7AB</color>
-    <color name="red">#F91212</color>
+    <color name="green">#07AE54</color>
+    <color name="red">#FF4A4A</color>
+    <color name="yellow">#E5EA00</color>
     <color name="bw_b">#222222</color>
     <color name="bw_g7">#495055</color>
     <color name="bw_g6">#969393</color>
@@ -20,4 +21,5 @@
     <color name="bw_g0">#F3F3F3</color>
     <color name="bw_w">#FFFFFF</color>
     <color name="orange">#FE9E0E</color>
+    <color name="transparent">#00000000</color>
 </resources>
