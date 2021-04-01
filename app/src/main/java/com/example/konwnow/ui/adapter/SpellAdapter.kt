@@ -1,6 +1,7 @@
 package com.example.konwnow.ui.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.TestLog
 
-class SpellAdapter(private val mContext:Context, private val spellList: ArrayList<String>,private  val wrote: ArrayList<String>, val itemClick: (Int) -> Unit) :
+class SpellAdapter(private val mContext:Context, private val spellList: ArrayList<String>, private var wrote: ArrayList<String>, val itemClick: (Int) -> Unit) :
         RecyclerView.Adapter<SpellAdapter.Holder>() {
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
@@ -28,6 +29,7 @@ class SpellAdapter(private val mContext:Context, private val spellList: ArrayLis
         holder.tvSpell!!.text = spellList[position].toString()
         holder.tvSpell!!.setOnClickListener {
             wrote.add(spellList[position].toString())
+            Log.d("spell",wrote.toString())
             removeItem(position)
             itemClick(position)
         }
@@ -40,10 +42,7 @@ class SpellAdapter(private val mContext:Context, private val spellList: ArrayLis
     }
 
     fun removeAll(){
-        for(i in 0 until spellList.size){
-            spellList.removeAt(i)
-            notifyItemRemoved(i)
-        }
+        spellList.clear()
         notifyDataSetChanged()
     }
 
