@@ -86,7 +86,6 @@ class TestFragment: Fragment() {
             //폴더 리스트체크
             //태그 체크
             //문제수 체크
-            Log.d("버튼 ","온클릭")
             startActivity(mIntent)
         }
     }
@@ -107,7 +106,6 @@ class TestFragment: Fragment() {
                     R.id.rb_word_puzzle -> testMode=0
                     R.id.rb_test_dictation -> testMode=1
                 }
-                Log.d("선택: ",testMode.toString())
             }
         })
     }
@@ -122,7 +120,6 @@ class TestFragment: Fragment() {
                 testMode=1
             }
         }
-        Log.d("선택된 놈",testMode.toString())
     }
 
 

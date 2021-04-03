@@ -1,7 +1,6 @@
   package com.example.konwnow.ui.adapter
 
 import android.content.Context
-import android.service.voice.AlwaysOnHotwordDetector
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +9,13 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Words
 
-class QuizAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : RecyclerView.Adapter<QuizAdapter.Holder>() {
+class PuzzleAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : RecyclerView.Adapter<PuzzleAdapter.Holder>() {
     lateinit var myContext: Context
     private var quizList = ArrayList<Words>()
 
@@ -38,7 +36,7 @@ class QuizAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : Recyc
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_quiz, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_puzzle, parent, false)
         myContext = parent.context
         mHloder = Holder(view)
         return mHloder
@@ -46,7 +44,7 @@ class QuizAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : Recyc
 
     override fun onBindViewHolder(holder: Holder, position: Int){
         Log.d("포지션",position.toString())
-        holder.tvQuizKor!!.text = quizList[position].eng
+        holder.tvQuizKor!!.text = quizList[position].kor
         cursor.add(0)
         totalBlank.add(ArrayList<TextView>())
         totalWrote.add(ArrayList<String>())

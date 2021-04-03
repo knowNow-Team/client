@@ -8,7 +8,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Quiz
 import com.example.konwnow.data.model.dto.Words
-import com.example.konwnow.ui.adapter.QuizAdapter
+import com.example.konwnow.ui.adapter.PuzzleAdapter
 import kotlin.collections.ArrayList
 
 
@@ -16,7 +16,7 @@ class PuzzleTestActivity : AppCompatActivity() {
     var wordsList =  arrayListOf<Words>()
     lateinit var quizNum:String
     private lateinit var quizVP: ViewPager2
-    private lateinit var quizAdapter: QuizAdapter
+    private lateinit var puzzleAdapter: PuzzleAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,13 +41,13 @@ class PuzzleTestActivity : AppCompatActivity() {
     }
 
     private fun setQuiz(){
-        quizAdapter = QuizAdapter(){
+        puzzleAdapter = PuzzleAdapter(){
             goNext(it)
         }
-        quizVP = findViewById(R.id.vp_quiz)
+        quizVP = findViewById(R.id.vp_puzzle)
         quizVP.isUserInputEnabled = false
-        quizAdapter.wordsUpdateList(wordsList)
-        quizVP.adapter = quizAdapter
+        puzzleAdapter.wordsUpdateList(wordsList)
+        quizVP.adapter = puzzleAdapter
     }
 
     private fun setToolbar() {
@@ -65,15 +65,6 @@ class PuzzleTestActivity : AppCompatActivity() {
 
     private fun goNext(answer: ArrayList<ArrayList<String>>) {
         if (quizVP.currentItem == wordsList.size-1) {
-//            Log.d("정답길이(기대:9)",answer[0].toString())
-//            Log.d("정답길이(기대:9)",answer[1].toString())
-//            Log.d("정답길이(기대:9)",answer[2].toString())
-//            Log.d("정답길이(기대:9)",answer[3].toString())
-//            Log.d("정답길이(기대:9)",answer[4].toString())
-//            Log.d("정답길이(기대:9)",answer[5].toString())
-//            Log.d("정답길이(기대:9)",answer[6].toString())
-//            Log.d("정답길이(기대:9)",answer[7].toString())
-//            Log.d("정답길이(기대:9)",answer[8].toString())
             val quizlog = ArrayList<Quiz>()
             for(i in wordsList.indices){
                 var target = wordsList[i].eng
@@ -88,15 +79,6 @@ class PuzzleTestActivity : AppCompatActivity() {
                 }
                 quizlog.add(Quiz(target,strTmp,hit))
             }
-            Log.d("quiz(기대:9)",quizlog[0].toString())
-            Log.d("quiz(기대:9)",quizlog[1].toString())
-            Log.d("quiz(기대:9)",quizlog[2].toString())
-            Log.d("quiz(기대:9)",quizlog[3].toString())
-            Log.d("quiz(기대:9)",quizlog[4].toString())
-            Log.d("quiz(기대:9)",quizlog[5].toString())
-            Log.d("quiz(기대:9)",quizlog[6].toString())
-            Log.d("quiz(기대:9)",quizlog[7].toString())
-            Log.d("quiz(기대:9)",quizlog[8].toString())
 
             toast(getString(R.string.lastPage))
         } else {

@@ -14,7 +14,8 @@
         <activity android:name=".ui.view.group.GroupActivity" />
         <activity android:name=".ui.view.test.TestLogActivity" />
         <activity android:name=".ui.view.test.PuzzleTestActivity"></activity>
-        <activity android:name=".ui.view.test.DictationTestActivity"></activity>
+        <activity android:name=".ui.view.test.DictationTestActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
