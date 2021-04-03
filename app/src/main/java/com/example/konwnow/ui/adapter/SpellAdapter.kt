@@ -12,8 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.TestLog
 
-class SpellAdapter(private val mContext:Context, private val spellList: ArrayList<String>, private var wrote: ArrayList<String>, val itemClick: (Int) -> Unit) :
+class SpellAdapter(val itemClick: (Int) -> Unit) :
         RecyclerView.Adapter<SpellAdapter.Holder>() {
+    private var spellList = ArrayList<String>()
+    private var wrote = ArrayList<String>()
+    private lateinit var mContext:Context
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val tvSpell = itemView?.findViewById<TextView>(R.id.tv_spell)
@@ -22,6 +25,7 @@ class SpellAdapter(private val mContext:Context, private val spellList: ArrayLis
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_spell, parent, false)
+        mContext = view.context
         return Holder(view)
     }
 
@@ -49,4 +53,10 @@ class SpellAdapter(private val mContext:Context, private val spellList: ArrayLis
     override fun getItemCount(): Int {
         return spellList.size
     }
+
+    fun wordsUpdateList(_spellList: ArrayList<String>, _wrote: ArrayList<String>){
+        this.spellList.addAll(_spellList)
+        this.wrote = _wrote
+    }
+
 }

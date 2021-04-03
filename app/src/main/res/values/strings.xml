@@ -31,6 +31,9 @@
     <string name="word_dictation">단어 받아쓰기</string>
     <string name="test_log_title">테스트 기록</string>
     <string name="reTest">시험을 다시 보시겠습니까?</string>
+    <string name="firstPage">처음 페이지입니다.</string>
+    <string name="lastPage">마지막 페이지입니다.</string>
+    <string name="quizNum">%d / %d</string>
 
     <!-- Word -->
     <string name="not_know">몰라요</string>

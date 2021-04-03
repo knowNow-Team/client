@@ -1,127 +1,154 @@
-package com.example.konwnow.ui.adapter
+  package com.example.konwnow.ui.adapter
 
 import android.content.Context
+import android.service.voice.AlwaysOnHotwordDetector
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
+import com.example.konwnow.data.model.dto.Words
 
-class QuizAdapter(private val quizList: ArrayList<String>, mcontext: Context) : RecyclerView.Adapter<QuizAdapter.Holder>() {
-    var myContext = mcontext
+class QuizAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : RecyclerView.Adapter<QuizAdapter.Holder>() {
+    lateinit var myContext: Context
+    private var quizList = ArrayList<Words>()
+
+    var cursor = arrayListOf<Int>()
+    lateinit var mHloder:Holder
+    var mPosition = 0
+    var totalWrote = arrayListOf<ArrayList<String>>()
+    var totalBlank = arrayListOf<ArrayList<TextView>>()
+
+
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-        var cursor = arrayListOf<Int>()
-        var totalWrote = arrayListOf<ArrayList<String>>()
-        var wrote =  arrayListOf<String>()
-        lateinit var spellAdapter: SpellAdapter
-        var spellList = arrayListOf<String>()
-        var blankList =  arrayListOf<TextView>()
         val tvQuizKor = itemView?.findViewById<TextView>(R.id.tv_puzzle_kor)
         val blankPuzzleLl = itemView?.findViewById<LinearLayout>(R.id.ll_blank)
         val spellButtonRV = itemView?.findViewById<RecyclerView>(R.id.rv_spelling)
         val tbBtnBack = itemView?.findViewById<ImageButton>(R.id.ib_puzzle_refresh)
-        val btnLeft = itemView?.findViewById<ImageButton>(R.id.ib_prev)
-        val btnRight = itemView?.findViewById<ImageButton>(R.id.ib_next)
+        val btnSubmit = itemView?.findViewById<Button>(R.id.btn_submit)
+        lateinit var spellAdapter: SpellAdapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_quiz, parent, false)
-        return Holder(view)
+        myContext = parent.context
+        mHloder = Holder(view)
+        return mHloder
     }
 
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        for(i in 0 until quizList.size){
-            holder.cursor.add(0)
-            holder.totalWrote.add(ArrayList<String>())
-        }
-        holder.tvQuizKor!!.text = quizList[position]
+    override fun onBindViewHolder(holder: Holder, position: Int){
+        Log.d("포지션",position.toString())
+        holder.tvQuizKor!!.text = quizList[position].eng
+        cursor.add(0)
+        totalBlank.add(ArrayList<TextView>())
+        totalWrote.add(ArrayList<String>())
+        setSubmitBtn()
         setBlank(holder, position)
         setButton(holder, position)
         setRefreshButton(holder, position)
     }
 
+
     override fun getItemCount(): Int {
         return quizList.size
     }
 
-    private fun setArrowBtn(holder: Holder, position: Int){
-        holder.btnLeft!!.setOnClickListener {
-
-        }
-
-        holder.btnRight!!.setOnClickListener {
-
+    private fun setSubmitBtn(){
+        mHloder.btnSubmit!!.setOnClickListener{
+            itemClick(totalWrote)
         }
     }
+
 
     private fun setBlank(holder: Holder, position: Int) {
-        var tmpString = quizList[position]
-
+        var tmpString = quizList[position].eng
+        //reset
+        totalBlank[position].clear()
+        holder.blankPuzzleLl!!.removeAllViews()
         //blank 생성
-        for (j in tmpString.indices) {
-            holder.blankPuzzleLl!!.addView(createBlank(holder, j))
+        for (i in tmpString.indices) {
+            var newBlank = createBlank(i,position)
+            totalBlank[position].add(newBlank)
+            holder.blankPuzzleLl!!.addView(newBlank)
         }
     }
 
-    private fun createBlank(holder: Holder, order: Int): View{
-        val text = TextView(myContext)
+    private fun createBlank(order: Int, position: Int): TextView{
+        val tvNew = TextView(myContext)
         val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         lp.width = 30
         lp.height = 100
         lp.setMargins(5, 5, 5, 10)
-        text.layoutParams = lp
-        text.setBackground(ContextCompat.getDrawable(myContext, R.drawable.puzzle_blank))
-        text.id = order
-        holder.blankList.add(text)
-        return text
+        tvNew.layoutParams = lp
+        tvNew.setBackground(ContextCompat.getDrawable(myContext, R.drawable.puzzle_blank))
+        tvNew.id = position * 10 + order
+
+        return tvNew
     }
 
     private fun setButton(holder: Holder, position: Int) {
         //스펠링 리스트
-        var tmpString = quizList[position]
+        var tmpString = quizList[position].eng
+        var spellList = arrayListOf<String>()
+
         for(element in tmpString){
-            holder.spellList.add(element.toString())
+            spellList.add(element.toString())
         }
-        holder.spellList.shuffle()
+        Log.d("문제 스트링",spellList.toString())
+
+        spellList.shuffle()
         holder.spellButtonRV!!.setHasFixedSize(true)
         holder.spellButtonRV!!.layoutManager = GridLayoutManager(myContext, 5)
-        holder.spellAdapter = SpellAdapter(myContext, holder.spellList, holder.totalWrote[position]){
+        holder.spellAdapter = SpellAdapter(){
             fillBlank(holder, position)
         }
+        holder.spellAdapter.removeAll()
+        holder.spellAdapter.wordsUpdateList(spellList, totalWrote[position])
         holder.spellButtonRV.adapter = holder.spellAdapter
     }
 
 
+
     private fun fillBlank(holder: Holder, position: Int){
-        Log.d("클릭", "되는데")
-        holder.wrote = holder.totalWrote[position]
-        if(holder.wrote != null){
-            Log.d("클릭", holder.cursor[position].toString())
-            holder.blankList[holder.cursor[position]].text = holder.wrote[holder.cursor[position]]
-            holder.cursor[position] += 1
+        var wrote = totalWrote[position]
+        var currentCursor = cursor[position]
+        Log.d("현재 커서",currentCursor.toString())
+        if(wrote != null){
+            var blankList = totalBlank[position]
+            blankList[currentCursor].text = wrote[currentCursor]
+            cursor[position] = currentCursor + 1
         }
     }
 
     private fun setRefreshButton(holder: Holder, position: Int){
         holder.tbBtnBack!!.setOnClickListener {
+            var currentCursor = cursor[position]
+            Log.d("(리프레시)포지션",position.toString())
+            Log.d("(리프레시)현재 커서",currentCursor.toString())
             holder.spellAdapter.removeAll()
-            holder.wrote = holder.totalWrote[position]
-            if(holder.wrote != null){
-                while(holder.cursor[position] > 0){
-                    holder.blankList[--holder.cursor[position]].text = ""
+            var wrote = totalWrote[position]
+            if(wrote != null){
+                while(currentCursor > 0){
+                    totalBlank[position][--currentCursor].text = ""
                 }
             }
-            holder.cursor[position] = 0
-            holder.wrote.clear()
+            cursor[position] = 0
+            wrote.clear()
             setButton(holder, position)
         }
     }
 
-
+    fun wordsUpdateList(quizItem: ArrayList<Words>){
+        this.quizList.addAll(quizItem)
     }
+
+
+}
