@@ -23,6 +23,11 @@ class TestFragment: Fragment() {
     private lateinit var folderListRv: RecyclerView
     private lateinit var startButton: Button
     private lateinit var testLogButton: ImageButton
+    private lateinit var quizNumTv: TextView
+    private lateinit var quizNumSb: SeekBar
+    private var totalQuizNum: Int = 0
+    private  var selectedQuizNum: Int = 0
+
     //0: 단어퍼즐
     //1: 단어 받아쓰기
     private var testMode: Int =0
@@ -44,26 +49,63 @@ class TestFragment: Fragment() {
         setStartButton()
         setRadioGroup()
         setTestLogButton()
+        setSeekBar()
     }
 
     private fun setFolderList() {
         //폴더 리스트 데이터
-        folderList.add(Folder("name1"))
-        folderList.add(Folder("name2"))
-        folderList.add(Folder("name3"))
-        folderList.add(Folder("name4"))
-        folderList.add(Folder("name5"))
+        folderList.add(Folder("name1",4))
+        folderList.add(Folder("name2",20))
+        folderList.add(Folder("name3",30))
+        folderList.add(Folder("name4",2))
+        folderList.add(Folder("name5",12))
 
         folderListRv = v.findViewById(R.id.rv_word_folder) as RecyclerView
         folderListRv.setHasFixedSize(true)
         folderListRv.layoutManager = LinearLayoutManager(context)
-        folderListRv.adapter = FolderAdapter(folderList)
+        var folderAdapter = FolderAdapter(){ i: Int, b: Boolean ->
+            if(b){
+                totalQuizNum += folderList[i].wordsCount
+            }else{
+                totalQuizNum -= folderList[i].wordsCount
+                if(selectedQuizNum > totalQuizNum){
+                    selectedQuizNum = totalQuizNum
+                }
+            }
+            quizNumSb.max = totalQuizNum
+            setQuizNum()
+        }
+        folderAdapter.folderUpdateList(folderList)
+        folderListRv.adapter = folderAdapter
     }
 
     private fun setDefault() {
+        //단어시험 모드 디폴트 설정
         puzzleTestButton = v.findViewById(R.id.rb_word_puzzle)
         puzzleTestButton.isChecked = true
 
+        //seekbar 퀴즈 수 설정
+        quizNumTv = v.findViewById(R.id.tv_quiz_num)
+        setQuizNum()
+    }
+
+    private fun setQuizNum(){
+        quizNumTv!!.text = String.format(resources.getString(R.string.quizNum),selectedQuizNum, totalQuizNum)
+    }
+
+    private fun setSeekBar(){
+        Log.d("시크바", "실행은 됨")
+        quizNumSb = v.findViewById(R.id.sb_quiz_num)
+        quizNumSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                selectedQuizNum = progress
+                setQuizNum()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
     }
 
     private fun setStartButton() {
@@ -86,6 +128,8 @@ class TestFragment: Fragment() {
             //폴더 리스트체크
             //태그 체크
             //문제수 체크
+            Log.d("선택", selectedQuizNum.toString())
+            Log.d("전체",totalQuizNum.toString())
             startActivity(mIntent)
         }
     }

@@ -150,7 +150,7 @@
                 android:orientation="vertical">
 
                 <SeekBar
-                    android:id="@+id/skb_quiz_num"
+                    android:id="@+id/sb_quiz_num"
                     android:layout_width="382dp"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="7dp"
@@ -158,10 +158,11 @@
                     android:thumb="@drawable/ic_seekbar_thumb" />
 
                 <TextView
+                    android:id="@+id/tv_quiz_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="문제 수 / Total" />
+                    android:text="@string/quizNum" />
             </LinearLayout>
 
             <Button

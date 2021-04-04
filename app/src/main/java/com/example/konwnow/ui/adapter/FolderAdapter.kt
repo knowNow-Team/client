@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Folder
 
-class FolderAdapter(private val folderList: ArrayList<Folder>) :
+class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
         RecyclerView.Adapter<FolderAdapter.Holder>() {
+    private var items = ArrayList<Folder>()
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val cbFolder = itemView?.findViewById<CheckBox>(R.id.cb_folder_name)
@@ -21,10 +22,17 @@ class FolderAdapter(private val folderList: ArrayList<Folder>) :
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.cbFolder!!.text = folderList[position].name
+        holder.cbFolder!!.text = items[position].name
+        holder.cbFolder!!.setOnClickListener {
+            itemClick(position, holder.cbFolder.isChecked)
+        }
     }
 
     override fun getItemCount(): Int {
-        return folderList.size
+        return items.size
+    }
+
+    fun folderUpdateList(folderItem: ArrayList<Folder>){
+        this.items.addAll(folderItem)
     }
 }
