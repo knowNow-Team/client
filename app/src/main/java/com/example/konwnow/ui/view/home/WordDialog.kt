@@ -11,7 +11,7 @@ import android.widget.TextView
 import com.example.konwnow.App
 import com.example.konwnow.R
 
-class MyDialog(context: Context) {
+class WordDialog(context: Context) {
     private val dlg = Dialog(context)   //부모 액티비티의 context 가 들어감
     private lateinit var btnCancel: ImageButton
     private lateinit var tvEng: TextView

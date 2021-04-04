@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Words
-import com.example.konwnow.ui.view.home.MyDialog
+import com.example.konwnow.ui.view.home.WordDialog
 
 
 class WordsAdapter : RecyclerView.Adapter<WordsAdapter.Holder>(){
@@ -81,7 +81,7 @@ class WordsAdapter : RecyclerView.Adapter<WordsAdapter.Holder>(){
         }
 
         holder.itemView.setOnClickListener {
-            val dlg = MyDialog(context)
+            val dlg = WordDialog(context)
             dlg.start(items[position].eng)
         }
     }
