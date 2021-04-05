@@ -4,10 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Switch
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,42 +29,41 @@ class HomeFragment : Fragment() {
     private lateinit var wordsAdapter: WordsAdapter
     private var wordsList = arrayListOf<Words>()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_home, container, false)
+        switch = v.findViewById(R.id.switch_hide)
+        rvWords = v.findViewById(R.id.rv_home_words) as RecyclerView
+        switch.isChecked = true
 
         setSwitch()
         setButton()
         setRecycler()
-        requestWords()
 
         return v
     }
 
     fun setRecycler() {
         requestWords()
-
         wordsAdapter = WordsAdapter()
         wordsAdapter.wordsUpdateList(wordsList)
 
-        rvWords = v.findViewById(R.id.rv_home_words) as RecyclerView
         val swipeHelperCallBack = SwipeHelperCallBack().apply {
             setClamp(200f)
         }
         val itemTouchHelper = ItemTouchHelper(swipeHelperCallBack)
         itemTouchHelper.attachToRecyclerView(rvWords)
 
-        rvWords.layoutManager = LinearLayoutManager(context)
-        rvWords.adapter = wordsAdapter
-        rvWords.setOnTouchListener { _, _ ->
-            swipeHelperCallBack.removePreviousClamp(rvWords)
-            false
+        rvWords.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = wordsAdapter
+            setOnTouchListener { _, _ ->
+                swipeHelperCallBack.removePreviousClamp(rvWords)
+                false
+            }
         }
-
-
     }
 
     private fun requestWords() {
@@ -77,6 +78,19 @@ class HomeFragment : Fragment() {
         wordsList.add(Words("Complex", "복잡한"))
         wordsList.add(Words("movie", "영화관"))
         wordsList.add(Words("Fragment", "조각"))
+    }
+
+
+    private fun setSwitch() {
+        switch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                wordsAdapter.toggleUpdate(true)
+                wordsAdapter.notifyDataSetChanged()
+            } else {
+                wordsAdapter.toggleUpdate(false)
+                wordsAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun setButton() {
@@ -96,17 +110,5 @@ class HomeFragment : Fragment() {
             }
         }
 
-    }
-
-    private fun setSwitch() {
-        switch = v.findViewById(R.id.switch_hide)
-        switch.isChecked = true
-        switch.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-
-            } else {
-
-            }
-        }
     }
 }

@@ -6,11 +6,9 @@ import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.*
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
@@ -19,11 +17,11 @@ import com.example.konwnow.ui.view.home.HomeFragment
 import com.example.konwnow.ui.view.home.WordDialog
 
 
-class WordsAdapter : RecyclerView.Adapter<WordsAdapter.Holder>(){
+class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
 
     private lateinit var context : Context
     private var items = ArrayList<Words>()
-
+    private var toggleStatus = true
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val tvEng = itemView?.findViewById<TextView>(R.id.tv_words_eng)
@@ -49,7 +47,14 @@ class WordsAdapter : RecyclerView.Adapter<WordsAdapter.Holder>(){
         val Umm = context.getString(R.string.confuse)
         val Yes = context.getString(R.string.know)
         holder.tvEng!!.text = items[position].eng
-        holder.tvKor!!.text = items[position].kor
+
+        if(toggleStatus){
+            //단어 보여주기 모드
+            holder.tvKor!!.visibility = VISIBLE
+            holder.tvKor!!.text = items[position].kor
+        }else{
+            holder.tvKor!!.visibility = INVISIBLE
+        }
 
         var levelText = holder.level!!
         when(levelText.text){
@@ -58,7 +63,6 @@ class WordsAdapter : RecyclerView.Adapter<WordsAdapter.Holder>(){
             }
             Umm -> {
                 levelText.setTextColor(context.getColor(R.color.orange))
-
             }
             Yes -> {
                 levelText.setTextColor(context.getColor(R.color.colorMain))
@@ -100,6 +104,10 @@ class WordsAdapter : RecyclerView.Adapter<WordsAdapter.Holder>(){
 
     fun wordsUpdateList(wordItem: ArrayList<Words>){
         this.items.addAll(wordItem)
+    }
+
+    fun toggleUpdate(status : Boolean){
+        this.toggleStatus = status
     }
 
 }
