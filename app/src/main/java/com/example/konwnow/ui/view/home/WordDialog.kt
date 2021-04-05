@@ -33,7 +33,7 @@ class WordDialog(context: Context) {
         dlg.show()
     }
 
-
+    // 화면 비율에 맞게 다이얼로그 크기 조정
     fun Context.dialogResize(dialog: Dialog, width: Float, height: Float){
         val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 

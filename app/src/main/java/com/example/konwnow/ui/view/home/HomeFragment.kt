@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.Switch
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -21,6 +22,7 @@ class HomeFragment : Fragment() {
     private lateinit var v: View
     private lateinit var switch: Switch
     private lateinit var groupButton: TextView
+    private lateinit var detailButton : ImageButton
     private lateinit var rvWords: RecyclerView
     private lateinit var wordsAdapter: WordsAdapter
     private var wordsList = arrayListOf<Words>()
@@ -85,6 +87,15 @@ class HomeFragment : Fragment() {
                 startActivity(intent)
             }
         }
+
+        detailButton = v.findViewById(R.id.ib_detail_setting)
+        detailButton.setOnClickListener {
+            activity?.let {
+                val intent = Intent(context, DetailSettingActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
     }
 
     private fun setSwitch() {
