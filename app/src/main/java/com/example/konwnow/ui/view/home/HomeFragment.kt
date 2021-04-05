@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
@@ -24,6 +25,7 @@ class HomeFragment : Fragment() {
     private lateinit var wordsAdapter: WordsAdapter
     private var wordsList = arrayListOf<Words>()
 
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -32,16 +34,33 @@ class HomeFragment : Fragment() {
 
         setSwitch()
         setButton()
+        setRecycler()
         requestWords()
 
         return v
     }
 
+    private fun setRecycler() {
+        requestWords()
+
+        val swipeHelperCallBack = SwipeHelperCallBack()
+        val itemTouchHelper = ItemTouchHelper(swipeHelperCallBack)
+
+        wordsAdapter = WordsAdapter()
+        wordsAdapter.wordsUpdateList(wordsList)
+        wordsAdapter.notifyDataSetChanged()
+
+        rvWords = v.findViewById(R.id.rv_home_words) as RecyclerView
+        rvWords.layoutManager = LinearLayoutManager(context)
+        itemTouchHelper.attachToRecyclerView(rvWords)
+
+        rvWords.adapter = wordsAdapter
+
+    }
+
     private fun requestWords() {
         wordsList.clear()
 
-        wordsAdapter = WordsAdapter()
-        rvWords = v.findViewById(R.id.rv_home_words) as RecyclerView
         wordsList.add(Words("Complex", "복잡한"))
         wordsList.add(Words("movie", "영화관"))
         wordsList.add(Words("Fragment", "조각"))
@@ -51,11 +70,6 @@ class HomeFragment : Fragment() {
         wordsList.add(Words("Complex", "복잡한"))
         wordsList.add(Words("movie", "영화관"))
         wordsList.add(Words("Fragment", "조각"))
-
-        rvWords.layoutManager = LinearLayoutManager(context)
-        wordsAdapter.wordsUpdateList(wordsList)
-        rvWords.adapter = wordsAdapter
-
     }
 
     private fun setButton() {
