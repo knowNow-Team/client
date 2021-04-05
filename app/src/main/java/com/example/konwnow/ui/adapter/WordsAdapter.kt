@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,7 @@ class WordsAdapter : RecyclerView.Adapter<WordsAdapter.Holder>(){
         val tvEng = itemView?.findViewById<TextView>(R.id.tv_words_eng)
         val tvKor = itemView?.findViewById<TextView>(R.id.tv_words_kor)
         val level = itemView?.findViewById<TextView>(R.id.tv_level)
+        val swipeView = itemView?.findViewById<LinearLayout>(R.id.ll_word_swipe)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
