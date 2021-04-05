@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
         return v
     }
 
-    private fun setRecycler() {
+    fun setRecycler() {
         requestWords()
 
         wordsAdapter = WordsAdapter()

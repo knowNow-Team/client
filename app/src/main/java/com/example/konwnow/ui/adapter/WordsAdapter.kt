@@ -7,12 +7,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Words
+import com.example.konwnow.ui.view.home.HomeFragment
 import com.example.konwnow.ui.view.home.WordDialog
 
 
@@ -26,7 +29,7 @@ class WordsAdapter : RecyclerView.Adapter<WordsAdapter.Holder>(){
         val tvEng = itemView?.findViewById<TextView>(R.id.tv_words_eng)
         val tvKor = itemView?.findViewById<TextView>(R.id.tv_words_kor)
         val level = itemView?.findViewById<TextView>(R.id.tv_level)
-        val swipeView = itemView?.findViewById<LinearLayout>(R.id.ll_word_swipe)
+        val btnDelete = itemView?.findViewById<ImageButton>(R.id.ib_trash)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -85,6 +88,13 @@ class WordsAdapter : RecyclerView.Adapter<WordsAdapter.Holder>(){
         holder.itemView.setOnClickListener {
             val dlg = WordDialog(context)
             dlg.start(items[position].eng)
+        }
+
+        holder.btnDelete?.setOnClickListener {
+            Toast.makeText(context, "${position}번 아이템 삭제!", Toast.LENGTH_SHORT).show()
+            items.removeAt(position)
+            notifyItemRemoved(position)
+            notifyDataSetChanged()
         }
     }
 
