@@ -10,28 +10,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="3">
 
-        <TextView
-            android:id="@+id/tv_dlg_eng"
-            style="@style/FontBold2"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Computer" />
+            android:layout_weight="2.5"
+            >
+            <TextView
+                android:id="@+id/tv_dlg_eng"
+                style="@style/FontBold2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Computer" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="[ˈkɒmpleks;] " />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="[ˈkɒmpleks;] " />
+
+
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/btn_cancle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="0.5"
             android:background="#00000000"
+            android:gravity="right"
             android:layout_gravity="right"
             app:srcCompat="@drawable/ic_close" />
 
