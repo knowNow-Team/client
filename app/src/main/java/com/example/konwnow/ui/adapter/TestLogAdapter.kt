@@ -10,6 +10,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.TestLog
+import com.example.konwnow.ui.view.home.MyDialog
+import com.example.konwnow.ui.view.test.TestLogDialog
 
 class TestLogAdapter(private val mContext:Context, private val testLogList: ArrayList<TestLog>, val itemClick: (Int) -> Unit) :
         RecyclerView.Adapter<TestLogAdapter.Holder>() {
@@ -19,7 +21,6 @@ class TestLogAdapter(private val mContext:Context, private val testLogList: Arra
         val tvTestCount = itemView?.findViewById<TextView>(R.id.tv_test_count)
         val tvTestGroup = itemView?.findViewById<TextView>(R.id.tv_test_group)
         val tvTestDate = itemView?.findViewById<TextView>(R.id.tv_test_date)
-        val ibRetest = itemView?.findViewById<ImageButton>(R.id.ib_reTest)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -37,8 +38,9 @@ class TestLogAdapter(private val mContext:Context, private val testLogList: Arra
         holder.tvTestCount!!.text = testLogList[position].count
         holder.tvTestGroup!!.text = testLogList[position].group
         holder.tvTestDate!!.text = testLogList[position].date
-        holder.ibRetest!!.setOnClickListener {
-            itemClick(position)
+        holder.itemView.setOnClickListener {
+            val dlg = TestLogDialog(mContext)
+            dlg.start(testLogList[position].date)
         }
     }
 

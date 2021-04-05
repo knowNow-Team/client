@@ -48,7 +48,7 @@ class PuzzleAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : Rec
         cursor.add(0)
         totalBlank.add(ArrayList<TextView>())
         totalWrote.add(ArrayList<String>())
-        setSubmitBtn()
+        setSubmitBtn(holder, position)
         setBlank(holder, position)
         setButton(holder, position)
         setRefreshButton(holder, position)
@@ -59,7 +59,10 @@ class PuzzleAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : Rec
         return quizList.size
     }
 
-    private fun setSubmitBtn(){
+    private fun setSubmitBtn(holder:Holder, position: Int){
+        if(position == quizList.size-1){
+            holder.btnSubmit!!.text = myContext.getString(R.string.submit)
+        }
         mHloder.btnSubmit!!.setOnClickListener{
             itemClick(totalWrote)
         }

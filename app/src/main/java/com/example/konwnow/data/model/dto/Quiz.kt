@@ -1,7 +1,7 @@
 package com.example.konwnow.data.model.dto
 
-class Quiz(val target: String, val userAnswer: String, var hit: Boolean){
+class Quiz(val target: String, val kor:String, val userAnswer: String, var hit: Boolean){
     override fun toString(): String {
-        return "타겟:$target\n작성한 답:$userAnswer\n정답여부:$hit"
+        return "타겟:$target\n뜻:$kor\n작성한 답:$userAnswer\n정답여부:$hit"
     }
 }

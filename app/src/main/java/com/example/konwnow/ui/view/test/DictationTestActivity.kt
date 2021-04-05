@@ -1,12 +1,14 @@
 package com.example.konwnow.ui.view.test
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.konwnow.R
@@ -49,7 +51,15 @@ class DictationTestActivity : AppCompatActivity() {
     private fun setToolbar() {
         val tbBtnBack = findViewById<ImageButton>(R.id.ib_close)
         tbBtnBack!!.setOnClickListener {
-            finish()
+            val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+            dlg.setTitle(R.string.close)
+            dlg.setMessage(R.string.closeSub)
+            dlg.setPositiveButton("네", DialogInterface.OnClickListener { dialog, which ->
+                finish()
+            })
+            dlg.setNegativeButton("아니요") { dialog, which ->
+            }
+            dlg.show()
         }
     }
 
@@ -85,14 +95,15 @@ class DictationTestActivity : AppCompatActivity() {
             Log.d("유저",answer[8])
 
             for(i in wordsList.indices){
-                var target = wordsList[i].kor
+                var target = wordsList[i].eng
+                var kor = wordsList[i].kor
                 var userAnswer = answer[i]
                 var hit = true
 
                 if(target != userAnswer){
                     hit = false
                 }
-                quizLog.add(Quiz(target,userAnswer,hit))
+                quizLog.add(Quiz(target,kor,userAnswer,hit))
             }
 
             toast(getString(R.string.lastPage))
