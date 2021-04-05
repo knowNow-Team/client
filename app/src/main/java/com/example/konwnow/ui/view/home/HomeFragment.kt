@@ -27,8 +27,8 @@ class HomeFragment : Fragment() {
 
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_home, container, false)
 
@@ -43,18 +43,23 @@ class HomeFragment : Fragment() {
     private fun setRecycler() {
         requestWords()
 
-        val swipeHelperCallBack = SwipeHelperCallBack()
-        val itemTouchHelper = ItemTouchHelper(swipeHelperCallBack)
-
         wordsAdapter = WordsAdapter()
         wordsAdapter.wordsUpdateList(wordsList)
-        wordsAdapter.notifyDataSetChanged()
 
         rvWords = v.findViewById(R.id.rv_home_words) as RecyclerView
-        rvWords.layoutManager = LinearLayoutManager(context)
+        val swipeHelperCallBack = SwipeHelperCallBack().apply {
+            setClamp(200f)
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeHelperCallBack)
         itemTouchHelper.attachToRecyclerView(rvWords)
 
+        rvWords.layoutManager = LinearLayoutManager(context)
         rvWords.adapter = wordsAdapter
+        rvWords.setOnTouchListener { _, _ ->
+            swipeHelperCallBack.removePreviousClamp(rvWords)
+            false
+        }
+
 
     }
 
