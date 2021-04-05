@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_set_tag"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="20dp"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/not_know"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/cb_tag"
+        android:button="@android:color/transparent"
+        android:paddingHorizontal="20dp"
+        android:text="@string/not_know"
+        android:textColor="@color/text_selector" />
+
+    <CheckBox
+        android:id="@+id/confuse"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/cb_tag"
+        android:button="@android:color/transparent"
+        android:paddingHorizontal="20dp"
+        android:text="@string/confuse"
+        android:textColor="@color/text_selector" />
+
+    <CheckBox
+        android:id="@+id/know"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/cb_tag"
+        android:button="@android:color/transparent"
+        android:paddingHorizontal="20dp"
+        android:text="@string/know"
+        android:textColor="@color/text_selector" />
+</LinearLayout>
