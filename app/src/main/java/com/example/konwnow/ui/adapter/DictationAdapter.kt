@@ -37,11 +37,11 @@ class DictationAdapter(val itemClick: (ArrayList<String>) -> Unit) : RecyclerVie
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int){
-        holder.tvDictationEng!!.text = quizList[position].eng
+        holder.tvDictationEng!!.text = quizList[position].kor
         holder.edtDictation!!.text = ""
         holder.edtDictation!!.isFocusableInTouchMode = true;
         holder.edtDictation!!.requestFocus()
-        setSubmitBtn(holder)
+        setSubmitBtn(holder, position)
     }
 
 
@@ -49,8 +49,11 @@ class DictationAdapter(val itemClick: (ArrayList<String>) -> Unit) : RecyclerVie
         return quizList.size
     }
 
-    private fun setSubmitBtn(holder: Holder){
-        mHloder.btnSubmit!!.setOnClickListener{
+    private fun setSubmitBtn(holder: Holder, position:Int){
+        if(position == quizList.size-1){
+            holder.btnSubmit!!.text = myContext.getString(R.string.submit)
+        }
+        holder.btnSubmit!!.setOnClickListener{
             var answer = (holder.edtDictation!!.text).toString()
             wrote.add(answer)
             itemClick(wrote)

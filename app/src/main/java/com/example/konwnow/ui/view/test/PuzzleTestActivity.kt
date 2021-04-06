@@ -1,8 +1,10 @@
 package com.example.konwnow.ui.view.test
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.konwnow.R
@@ -34,6 +36,7 @@ class PuzzleTestActivity : AppCompatActivity() {
         wordsList.add(Words("green", "영화관",2))
         wordsList.add(Words("hoxy", "조각",1))
         setQuiz()
+        setCloseBtn()
 
         //문제수 표시 스트링
         setQuizNum()
@@ -53,7 +56,15 @@ class PuzzleTestActivity : AppCompatActivity() {
     private fun setToolbar() {
         val tbBtnBack = findViewById<ImageButton>(R.id.ib_close)
         tbBtnBack!!.setOnClickListener {
-            finish()
+            val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+            dlg.setTitle(R.string.close)
+            dlg.setMessage(R.string.closeSub)
+            dlg.setPositiveButton("네", DialogInterface.OnClickListener { dialog, which ->
+                finish()
+            })
+            dlg.setNegativeButton("아니요") { dialog, which ->
+            }
+            dlg.show()
         }
     }
 
@@ -63,11 +74,16 @@ class PuzzleTestActivity : AppCompatActivity() {
         tvQuizNum.text = quizNum
     }
 
+    private fun setCloseBtn(){
+
+    }
+
     private fun goNext(answer: ArrayList<ArrayList<String>>) {
         if (quizVP.currentItem == wordsList.size-1) {
             val quizlog = ArrayList<Quiz>()
             for(i in wordsList.indices){
                 var target = wordsList[i].eng
+                var kor = wordsList[i].kor
                 var userAnswer = answer[i]
                 var strTmp = ""
                 var hit = true
@@ -77,7 +93,7 @@ class PuzzleTestActivity : AppCompatActivity() {
                 if(target != strTmp){
                     hit = false
                 }
-                quizlog.add(Quiz(target,strTmp,hit))
+                quizlog.add(Quiz(target,kor,strTmp,hit))
             }
 
             toast(getString(R.string.lastPage))

@@ -3,6 +3,7 @@
 
     <!-- Common-->
     <string name="start">시작 하기</string>
+    <string name="close">종료하시겠습니까?</string>
 
     <!-- Sign In -->
     <string name="email">Email</string>
@@ -34,6 +35,9 @@
     <string name="firstPage">처음 페이지입니다.</string>
     <string name="lastPage">마지막 페이지입니다.</string>
     <string name="quizNum">%d / %d</string>
+    <string name="closeSub">종료하시면 테스트내용은 저장되지 않습니다.</string>
+    <string name="submit">제출</string>
+    <string name="miss">내가 쓴 답\t\t%s</string>
 
     <!-- Word -->
     <string name="not_know">몰라요</string>
