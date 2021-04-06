@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
         return v
     }
 
-    fun setRecycler() {
+    private fun setRecycler() {
         requestWords()
         wordsAdapter = WordsAdapter()
         wordsAdapter.wordsUpdateList(wordsList)
@@ -66,18 +66,19 @@ class HomeFragment : Fragment() {
         }
     }
 
+
     private fun requestWords() {
         wordsList.clear()
 
-        wordsList.add(Words("Complex", "복잡한"))
-        wordsList.add(Words("movie", "영화관"))
-        wordsList.add(Words("Fragment", "조각"))
-        wordsList.add(Words("Complex", "복잡한"))
-        wordsList.add(Words("movie", "영화관"))
-        wordsList.add(Words("Fragment", "조각"))
-        wordsList.add(Words("Complex", "복잡한"))
-        wordsList.add(Words("movie", "영화관"))
-        wordsList.add(Words("Fragment", "조각"))
+        wordsList.add(Words("Complex", "복잡한",0))
+        wordsList.add(Words("movie", "영화관",1))
+        wordsList.add(Words("Fragment", "조각",2))
+        wordsList.add(Words("Complex", "복잡한",0))
+        wordsList.add(Words("movie", "영화관",0))
+        wordsList.add(Words("Fragment", "조각",1))
+        wordsList.add(Words("Complex", "복잡한",2))
+        wordsList.add(Words("movie", "영화관",0))
+        wordsList.add(Words("Fragment", "조각",1))
     }
 
 

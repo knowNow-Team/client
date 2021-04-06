@@ -13,7 +13,6 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Words
-import com.example.konwnow.ui.view.home.HomeFragment
 import com.example.konwnow.ui.view.home.WordDialog
 
 
@@ -22,6 +21,8 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
     private lateinit var context : Context
     private var items = ArrayList<Words>()
     private var toggleStatus = true
+
+    private var levelStatus : Int=0
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val tvEng = itemView?.findViewById<TextView>(R.id.tv_words_eng)
@@ -40,65 +41,78 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
         return items.size
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    @SuppressLint("ResourceAsColor")
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        val No = context.getString(R.string.not_know)
-        val Umm = context.getString(R.string.confuse)
-        val Yes = context.getString(R.string.know)
-        holder.tvEng!!.text = items[position].eng
 
-        if(toggleStatus){
-            //단어 보여주기 모드
-            holder.tvKor!!.visibility = VISIBLE
-            holder.tvKor!!.text = items[position].kor
-        }else{
-            holder.tvKor!!.visibility = INVISIBLE
-        }
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        //바인딩
+        holder.tvEng!!.text = items[position].eng
+        holder.tvKor!!.text = items[position].kor
 
         var levelText = holder.level!!
-        when(levelText.text){
-            No-> {
+        when(items[position].levelStatus){
+            0-> {
                 levelText.setTextColor(context.getColor(R.color.red))
+                levelText.text = context.getString(R.string.not_know)
             }
-            Umm -> {
+            1 -> {
                 levelText.setTextColor(context.getColor(R.color.orange))
+                levelText.text = context.getString(R.string.confuse)
             }
-            Yes -> {
+            2 -> {
                 levelText.setTextColor(context.getColor(R.color.colorMain))
+                levelText.text = context.getString(R.string.know)
             }
         }
 
-        levelText.setOnClickListener {
-            Log.d("눌렸음",levelText.text.toString())
-            when(levelText.text){
-                No-> {
-                    levelText.setTextColor(context.getColor(R.color.orange))
-                    levelText.text = Umm
-                }
-                Umm -> {
-                    levelText.setTextColor(context.getColor(R.color.colorMain))
-                    levelText.text = Yes
+        // 이벤트발생 시 호출되는 함수
+        changeToggle(holder)
+        changeLevel(levelText,position)
+        showDetail(holder,position)
+        deleteWord(holder,position)
 
-                }
-                Yes -> {
-                    levelText.setTextColor(context.getColor(R.color.red))
-                    levelText.text = No
+    }
 
-                }
-            }
-        }
-
-        holder.itemView.setOnClickListener {
-            val dlg = WordDialog(context)
-            dlg.start(items[position].eng)
-        }
-
+    private fun deleteWord(holder: WordsAdapter.Holder, position: Int) {
         holder.btnDelete?.setOnClickListener {
             Toast.makeText(context, "${position}번 아이템 삭제!", Toast.LENGTH_SHORT).show()
             items.removeAt(position)
             notifyItemRemoved(position)
             notifyDataSetChanged()
+        }
+    }
+
+    private fun showDetail(holder: WordsAdapter.Holder, position: Int) {
+        holder.itemView.setOnClickListener {
+            val dlg = WordDialog(context)
+            dlg.start(items[position].eng)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    @SuppressLint("ResourceAsColor")
+    private fun changeLevel(levelText: TextView,position: Int) {
+        levelText.setOnClickListener {
+            when(items[position].levelStatus){
+                0-> {
+                    items[position].levelStatus = 1
+                }
+                1 -> {
+                    items[position].levelStatus = 2
+                }
+                2 -> {
+                    items[position].levelStatus = 0
+                }
+            }
+            notifyDataSetChanged()
+        }
+    }
+
+    private fun changeToggle(holder: WordsAdapter.Holder) {
+        if(toggleStatus){
+            //단어 보여주기 모드
+            holder.tvKor!!.visibility = VISIBLE
+        }else{
+            holder.tvKor!!.visibility = INVISIBLE
         }
     }
 
@@ -109,5 +123,7 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
     fun toggleUpdate(status : Boolean){
         this.toggleStatus = status
     }
+
+
 
 }
