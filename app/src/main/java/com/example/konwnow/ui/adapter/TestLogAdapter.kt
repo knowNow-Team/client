@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.TestLog
-import com.example.konwnow.ui.view.home.MyDialog
 import com.example.konwnow.ui.view.test.TestLogDialog
 
 class TestLogAdapter(private val mContext:Context, private val testLogList: ArrayList<TestLog>, val itemClick: (Int) -> Unit) :

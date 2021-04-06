@@ -17,6 +17,12 @@ import com.example.konwnow.ui.adapter.FolderAdapter
 
 class TestFragment: Fragment() {
     var folderList = arrayListOf<Folder>()
+    var checkedFolderList = arrayListOf<Folder>()
+    //체크된 태그
+    //0: 몰라요
+    //1: 헷갈려요
+    //2: 알아요
+    var checkedTag = arrayListOf<Int>()
     private lateinit var v: View
     private lateinit var puzzleTestButton: RadioButton
     private lateinit var dictationTestButton: RadioButton
@@ -25,6 +31,10 @@ class TestFragment: Fragment() {
     private lateinit var testLogButton: ImageButton
     private lateinit var quizNumTv: TextView
     private lateinit var quizNumSb: SeekBar
+    private lateinit var notKnowCb: CheckBox
+    private lateinit var confuseCb: CheckBox
+    private lateinit var knowCb: CheckBox
+    private lateinit var folderAdapter: FolderAdapter
     private var totalQuizNum: Int = 0
     private  var selectedQuizNum: Int = 0
 
@@ -46,6 +56,7 @@ class TestFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
         setDefault()
         setFolderList()
+        setTag()
         setStartButton()
         setRadioGroup()
         setTestLogButton()
@@ -63,7 +74,7 @@ class TestFragment: Fragment() {
         folderListRv = v.findViewById(R.id.rv_word_folder) as RecyclerView
         folderListRv.setHasFixedSize(true)
         folderListRv.layoutManager = LinearLayoutManager(context)
-        var folderAdapter = FolderAdapter(){ i: Int, b: Boolean ->
+        folderAdapter = FolderAdapter(){ i: Int, b: Boolean ->
             if(b){
                 totalQuizNum += folderList[i].wordsCount
             }else{
@@ -93,9 +104,32 @@ class TestFragment: Fragment() {
         quizNumTv!!.text = String.format(resources.getString(R.string.quizNum),selectedQuizNum, totalQuizNum)
     }
 
+    private fun setTag(){
+        notKnowCb = v.findViewById(R.id.not_know)
+        confuseCb = v.findViewById(R.id.confuse)
+        knowCb = v.findViewById(R.id.know)
+    }
+
+    private fun getCheckedTag(){
+        checkedTag.clear()
+        if(notKnowCb.isChecked){
+            checkedTag.add(0)
+        }
+        if(confuseCb.isChecked){
+            checkedTag.add(1)
+        }
+        if(knowCb.isChecked){
+            checkedTag.add(2)
+        }
+        for(i: Int in checkedTag){
+            Log.d("선택된 태그",i.toString())
+        }
+    }
+
+
     private fun setSeekBar(){
-        Log.d("시크바", "실행은 됨")
         quizNumSb = v.findViewById(R.id.sb_quiz_num)
+        quizNumSb.max = totalQuizNum
         quizNumSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 selectedQuizNum = progress
@@ -126,10 +160,15 @@ class TestFragment: Fragment() {
                 }
             }
             //폴더 리스트체크
-            //태그 체크
+            for(item in folderAdapter.checkedFolder){
+                Log.d("선택된 폴더", item.name)
+            }
             //문제수 체크
-            Log.d("선택", selectedQuizNum.toString())
-            Log.d("전체",totalQuizNum.toString())
+//            Log.d("선택", selectedQuizNum.toString())
+//            Log.d("전체",totalQuizNum.toString())
+
+            //태그 체크
+            getCheckedTag()
             startActivity(mIntent)
         }
     }

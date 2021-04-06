@@ -100,6 +100,7 @@
             android:gravity="top">
 
             <include
+                android:id="@+id/ll_set_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 layout="@layout/tag"/>

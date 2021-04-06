@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Quiz
 import com.example.konwnow.data.model.dto.Words
-import com.example.konwnow.ui.view.home.MyDialog
+import com.example.konwnow.ui.view.home.WordDialog
 
 
 class TestWordsAdapter : RecyclerView.Adapter<TestWordsAdapter.Holder>(){
@@ -63,7 +63,7 @@ class TestWordsAdapter : RecyclerView.Adapter<TestWordsAdapter.Holder>(){
 
 
         holder.itemView.setOnClickListener {
-            val dlg = MyDialog(context)
+            val dlg = WordDialog(context)
             dlg.start(items[position].target)
         }
     }

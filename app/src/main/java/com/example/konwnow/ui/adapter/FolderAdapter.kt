@@ -11,6 +11,7 @@ import com.example.konwnow.data.model.dto.Folder
 class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
         RecyclerView.Adapter<FolderAdapter.Holder>() {
     private var items = ArrayList<Folder>()
+    var checkedFolder = mutableSetOf<Folder>()
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val cbFolder = itemView?.findViewById<CheckBox>(R.id.cb_folder_name)
@@ -24,12 +25,23 @@ class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.cbFolder!!.text = items[position].name
         holder.cbFolder!!.setOnClickListener {
+            if(holder.cbFolder!!.isChecked){
+                checkedFolder.add(items[position])
+            }else{
+                checkedFolder.remove(items[position])
+            }
             itemClick(position, holder.cbFolder.isChecked)
         }
     }
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    fun getItemChecked() {
+        for(item in items){
+
+        }
     }
 
     fun folderUpdateList(folderItem: ArrayList<Folder>){
