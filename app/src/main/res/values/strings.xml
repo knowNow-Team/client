@@ -44,10 +44,26 @@
     <string name="confuse">헷갈려요</string>
     <string name="know">다 외웠어요</string>
 
+
+    <!-- Input -->
+    <string name="text_input">직접등록</string>
+    <string name="camera_input">카메라</string>
+    <string name="gallery_input">갤러리</string>
+
     <string-array name="groups_list">
         <item>전체</item>
         <item>틀린 문제</item>
         <item>휴지통</item>
     </string-array>
+
+    <!-- 테스트용 -->
+    <string-array name="brand_name">
+        <item>폴더1</item>
+        <item>폴더2</item>
+        <item>폴더3</item>
+        <item>폴더4</item>
+        <item>폴더5</item>
+    </string-array>
+
 
 </resources>
