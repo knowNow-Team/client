@@ -19,7 +19,6 @@ class GroupDialog(context: Context,makeGroupInterface: MakeGroupInterface) : Dia
     private lateinit var btnCancel: ImageButton
     private lateinit var btnMake : Button
     private lateinit var etName : EditText
-    private lateinit var groupsAdapter : GroupsAdapter
 
     private var makeGroupInterface : MakeGroupInterface? = null
 
@@ -38,7 +37,6 @@ class GroupDialog(context: Context,makeGroupInterface: MakeGroupInterface) : Dia
         btnCancel.setOnClickListener(this)
         dlg.show()
 
-        groupsAdapter = GroupsAdapter()
         etName = dlg.findViewById(R.id.et_group_name)
         btnMake = dlg.findViewById(R.id.btn_make_groups)
         btnMake.setOnClickListener(this)

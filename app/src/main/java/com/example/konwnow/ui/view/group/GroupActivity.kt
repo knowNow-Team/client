@@ -2,6 +2,7 @@ package com.example.konwnow.ui.view.group
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.VISIBLE
 import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,8 +14,9 @@ import com.example.konwnow.ui.adapter.GroupsAdapter
 import com.example.konwnow.ui.adapter.WordsAdapter
 import com.example.konwnow.ui.view.MainActivity
 
-class GroupActivity : AppCompatActivity() {
+class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
     var btnBack : ImageButton? = null
+    var btnPlus : ImageButton? = null
     private lateinit var rvGroups : RecyclerView
     private var groupsList = arrayListOf<Folder>()
     private lateinit var groupsAdapter : GroupsAdapter
@@ -30,6 +32,14 @@ class GroupActivity : AppCompatActivity() {
             finish()
         }
 
+        btnPlus = findViewById(R.id.ib_right)
+        btnPlus!!.visibility = VISIBLE
+        btnPlus!!.setImageResource(R.drawable.ic_plus_groups)
+        btnPlus!!.setOnClickListener {
+            val dlg = GroupDialog(this,this)
+            dlg.start()
+        }
+
     }
 
     private fun requsetGroups() {
@@ -37,7 +47,7 @@ class GroupActivity : AppCompatActivity() {
 
         groupsAdapter = GroupsAdapter()
         rvGroups = findViewById(R.id.rv_groups)
-        rvGroups.layoutManager = GridLayoutManager(this, 2)
+        rvGroups.layoutManager = GridLayoutManager(this, 3)
 
         groupsList.add(Folder("전체",1))
         groupsList.add(Folder("틀린 문제 ",2))
@@ -50,5 +60,7 @@ class GroupActivity : AppCompatActivity() {
         groupsAdapter.notifyDataSetChanged()
     }
 
-
+    override fun makeClicked(name: String) {
+        groupsAdapter.makeClicked(name)
+    }
 }
