@@ -2,10 +2,7 @@ package com.example.konwnow.ui.view.write
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.konwnow.R
@@ -30,14 +27,37 @@ class WriteActivity: AppCompatActivity() {
     private fun setFolders() {
         val spinnerArray: MutableList<String> = ArrayList()
         spinnerArray.add("item1")
-        spinnerArray.add("item2")
+        spinnerArray.add("gwgwgwgwegwegwegwegw")
 
         val adapter = ArrayAdapter(
             this, android.R.layout.simple_spinner_item, spinnerArray
         )
-
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spnFolder.adapter = adapter
+        spnFolder.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                //아이템이 클릭 되면 맨 위부터 position 0번부터 순서대로 동작하게 됩니다.
+                when (position) {
+                    0 -> {
+
+                    }
+                    1 -> {
+
+                    }
+                    else -> {
+
+                    }
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
 
     }
 
@@ -53,8 +73,7 @@ class WriteActivity: AppCompatActivity() {
 
         val PageAdapter = WriteAdapter(supportFragmentManager)
         PageAdapter.addFragment(TextWriteFragment(), "직접등록")
-        PageAdapter.addFragment(galleryWriteFragment(), "갤러리")
-        PageAdapter.addFragment(cameraWriteFragment(), "카메라")
+        PageAdapter.addFragment(ImageWriteFragment(), "사진")
         vpWrite.adapter = PageAdapter
         tabNav.setupWithViewPager(vpWrite)
     }

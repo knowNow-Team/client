@@ -13,7 +13,7 @@
         >
 
         <TextView
-            android:id="@+id/tv_text_input"
+            android:id="@+id/tv_image_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="문장 입력"
@@ -25,12 +25,32 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"/>
 
-        <EditText
+        <LinearLayout
+            android:id="@+id/ll_image_write"
+            android:background="@drawable/image_write"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/edt_dictation"
-            app:layout_constraintTop_toBottomOf="@+id/tv_text_input"/>
+            android:orientation="vertical"
+            android:clickable="true"
+            app:layout_constraintTop_toBottomOf="@+id/tv_image_input">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_camera_plus"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="@string/image_write_ment"
+                android:textColor="@color/white"
+                />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

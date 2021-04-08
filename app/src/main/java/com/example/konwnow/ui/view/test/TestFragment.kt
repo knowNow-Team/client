@@ -17,7 +17,6 @@ import com.example.konwnow.ui.adapter.FolderAdapter
 
 class TestFragment: Fragment() {
     var folderList = arrayListOf<Folder>()
-    var checkedFolderList = arrayListOf<Folder>()
     //체크된 태그
     //0: 몰라요
     //1: 헷갈려요
