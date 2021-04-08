@@ -18,7 +18,6 @@ class GroupActivity : AppCompatActivity() {
     private lateinit var rvGroups : RecyclerView
     private var groupsList = arrayListOf<Folder>()
     private lateinit var groupsAdapter : GroupsAdapter
-    //rivate val defalutGroups =resources.getStringArray(R.array.groups_list)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +44,6 @@ class GroupActivity : AppCompatActivity() {
         groupsList.add(Folder("휴지통",3))
         groupsList.add(Folder("토익 영단어",4))
         groupsList.add(Folder("영어2",5))
-        groupsList.add(Folder("영어회화",6))
-        groupsList.add(Folder("공무원시험",7))
-        groupsList.add(Folder("토익 영단어",8))
-        groupsList.add(Folder("영어2",9))
-        groupsList.add(Folder("영어회화",10))
-        groupsList.add(Folder("공무원시험",11))
 
         groupsAdapter.groupsUpdateList(groupsList)
         rvGroups.adapter = groupsAdapter
