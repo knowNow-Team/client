@@ -22,8 +22,6 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
     private var items = ArrayList<Words>()
     private var toggleStatus = true
 
-    private var levelStatus : Int=0
-
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val tvEng = itemView?.findViewById<TextView>(R.id.tv_words_eng)
         val tvKor = itemView?.findViewById<TextView>(R.id.tv_words_kor)
@@ -123,7 +121,4 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
     fun toggleUpdate(status : Boolean){
         this.toggleStatus = status
     }
-
-
-
 }

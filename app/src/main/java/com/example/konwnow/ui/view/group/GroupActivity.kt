@@ -1,7 +1,10 @@
 package com.example.konwnow.ui.view.group
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.VISIBLE
+import android.widget.Button
 import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,13 +15,15 @@ import com.example.konwnow.data.model.dto.Words
 import com.example.konwnow.ui.adapter.GroupsAdapter
 import com.example.konwnow.ui.adapter.WordsAdapter
 import com.example.konwnow.ui.view.MainActivity
+import com.example.konwnow.ui.view.home.HomeFragment
 
-class GroupActivity : AppCompatActivity() {
+class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
     var btnBack : ImageButton? = null
+    var btnPlus : ImageButton? = null
+    var btnApply : Button? = null
     private lateinit var rvGroups : RecyclerView
     private var groupsList = arrayListOf<Folder>()
     private lateinit var groupsAdapter : GroupsAdapter
-    //rivate val defalutGroups =resources.getStringArray(R.array.groups_list)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +36,23 @@ class GroupActivity : AppCompatActivity() {
             finish()
         }
 
+        btnPlus = findViewById(R.id.ib_right)
+        btnPlus!!.visibility = VISIBLE
+        btnPlus!!.setImageResource(R.drawable.ic_plus_groups)
+        btnPlus!!.setOnClickListener {
+            val dlg = GroupDialog(this,this)
+            dlg.start()
+        }
+
+        val homeFragment = HomeFragment()
+        val mainActivity = MainActivity()
+        btnApply = findViewById(R.id.btn_apply_groups)
+        btnApply!!.setOnClickListener {
+            groupsAdapter.applySelectedGroups()
+            setResult(1)
+            finish()
+        }
+
     }
 
     private fun requsetGroups() {
@@ -38,24 +60,20 @@ class GroupActivity : AppCompatActivity() {
 
         groupsAdapter = GroupsAdapter()
         rvGroups = findViewById(R.id.rv_groups)
-        rvGroups.layoutManager = GridLayoutManager(this, 2)
+        rvGroups.layoutManager = GridLayoutManager(this, 3)
 
         groupsList.add(Folder("전체",1))
-        groupsList.add(Folder("틀린 문제 ",2))
+        groupsList.add(Folder("틀린 문제",2))
         groupsList.add(Folder("휴지통",3))
         groupsList.add(Folder("토익 영단어",4))
         groupsList.add(Folder("영어2",5))
-        groupsList.add(Folder("영어회화",6))
-        groupsList.add(Folder("공무원시험",7))
-        groupsList.add(Folder("토익 영단어",8))
-        groupsList.add(Folder("영어2",9))
-        groupsList.add(Folder("영어회화",10))
-        groupsList.add(Folder("공무원시험",11))
 
         groupsAdapter.groupsUpdateList(groupsList)
         rvGroups.adapter = groupsAdapter
         groupsAdapter.notifyDataSetChanged()
     }
 
-
+    override fun makeClicked(name: String) {
+        groupsAdapter.makeClicked(name)
+    }
 }
