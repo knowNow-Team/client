@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Folder
 import com.example.konwnow.ui.view.home.HomeFragment
+import com.example.konwnow.ui.view.MainActivity as MainActivity
 
 
 class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
@@ -70,17 +71,11 @@ class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
     }
 
     fun applySelectedGroups(){
-        Log.d("적용하기 버튼 클릭!",selectedBook.toString())
-        var args = Bundle()
-        val activity = view.context as AppCompatActivity
-        val manager: FragmentManager = activity.supportFragmentManager
+        val bundle = Bundle()
+        bundle.putStringArrayList("wordBook",selectedBook)
         val homeFragment = HomeFragment()
-        args.putStringArrayList("wordBook", selectedBook)
-        homeFragment.arguments = args
-        manager.beginTransaction()
-            .replace(R.id.fl_container, homeFragment)
-            .addToBackStack(null)
-            .commit()
+        homeFragment.arguments = bundle
+        Toast.makeText(context,"홈으로 전환 " ,Toast.LENGTH_SHORT).show()
     }
 
     fun groupsUpdateList(groupsItem: ArrayList<Folder>){

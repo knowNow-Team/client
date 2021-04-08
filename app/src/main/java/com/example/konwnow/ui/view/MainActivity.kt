@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //fragment 전환 함수
-    private fun setFragment(fragment: Fragment){
+    fun setFragment(fragment: Fragment){
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fl_container, fragment)

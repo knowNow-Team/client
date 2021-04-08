@@ -2,6 +2,7 @@ package com.example.konwnow.ui.view.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.*
@@ -29,11 +30,14 @@ class HomeFragment : Fragment() {
     private lateinit var wordsAdapter: WordsAdapter
     private var wordsList = arrayListOf<Words>()
 
+    private var wordBookList : ArrayList<String>? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_home, container, false)
+
         switch = v.findViewById(R.id.switch_hide)
         rvWords = v.findViewById(R.id.rv_home_words) as RecyclerView
         switch.isChecked = true
@@ -66,6 +70,14 @@ class HomeFragment : Fragment() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == 1){
+            wordBookList = arguments?.getStringArrayList("wordBook")
+            Log.d("시바", wordBookList.toString())
+        }
+    }
 
     private fun requestWords() {
         wordsList.clear()
@@ -80,7 +92,6 @@ class HomeFragment : Fragment() {
         wordsList.add(Words("movie", "영화관",0))
         wordsList.add(Words("Fragment", "조각",1))
     }
-
 
     private fun setSwitch() {
         switch.setOnCheckedChangeListener { _, isChecked ->
@@ -99,7 +110,7 @@ class HomeFragment : Fragment() {
         groupButton.setOnClickListener {
             activity?.let {
                 val intent = Intent(context, GroupActivity::class.java)
-                startActivity(intent)
+                startActivityForResult(intent,1)
             }
         }
 

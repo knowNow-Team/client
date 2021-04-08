@@ -36,7 +36,7 @@
         </androidx.recyclerview.widget.RecyclerView>
 
         <Button
-            android:id="@+id/btn_apply_setting"
+            android:id="@+id/btn_apply_groups"
             style="@style/FontBold3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
