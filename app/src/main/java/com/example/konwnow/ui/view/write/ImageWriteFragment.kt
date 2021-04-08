@@ -1,10 +1,12 @@
 package com.example.konwnow.ui.view.write
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,16 +14,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Words
 import com.example.konwnow.ui.adapter.WordListAdapter
-import com.google.android.material.bottomsheet.BottomSheetDialog
+
 
 class ImageWriteFragment: Fragment() {
     private lateinit var v: View
     var wordList = arrayListOf<Words>()
     private lateinit var wordListRv: RecyclerView
     private lateinit var wordAdapter: WordListAdapter
-    private lateinit var imageWriteLl: LinearLayout
+    private lateinit var imageWriteIv: ImageView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         v = inflater.inflate(R.layout.fragment_image_write, container, false)
         setWordList()
         setImageWrite()
@@ -41,9 +44,12 @@ class ImageWriteFragment: Fragment() {
     }
 
     private fun setImageWrite(){
-        imageWriteLl = v.findViewById<LinearLayout>(R.id.ll_image_write)
-        imageWriteLl.setOnClickListener {
-            val dialog = ImageWriteDialog()
+        imageWriteIv = v.findViewById<ImageView>(R.id.iv_image_write)
+        val dialog = ImageWriteDialog()
+        dialog.setSuccessListener { uri ->
+            setImage(uri)
+        }
+        imageWriteIv.setOnClickListener {
             dialog.show(fragmentManager!!, dialog.tag)
         }
     }
@@ -51,16 +57,21 @@ class ImageWriteFragment: Fragment() {
     private fun requestWords() {
         wordList.clear()
 
-        wordList.add(Words("Complex", "복잡한",0))
-        wordList.add(Words("movie", "영화관",1))
-        wordList.add(Words("Fragment", "조각",2))
-        wordList.add(Words("Complex", "복잡한",0))
-        wordList.add(Words("movie", "영화관",0))
-        wordList.add(Words("Fragment", "조각",1))
-        wordList.add(Words("Complex", "복잡한",2))
-        wordList.add(Words("movie", "영화관",0))
-        wordList.add(Words("Fragment", "조각",1))
+        wordList.add(Words("Complex", "복잡한", 0))
+        wordList.add(Words("movie", "영화관", 1))
+        wordList.add(Words("Fragment", "조각", 2))
+        wordList.add(Words("Complex", "복잡한", 0))
+        wordList.add(Words("movie", "영화관", 0))
+        wordList.add(Words("Fragment", "조각", 1))
+        wordList.add(Words("Complex", "복잡한", 2))
+        wordList.add(Words("movie", "영화관", 0))
+        wordList.add(Words("Fragment", "조각", 1))
     }
 
-    private fun toast(message:String){ Toast.makeText(context, message, Toast.LENGTH_SHORT).show() }
+    private fun setImage(uri: Uri) {
+        Log.d("Uri", uri.toString())
+        imageWriteIv.setImageURI(uri)
+    }
+
+    private fun toast(message: String){ Toast.makeText(context, message, Toast.LENGTH_SHORT).show() }
 }
