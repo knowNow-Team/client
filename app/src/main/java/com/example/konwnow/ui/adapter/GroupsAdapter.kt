@@ -1,15 +1,20 @@
 package com.example.konwnow.ui.adapter
 
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Folder
+import com.example.konwnow.ui.view.home.HomeFragment
 
 
 class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
@@ -42,50 +47,45 @@ class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
         var i = 0
         holder.itemView.setOnClickListener {
             i = 1 - i
-            if (i == 1 ){ // 선택됐을
-                holder.groupImage.setImageResource(R.drawable.ic_selected_group)
-                if(!selectedBook.contains(wordBook)){
-                    selectedBook.add(wordBook)
-                }
-                Log.d("${position}값이 추가되었다!",selectedBook.toString())
-            }else{ // 선택안됐을
-                holder.groupImage.setImageResource(R.drawable.ic_group)
-                if(selectedBook.contains(wordBook)){
+            when(i){
+                1 -> { // 선택하기
+                    if(selectedBook.contains(items[0].name) or selectedBook.contains(items[2].name)){ // 전체, 휴지통이 선택되어 있는 경우
+                        Toast.makeText(context,"전체&휴지통은 중복 선택이 불가능합니다.",Toast.LENGTH_SHORT).show()
+                        i = 0
+                    }else if((position == 0) or (position ==2) and selectedBook.isNotEmpty()){ // 다른게 이미 선택되어있는데 전체,휴지통을 선택하는 경우
+                        Toast.makeText(context,"${items[position].name}은 중복 선택이 불가능합니다.!!!!!",Toast.LENGTH_SHORT).show()
+                        i = 0
+                    } else{
+                        holder.groupImage.setImageResource(R.drawable.ic_selected_group)
+                        selectedBook.add(wordBook)
+                        Log.d("${position}값이 추가되었다!",selectedBook.toString())
+                    }
+                }else -> { // 선택 해제하기
+                    holder.groupImage.setImageResource(R.drawable.ic_group)
                     selectedBook.removeAt(selectedBook.indexOf(wordBook))
+                    Log.d("${position}값이 삭되었다!",selectedBook.toString())
                 }
-                Log.d("${position}값이 추가되었다!",selectedBook.toString())
             }
         }
+    }
 
-
-
-//        var args = Bundle()
-//        val activity = view.context as AppCompatActivity
-//        val manager: FragmentManager = activity.supportFragmentManager
-//        val homeFragment= HomeFragment()
-//        if(position == 0 or 1 or 2){
-//            args.putString("wordBook", wordBook)
-//            homeFragment.arguments = args
-//            manager.beginTransaction()
-//                .replace(R.id.fl_container, homeFragment)
-//                .addToBackStack(null)
-//                .commit()
-//            Log.d("전환",wordBook)
-//        }else{
-//            args.putString("wordBook", wordBook)
-//            homeFragment.arguments = args
-//            manager.beginTransaction()
-//                .replace(R.id.fl_container, homeFragment)
-//                .addToBackStack(null)
-//                .commit()
-//            Log.d("전환",wordBook)
-//        }
+    fun applySelectedGroups(){
+        Log.d("적용하기 버튼 클릭!",selectedBook.toString())
+        var args = Bundle()
+        val activity = view.context as AppCompatActivity
+        val manager: FragmentManager = activity.supportFragmentManager
+        val homeFragment = HomeFragment()
+        args.putStringArrayList("wordBook", selectedBook)
+        homeFragment.arguments = args
+        manager.beginTransaction()
+            .replace(R.id.fl_container, homeFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     fun groupsUpdateList(groupsItem: ArrayList<Folder>){
         this.items.addAll(groupsItem)
     }
-
 
    fun makeClicked(name: String) {
         Log.d("maked Clicked",name)
