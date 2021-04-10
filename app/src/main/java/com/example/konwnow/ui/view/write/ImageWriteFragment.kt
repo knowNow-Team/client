@@ -1,13 +1,19 @@
 package com.example.konwnow.ui.view.write
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +28,7 @@ class ImageWriteFragment: Fragment() {
     private lateinit var wordListRv: RecyclerView
     private lateinit var wordAdapter: WordListAdapter
     private lateinit var imageWriteIv: ImageView
-
+    var myUri = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         v = inflater.inflate(R.layout.fragment_image_write, container, false)
@@ -52,6 +58,16 @@ class ImageWriteFragment: Fragment() {
         imageWriteIv.setOnClickListener {
             dialog.show(fragmentManager!!, dialog.tag)
         }
+
+        imageWriteIv.setOnLongClickListener {
+            Log.d("실행은","된다")
+            if(!myUri.equals("")){
+                Log.d("나와야","된다")
+                val imageDialog = ImageDialog(context!!)
+                imageDialog.start(myUri.toUri())
+            }
+            true
+        }
     }
 
     private fun requestWords() {
@@ -70,8 +86,12 @@ class ImageWriteFragment: Fragment() {
 
     private fun setImage(uri: Uri) {
         Log.d("Uri", uri.toString())
+        myUri = uri.toString()
+        imageWriteIv.setBackgroundColor(ContextCompat.getColor(context!!,R.color.black))
         imageWriteIv.setImageURI(uri)
     }
 
+
     private fun toast(message: String){ Toast.makeText(context, message, Toast.LENGTH_SHORT).show() }
 }
+
