@@ -27,7 +27,7 @@
 
         <ImageView
             android:id="@+id/iv_image_write"
-            android:background="@drawable/image_write"
+            android:background="@drawable/img_addimage"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="20dp"

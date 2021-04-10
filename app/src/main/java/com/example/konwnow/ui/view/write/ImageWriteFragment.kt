@@ -1,18 +1,15 @@
 package com.example.konwnow.ui.view.write
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,7 +27,7 @@ class ImageWriteFragment: Fragment() {
     private lateinit var imageWriteIv: ImageView
     var myUri = ""
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         v = inflater.inflate(R.layout.fragment_image_write, container, false)
         setWordList()
         setImageWrite()
@@ -85,8 +82,12 @@ class ImageWriteFragment: Fragment() {
     private fun setImage(uri: Uri) {
         Log.d("Uri", uri.toString())
         myUri = uri.toString()
-        imageWriteIv.setBackgroundColor(ContextCompat.getColor(context!!,R.color.black))
-        imageWriteIv.setImageURI(uri)
+        if(myUri == ""){
+            imageWriteIv.background = ResourcesCompat.getDrawable(resources, R.drawable.img_addimage, null)
+        }else{
+            imageWriteIv.setBackgroundColor(ContextCompat.getColor(context!!, R.color.black))
+            imageWriteIv.setImageURI(uri)
+        }
     }
 
 

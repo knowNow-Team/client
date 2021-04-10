@@ -82,6 +82,7 @@ class ImageWriteDialog : BottomSheetDialogFragment() {
                         createImageFile()
                     } catch (ex: IOException) {
                         Log.d("파일","에러")
+                        listener.onSuccess(Uri.parse(""))
                         null
                     }
             // Continue only if the File was successfully created
@@ -96,6 +97,7 @@ class ImageWriteDialog : BottomSheetDialogFragment() {
                 }
             }catch(ex1: Exception){
                 Log.d("에러", ex1.toString())
+                listener.onSuccess(Uri.parse(""))
             }
         }
     }
@@ -128,9 +130,7 @@ class ImageWriteDialog : BottomSheetDialogFragment() {
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null && data!!.getData() != null) {
             selectedImageUri = data.getData()!!
-
         }
-
         listener.onSuccess(selectedImageUri)
         dismiss()
     }
