@@ -60,9 +60,7 @@ class ImageWriteFragment: Fragment() {
         }
 
         imageWriteIv.setOnLongClickListener {
-            Log.d("실행은","된다")
             if(!myUri.equals("")){
-                Log.d("나와야","된다")
                 val imageDialog = ImageDialog(context!!)
                 imageDialog.start(myUri.toUri())
             }

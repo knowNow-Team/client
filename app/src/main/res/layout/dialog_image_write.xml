@@ -51,7 +51,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_camera"
+            android:background="@drawable/ic_gallery"
             android:layout_gravity="center"/>
         <TextView
             android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_gallery"
+            android:background="@drawable/ic_camera"
             android:layout_gravity="center"/>
         <TextView
             android:layout_width="wrap_content"
