@@ -132,14 +132,15 @@
             <Button
                 android:id="@+id/btn_test_start"
                 style="@style/Font3"
-                android:layout_width="150dp"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_below="@+id/ll_set_quiz_num"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="21dp"
-                android:background="@drawable/btn_test_start"
+                android:background="@drawable/btn_submit"
                 android:text="@string/start"
                 android:textColor="@color/white"
+                android:layout_marginHorizontal="20dp"
                 android:includeFontPadding="false"/>
 
         </RelativeLayout>

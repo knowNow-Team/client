@@ -43,6 +43,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    //permission request
+    implementation "gun0912.ted:tedpermission:2.1.0"
+
+    //bottom sheet
+    implementation 'com.google.android.material:material:1.2.0-alpha02'
 
     //RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
