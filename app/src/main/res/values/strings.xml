@@ -25,6 +25,10 @@
     <string name="ranking">Ranking</string>
     <string name="mypage">MyPage</string>
 
+    <!-- User -->
+    <string name="user_level">Lv. %d</string>
+
+
 
     <!-- Test -->
     <string name="test_title">단어 시험</string>
@@ -50,6 +54,14 @@
     <string name="image_write">사진</string>
     <string name="image_write_ment">사진을 등록해주세요</string>
     <string name="image_write_select">사진을 선택할 방법을 선택하세요</string>
+
+    <!-- ranking -->
+    <string name="ranking_most_test">시험을 가장 많이 본 사람</string>
+    <string name="ranking_most_add">단어를 가장 많이 추가한 사람</string>
+    <string name="ranking_highest_score">정답률이 가장 좋은 사람</string>
+    <string name="ranking_1st">1. %s</string>
+    <string name="ranking_2nd">2. %s</string>
+    <string name="ranking_3rd">3. %s</string>
 
     <!--permission -->
     <string name="permission_1">[설정] > [권한] 에서 권한을 허용할 수 있습니다.</string>

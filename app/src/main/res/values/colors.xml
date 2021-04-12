@@ -6,7 +6,8 @@
     <color name="colorAccent">#87B9E7</color>
     <color name="deepblue">#439BEC</color>
     <color name="colorSub">#EEF7FF</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimaryDark">#0057A7</color>
+    <color name="colorDeepPrimaryDark">#3700B3</color>
     <color name="colorPrimary">#87B9E7</color>
     <color name="green">#07AE54</color>
     <color name="red">#FF4A4A</color>
