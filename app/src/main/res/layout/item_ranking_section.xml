@@ -56,9 +56,20 @@
             android:paddingHorizontal="7dp"
             android:paddingVertical="20dp"
             >
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"/>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_2nd"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_silver"
+                    android:layout_gravity="center_horizontal"
+                    />
+            </FrameLayout>
             <TextView
                 android:id="@+id/tv_2nd_level"
                 android:layout_width="match_parent"
@@ -93,9 +104,20 @@
             android:paddingHorizontal="15dp"
             android:paddingVertical="30dp"
             >
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"/>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_1st"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_gold"
+                    android:layout_gravity="center_horizontal"
+                    />
+            </FrameLayout>
             <TextView
                 android:id="@+id/tv_1st_level"
                 android:layout_width="match_parent"
@@ -130,9 +152,20 @@
             android:paddingHorizontal="7dp"
             android:paddingVertical="20dp"
             >
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"/>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_3rd"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_bronze"
+                    android:layout_gravity="center_horizontal"
+                    />
+            </FrameLayout>
             <TextView
                 android:id="@+id/tv_3rd_level"
                 android:layout_width="match_parent"
