@@ -79,15 +79,20 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun updateGoogleLoginUi() {
         val recentAccount = GoogleSignIn.getLastSignedInAccount(this)
+        val intent = Intent(this,AddInfoActivity::class.java)
+        val idToken = recentAccount?.idToken.toString()
+        intent.putExtra("idToken",idToken)
+        startActivity(intent)
 
+        /*
         if(recentAccount != null){ // 회원가입을 했다면 홈으로
-            val idToken = recentAccount.idToken.toString()
-            Log.d("idToken google", "$idToken <<<")
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }else{ // 회원가입을 안했다면 닉네임 설정으로
             val intent = Intent(this,AddInfoActivity::class.java)
+            val idToken = recentAccount?.idToken.toString()
+            intent.putExtra("account",idToken)
             startActivity(intent)
-        }
+        }*/
     }
 }
