@@ -6,16 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.widget.ViewPager2
-import com.airbnb.lottie.LottieAnimationView
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Users
-import com.example.konwnow.ui.adapter.RankingAdapter
-import com.example.konwnow.ui.view.test.PuzzleTestActivity
-import me.relex.circleindicator.CircleIndicator3
 
 class MypageFragment: Fragment() {
     private lateinit var v: View
@@ -43,19 +36,19 @@ class MypageFragment: Fragment() {
 
         //클릭 이벤트
         tvFriend.setOnClickListener{
-            mIntent = Intent(activity, ActivityFriend::class.java)
+            mIntent = Intent(activity, FriendActivity::class.java)
             startActivity(mIntent)
         }
         tvSetAlarm.setOnClickListener{
-            mIntent = Intent(activity, ActivitySetAlarm::class.java)
+            mIntent = Intent(activity, SetAlarmActivity::class.java)
             startActivityForResult(mIntent,1)
         }
         tvManual.setOnClickListener{
-            mIntent = Intent(activity, ActivityManual::class.java)
+            mIntent = Intent(activity, ManualActivity::class.java)
             startActivityForResult(mIntent,1)
         }
         tvComment.setOnClickListener{
-            mIntent = Intent(activity, ActivityComment::class.java)
+            mIntent = Intent(activity, CommentActivity::class.java)
             startActivityForResult(mIntent,1)
         }
         tvLogout.setOnClickListener{

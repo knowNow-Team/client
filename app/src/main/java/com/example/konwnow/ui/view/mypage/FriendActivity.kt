@@ -4,10 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.konwnow.R
 
-class ActivityManual : AppCompatActivity() {
-
+class FriendActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_manual)
+        setContentView(R.layout.activiry_friend)
     }
 }
