@@ -68,6 +68,9 @@
     <string name="permission_2">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
 
     <!-- myPage -->
+    <string name="AlarmTitle">데일리알람설정</string>
+    <string name="AlarmNum">하루에 받을 알림 횟수를 선택하세요</string>
+    <string name="AlarmTime">알림 시간대를 설정해주세요</string>
 
 
 

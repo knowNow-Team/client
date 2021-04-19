@@ -4,18 +4,84 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TextView
+    <LinearLayout
+        android:id="@+id/ll_topView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="단어 알림 설정"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        style="@style/FontHeadLine"
-        android:gravity="center_horizontal" />
+        android:background="@color/white"
+        android:elevation="5dp"
+        android:orientation="vertical">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tv_select_folder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="단어 알림 설정"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            android:layout_marginVertical="15dp"
+            style="@style/FontBold2" />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/ll_topView"
+        app:layout_constraintBottom_toTopOf="@+id/cl_bottomView"
+        android:background="@color/white"
+        />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottomView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/white"
+        android:elevation="8dp"
+        android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_select_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="단어 유형"
+        style="@style/FontBold2"
+        app:layout_constraintBottom_toTopOf="@+id/tag_include"
+        android:layout_marginLeft="30dp"
+        android:layout_marginVertical="15dp"
+        android:paddingTop="10dp"
+        />
 
+    <include
+        android:id="@+id/tag_include"
+        layout="@layout/tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_next" />
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="다음"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="15dp"
+        android:textColor="@color/white"
+        style="@style/FontBold2"
+        android:background="@drawable/btn_submit"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

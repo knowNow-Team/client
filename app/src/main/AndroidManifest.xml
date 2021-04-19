@@ -24,6 +24,7 @@
         <activity android:name=".ui.view.mypage.ActivitySetAlarm" />
         <activity android:name=".ui.view.mypage.ActivityManual" />
         <activity android:name=".ui.view.mypage.ActivityComment" />
+        <activity android:name=".ui.view.mypage.ActivitySetAlarmTime" />
         <activity
             android:name=".ui.view.test.DictationTestActivity"
             android:windowSoftInputMode="adjustPan" />
