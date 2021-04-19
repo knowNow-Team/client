@@ -69,6 +69,6 @@ dependencies {
     //seekbar
     implementation 'com.ramotion.fluidslider:fluid-slider:0.3.1'
 
-    //timer
-    implementation 'com.github.feeeei:CircleSeekbar:v1.1.2'
+    //graph
+    implementation 'com.github.swapnil1104:CurveGraphView:2.1'
 }
