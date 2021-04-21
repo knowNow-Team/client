@@ -60,4 +60,15 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
 
+    //lottie
+    implementation 'com.airbnb.android:lottie:3.0.7'
+
+    //viewPager
+    implementation 'me.relex:circleindicator:2.1.4'
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+
+
 }
