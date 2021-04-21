@@ -7,7 +7,8 @@
     tools:context=".ui.view.login.LoginActivity">
 
 
-    <com.google.android.gms.common.SignInButton
+    <ImageView
+        app:srcCompat="@drawable/btn_google"
         android:id="@+id/btn_google"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,5 +16,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
