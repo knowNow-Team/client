@@ -16,6 +16,7 @@ import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Users
 import com.example.konwnow.ui.adapter.RankingAdapter
 import com.example.konwnow.ui.view.test.PuzzleTestActivity
+import com.example.konwnow.ui.view.test.TestLogDialog
 import com.google.android.material.switchmaterial.SwitchMaterial
 import me.relex.circleindicator.CircleIndicator3
 
@@ -60,8 +61,8 @@ class MypageFragment: Fragment() {
             }
         }
         tvManual.setOnClickListener{
-            mIntent = Intent(activity, ActivityManual::class.java)
-            startActivityForResult(mIntent,1)
+            val dlg = ManualDialog(context!!)
+            dlg.start()
         }
         tvComment.setOnClickListener{
             mIntent = Intent(activity, ActivityComment::class.java)

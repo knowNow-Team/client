@@ -24,7 +24,7 @@
         <activity android:name=".ui.view.test.PuzzleTestActivity" />
         <activity android:name=".ui.view.mypage.ActivityFriend" />
         <activity android:name=".ui.view.mypage.ActivitySetAlarm" />
-        <activity android:name=".ui.view.mypage.ActivityManual" />
+        <activity android:name=".ui.view.mypage.ManualDialog" />
         <activity android:name=".ui.view.mypage.ActivityComment" />
         <activity android:name=".ui.view.mypage.ActivitySetAlarmTime" />
         <activity

@@ -73,6 +73,51 @@
     <string name="AlarmTime">알림 시간대를 설정해주세요</string>
 
 
+    <!-- manual -->
+    <string name="testString">알림 시간대를 설정해주세요
+    adsijo
+    adosijd
+    doiasjd
+    asdjio
+    dajsio
+    das
+    asd
+    asd
+    asd
+    asd
+    asca
+    sca
+    zx
+    cvd
+    v
+    ewtr
+    qw
+    eq
+    t
+    qgv
+    sd
+    vs
+    fg
+    w
+    ger
+    ht
+    rb
+    srg
+    bv
+    f
+    qe
+    rf
+    qea
+    dcas
+    f
+    qef
+    ca
+    dc
+    a
+    </string>
+
+
+
 
     <string-array name="groups_list">
         <item>전체</item>
