@@ -75,7 +75,7 @@ class PuzzleAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : Rec
         totalBlank[position].clear()
         holder.blankPuzzleLl!!.removeAllViews()
         //blank 생성
-        for (i in tmpString.indices) {
+        for (i in tmpString!!.indices) {
             var newBlank = createBlank(i,position)
             totalBlank[position].add(newBlank)
             holder.blankPuzzleLl!!.addView(newBlank)
@@ -100,7 +100,7 @@ class PuzzleAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : Rec
         var tmpString = quizList[position].eng
         var spellList = arrayListOf<String>()
 
-        for(element in tmpString){
+        for(element in tmpString!!){
             spellList.add(element.toString())
         }
         Log.d("문제 스트링",spellList.toString())

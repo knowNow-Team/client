@@ -52,14 +52,6 @@ class MypageFragment: Fragment() {
             mIntent = Intent(activity, ActivityFriend::class.java)
             startActivity(mIntent)
         }
-        tvSetAlarm.setOnClickListener{
-            if(alarmFlag){
-                mIntent = Intent(activity, ActivitySetAlarm::class.java)
-                startActivityForResult(mIntent,1)
-            }else{
-                toast("알람 키세요!!")
-            }
-        }
         tvManual.setOnClickListener{
             val dlg = ManualDialog(context!!)
             dlg.start()
@@ -74,14 +66,15 @@ class MypageFragment: Fragment() {
     }
 
     private fun setSwitch(){
+        var mIntent : Intent
         switchAlarm = v.findViewById(R.id.switch_alarm)
         switchAlarm.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 alarmFlag = isChecked
-                Log.d("스위치","on")
+                mIntent = Intent(activity, ActivitySetAlarm::class.java)
+                startActivityForResult(mIntent,1)
             } else {
                 alarmFlag = isChecked
-                Log.d("스위치","off")
             }
         }
     }
