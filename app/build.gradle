@@ -71,4 +71,5 @@ dependencies {
 
     //graph
     implementation 'com.github.swapnil1104:CurveGraphView:2.1'
+
 }

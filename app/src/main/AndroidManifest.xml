@@ -24,7 +24,6 @@
         <activity android:name=".ui.view.test.PuzzleTestActivity" />
         <activity android:name=".ui.view.mypage.ActivityFriend" />
         <activity android:name=".ui.view.mypage.ActivitySetAlarm" />
-        <activity android:name=".ui.view.mypage.ManualDialog" />
         <activity android:name=".ui.view.mypage.ActivityComment" />
         <activity android:name=".ui.view.mypage.ActivitySetAlarmTime" />
         <activity
@@ -37,6 +36,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver
+            android:name=".ui.view.mypage.ActivityReply"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET"/> <!-- 메시지가 도착했을때 동작 -->
+            </intent-filter>
+        </receiver>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
