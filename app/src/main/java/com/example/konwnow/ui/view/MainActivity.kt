@@ -2,8 +2,9 @@ package com.example.konwnow.ui.view
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.konwnow.R
 import com.example.konwnow.ui.view.home.HomeFragment
@@ -11,8 +12,11 @@ import com.example.konwnow.ui.view.mypage.MypageFragment
 import com.example.konwnow.ui.view.ranking.RankingFragment
 import com.example.konwnow.ui.view.test.TestFragment
 import com.example.konwnow.ui.view.write.WriteActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 
 class MainActivity : AppCompatActivity() {
     var bnvHome: BottomNavigationView? = null
