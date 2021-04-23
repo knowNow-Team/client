@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.konwnow.R
 import com.example.konwnow.ui.view.MainActivity
@@ -37,8 +38,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         googleSignInClient = GoogleSignIn.getClient(this,gso);
 
-        val btnGoogle = findViewById<SignInButton>(R.id.btn_google)
-        btnGoogle.setSize(SignInButton.SIZE_WIDE)
+        val btnGoogle = findViewById<ImageView>(R.id.btn_google)
         btnGoogle.setOnClickListener(this)
     }
 
