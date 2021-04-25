@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KonwNow">
-        <activity android:name=".ui.view.login.AddInfoActivity"></activity>
+        <activity android:name=".ui.view.mypage.UpdateProfileActivity"></activity>
+        <activity android:name=".ui.view.login.AddInfoActivity" />
         <activity android:name=".ui.view.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,9 +40,7 @@
         <activity
             android:name=".ui.view.test.DictationTestActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".ui.view.MainActivity">
-
-        </activity>
+        <activity android:name=".ui.view.MainActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

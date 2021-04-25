@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.konwnow.App
@@ -24,6 +25,7 @@ class MypageFragment: Fragment() {
     private lateinit var tvComment: TextView
     private lateinit var tvLogout: TextView
     private lateinit var mIntent : Intent
+    private lateinit var btnUpdateProfile : Button
 
     lateinit var googleSignInClient : GoogleSignInClient
 
@@ -40,6 +42,7 @@ class MypageFragment: Fragment() {
         tvManual = v.findViewById(R.id.tv_manual)
         tvComment = v.findViewById(R.id.tv_comment)
         tvLogout = v.findViewById(R.id.tv_logout)
+        btnUpdateProfile = v.findViewById(R.id.btn_update_profile)
 
 
 
@@ -62,6 +65,10 @@ class MypageFragment: Fragment() {
         }
         tvLogout.setOnClickListener {
             signOut();
+        }
+        btnUpdateProfile.setOnClickListener {
+            mIntent = Intent(activity, UpdateProfileActivity::class.java)
+            startActivityForResult(mIntent,1)
         }
     }
 
