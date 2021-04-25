@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.ui.view.login.LoginActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
 
 
@@ -63,6 +66,15 @@ class MypageFragment: Fragment() {
     }
 
     private fun signOut() {
+        val gso: GoogleSignInOptions =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestId()
+                .requestEmail()
+                .requestProfile()
+                .requestIdToken("180417186984-phupqcsr68qvf07j15li9ldb5tc3aqo5.apps.googleusercontent.com")
+                .build()
+
+        googleSignInClient = GoogleSignIn.getClient(App.instance,gso);
         googleSignInClient.signOut()
             .addOnCompleteListener {
                 mIntent = Intent(activity, LoginActivity::class.java)

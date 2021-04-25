@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             Log.d("idToken", recentAccount?.idToken.toString())
             startActivity(intent)
-        } else { // 회원가입을 안했다면 닉네임 설정으로
+        } else if(recentAccount == null) { // 회원가입을 안했다면 닉네임 설정으로
             val intent = Intent(this, AddInfoActivity::class.java)
             val idToken = recentAccount?.idToken.toString()
             intent.putExtra("idToken", idToken)
