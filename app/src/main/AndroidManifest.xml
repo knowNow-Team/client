@@ -21,7 +21,11 @@
         android:theme="@style/Theme.KonwNow">
         <activity android:name=".ui.view.login.AddInfoActivity"></activity>
         <activity android:name=".ui.view.login.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ui.view.home.DetailSettingActivity" />
         <activity android:name=".ui.view.write.WriteActivity" />
@@ -36,11 +40,7 @@
             android:name=".ui.view.test.DictationTestActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.view.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <provider

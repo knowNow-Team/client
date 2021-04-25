@@ -54,16 +54,17 @@
                 android:layout_gravity="center"
                 android:textAlignment="center"
                 />
+
             <Button
+                android:id="@+id/btn_update_profile"
+                style="@style/FontCaption"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:text="프로필 수정"
                 android:layout_gravity="center"
-                style="@style/FontCaption"
-                android:textColor="@color/white"
-                android:background="@drawable/btn_submit"
                 android:layout_marginTop="10dp"
-                />
+                android:background="@drawable/btn_submit"
+                android:text="프로필 수정"
+                android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -160,18 +161,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            >
+            android:layout_height="70dp">
+
             <TextView
                 android:id="@+id/tv_logout"
+                style="@style/FontBold3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="로그아웃"
-                android:padding="5dp"
-                style="@style/FontBold3"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
-                />
+                android:padding="5dp"
+                android:text="로그아웃" />
         </LinearLayout>
     </LinearLayout>
 
