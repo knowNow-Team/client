@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KonwNow">
-        <activity android:name=".ui.view.login.AddInfoActivity"></activity>
+        <activity android:name=".ui.view.mypage.UpdateProfileActivity"></activity>
+        <activity android:name=".ui.view.login.AddInfoActivity" />
         <activity android:name=".ui.view.login.LoginActivity">
 
         </activity>

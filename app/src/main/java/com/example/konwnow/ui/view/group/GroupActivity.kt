@@ -1,19 +1,15 @@
 package com.example.konwnow.ui.view.group
 
-import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Folder
-import com.example.konwnow.data.model.dto.Words
 import com.example.konwnow.ui.adapter.GroupsAdapter
-import com.example.konwnow.ui.adapter.WordsAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.home.HomeFragment
 
@@ -36,7 +32,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
             finish()
         }
 
-        btnPlus = findViewById(R.id.ib_right)
+        btnPlus = findViewById(R.id.ib_back)
         btnPlus!!.visibility = VISIBLE
         btnPlus!!.setImageResource(R.drawable.ic_plus_groups)
         btnPlus!!.setOnClickListener {

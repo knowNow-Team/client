@@ -29,7 +29,6 @@
     <string name="user_level">Lv. %d</string>
 
 
-
     <!-- Test -->
     <string name="test_title">단어 시험</string>
     <string name="word_puzzle">단어 퍼즐 맞추기</string>
@@ -69,7 +68,6 @@
     <string name="client_id">180417186984-issn9ofh90sphbjqt36uqlu24oo4k4aq.apps.googleusercontent.com</string>
 
     <!-- myPage -->
-
 
 
     <string-array name="groups_list">

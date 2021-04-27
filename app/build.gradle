@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
 }
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -46,9 +48,6 @@ dependencies {
     //permission request
     implementation "gun0912.ted:tedpermission:2.1.0"
 
-    //bottom sheet
-    implementation 'com.google.android.material:material:1.2.0-alpha02'
-
     //RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
@@ -73,6 +72,11 @@ dependencies {
     //retorifit2
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    //Room database
+    def room_version = "2.2.5"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
 
 }

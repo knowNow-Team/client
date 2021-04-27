@@ -2,13 +2,20 @@ package com.example.konwnow.ui.view.mypage
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.konwnow.App
 import com.example.konwnow.R
+import com.example.konwnow.ui.view.login.LoginActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.OnCompleteListener
+
 
 class MypageFragment: Fragment() {
     private lateinit var v: View
@@ -17,6 +24,10 @@ class MypageFragment: Fragment() {
     private lateinit var tvManual: TextView
     private lateinit var tvComment: TextView
     private lateinit var tvLogout: TextView
+    private lateinit var mIntent : Intent
+    private lateinit var btnUpdateProfile : Button
+
+    lateinit var googleSignInClient : GoogleSignInClient
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -31,8 +42,9 @@ class MypageFragment: Fragment() {
         tvManual = v.findViewById(R.id.tv_manual)
         tvComment = v.findViewById(R.id.tv_comment)
         tvLogout = v.findViewById(R.id.tv_logout)
+        btnUpdateProfile = v.findViewById(R.id.btn_update_profile)
 
-        var mIntent : Intent
+
 
         //클릭 이벤트
         tvFriend.setOnClickListener{
@@ -51,8 +63,29 @@ class MypageFragment: Fragment() {
             mIntent = Intent(activity, CommentActivity::class.java)
             startActivityForResult(mIntent,1)
         }
-        tvLogout.setOnClickListener{
-            Log.d("로그아웃","클릭")
+        tvLogout.setOnClickListener {
+            signOut();
         }
+        btnUpdateProfile.setOnClickListener {
+            mIntent = Intent(activity, UpdateProfileActivity::class.java)
+            startActivityForResult(mIntent,1)
+        }
+    }
+
+    private fun signOut() {
+        val gso: GoogleSignInOptions =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestId()
+                .requestEmail()
+                .requestProfile()
+                .requestIdToken("180417186984-phupqcsr68qvf07j15li9ldb5tc3aqo5.apps.googleusercontent.com")
+                .build()
+
+        googleSignInClient = GoogleSignIn.getClient(App.instance,gso);
+        googleSignInClient.signOut()
+            .addOnCompleteListener {
+                mIntent = Intent(activity, LoginActivity::class.java)
+                startActivity(mIntent)
+            }
     }
 }
