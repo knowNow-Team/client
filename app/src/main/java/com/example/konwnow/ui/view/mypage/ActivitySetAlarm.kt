@@ -25,6 +25,7 @@ class ActivitySetAlarm : AppCompatActivity() {
         btnNext.setOnClickListener {
             val mIntent = Intent(this,ActivitySetAlarmTime::class.java)
             startActivity(mIntent)
+            finish()
         }
     }
 

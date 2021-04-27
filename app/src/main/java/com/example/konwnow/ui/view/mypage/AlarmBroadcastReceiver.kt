@@ -13,6 +13,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.RemoteInput
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Words
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AlarmBroadcastReceiver: BroadcastReceiver() {
@@ -26,20 +28,26 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
     }
     lateinit var notificationManager: NotificationManager
     lateinit var wordsList: ArrayList<Words>
+    private var startHour = 0
+    private var startMinute = 0
+    private var endHour = 0
+    private var endMinute = 0
+
 
     @RequiresApi(Build.VERSION_CODES.KITKAT_WATCH)
     override fun onReceive(context: Context, intent: Intent?) {
-        Log.d(TAG, "Received intent : $intent")
-        Log.d(TAG, "Received extra : ${intent!!.extras}")
-        var keys = intent!!.extras!!.keySet();
-        Log.d(TAG, "------------------------------")
-        for (i in keys) {
-        Log.d(TAG, i + " : " + intent!!.getBundleExtra("word"))
-        }
-        Log.d(TAG, "------------------------------")
 
-//        wordsList = intent!!.extras?.getParcelable("word")
         wordsList = intent!!.getBundleExtra("word")!!.getParcelableArrayList<Words>("wordList") as ArrayList<Words>
+        startHour = intent!!.getIntExtra("startHour",0)
+        startMinute = intent!!.getIntExtra("startMinute",0)
+        endHour = intent!!.getIntExtra("endHour",0)
+        endMinute = intent!!.getIntExtra("endMinute",0)
+
+        Log.d("리시버 시작 시간",startHour.toString())
+        Log.d("리시버 시작 분",startMinute.toString())
+        Log.d("리시버 종료 시간",endHour.toString())
+        Log.d("리시버 종료 분",endMinute.toString())
+
 
         if(wordsList!= null){
             notificationManager = context.getSystemService(
@@ -56,6 +64,8 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
         val contentIntent = Intent(context, ReplyReceiver::class.java).apply{
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
+        contentIntent.putExtra("wordEng",wordsList[count].eng)
+        contentIntent.putExtra("wordKor",wordsList[count].kor)
         val contentPendingIntent = PendingIntent.getBroadcast(
             context,
             NOTIFICATION_ID,
@@ -86,8 +96,29 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
                 .addAction(notiAction)
                 .setAutoCancel(false)
 
-        notificationManager.notify(NOTIFICATION_ID, builder.build())
+        if(checkTimeZone()){
+            notificationManager.notify(NOTIFICATION_ID, builder.build())
+        }
     }
+
+    private fun checkTimeZone(): Boolean {
+        var calendar = Calendar.getInstance()
+        var currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        var currentMinute = calendar.get(Calendar.MINUTE)
+
+
+        if(currentHour in startHour..endHour){
+            if(currentHour == startHour && currentMinute >= startMinute){
+                Log.d("리시버","체크 성공")
+                return true
+            }else if(currentHour == endHour && currentMinute <= endMinute){
+                Log.d("리시버","체크 성공")
+                return true
+            }
+        }
+        return false
+    }
+
 
     fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -104,4 +135,5 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
             )
         }
     }
+
 }

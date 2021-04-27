@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-feature android:name="android.hardware.camera" android:required="true" />
     <uses-sdk tools:overrideLibrary="com.broooapps.graphview"/>
 
@@ -39,9 +40,9 @@
         <receiver
             android:name=".ui.view.mypage.ReplyReceiver"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="false"/>
         <receiver android:name=".ui.view.mypage.AlarmBroadcastReceiver"
-            android:exported="true">
+            android:exported="false">
         </receiver>
         <provider
             android:name="androidx.core.content.FileProvider"

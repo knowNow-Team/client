@@ -4,7 +4,6 @@ import android.app.*
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.os.SystemClock
 import android.util.Log
 import android.widget.*
@@ -13,7 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Words
 import com.ramotion.fluidslider.FluidSlider
-import java.lang.System.`in`
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ActivitySetAlarmTime : AppCompatActivity() {
@@ -22,13 +22,19 @@ class ActivitySetAlarmTime : AppCompatActivity() {
     private lateinit var sbAlarmNum: FluidSlider
     private lateinit var btnSubmit: Button
     private var wordsList = arrayListOf<Words>()
+    private var startHour = 0
+    private var startMinute = 0
+    private var endHour = 0
+    private var endMinute = 0
+    private var startTime:Long = 0
+    private var endTime:Long = 0
 
     val max = 45
     val min = 0
     val total = max - min
     var alarmNum = 0
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT_WATCH)
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWords()
@@ -44,34 +50,71 @@ class ActivitySetAlarmTime : AppCompatActivity() {
 
         btnSubmit = findViewById(R.id.btn_submit)
         btnSubmit.setOnClickListener {
-            Log.d("클릭", "클릭!!!!!!!!!1111")
             requestWords()
-            Log.d("리스트", wordsList[2].eng)
-
+            if(!checkTimeZone()){
+                Toast.makeText(this, getString(R.string.wrongAlarmTime), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
             val intent = Intent(this, AlarmBroadcastReceiver::class.java)
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             var bundle = Bundle()
-            bundle.putParcelableArrayList("wordList",wordsList)
-            intent.putExtra("word",bundle)
-            val pendingIntent = PendingIntent.getBroadcast(     // 2
+            bundle.putParcelableArrayList("wordList", wordsList)
+            intent.putExtra("word", bundle)
+            intent.putExtra("startHour", startHour)
+            intent.putExtra("startMinute", startMinute)
+            intent.putExtra("endHour", endHour)
+            intent.putExtra("endMinute", endMinute)
+
+            val pendingIntent = PendingIntent.getBroadcast(
                 this, AlarmBroadcastReceiver.NOTIFICATION_ID, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
-            val repeatInterval: Long = 1000
-            Log.d("시간", repeatInterval.toString())
-            val triggerTime = (SystemClock.elapsedRealtime()  // 4
-                    + 7 * 1000)
-            alarmManager.setInexactRepeating(   // 5
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                triggerTime,
+
+
+            val repeatInterval: Long = (endTime-startTime) / alarmNum
+
+            Log.d("시작", longTimeToDatetimeAsString(startTime)!!)
+            Log.d("종료", longTimeToDatetimeAsString(endTime)!!)
+            Log.d("리핏", longTimeToDatetimeAsString(repeatInterval)!!)
+            Log.d("알람넘", alarmNum.toString())
+
+            var calendar = Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+            }
+            Log.d("현재시간", longTimeToDatetimeAsString(calendar.timeInMillis)!!)
+
+
+            alarmManager.setRepeating(
+//                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                AlarmManager.RTC_WAKEUP,
+                startTime+10*1000,
                 repeatInterval,
                 pendingIntent
             )
-            Log.d("실행", "Onetime Alarm On")
-            Toast.makeText(this, "Alarm", Toast.LENGTH_SHORT).show()
+            finish()
+            Toast.makeText(this, getString(R.string.setAlarm), Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
+
+    //long형 타임을 String으로 변환.
+    fun longTimeToDatetimeAsString(resultTime: Long): String? {
+        val dateFormat = SimpleDateFormat(DATE_FORMAT)
+        return dateFormat.format(resultTime)
+    }
+
+    private fun checkTimeZone(): Boolean {
+        if(startHour > endHour){
+            return false
+        }else if(startHour == endHour){
+            if(startMinute >= endMinute){
+                return false
+            }
+        }
+        return true
     }
 
     private fun requestWords() {
@@ -100,19 +143,47 @@ class ActivitySetAlarmTime : AppCompatActivity() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun setTimePicker() {
+        //기본 설정
         startTimePicker = findViewById<TimePicker>(R.id.tp_start)
         endTimePicker = findViewById<TimePicker>(R.id.tp_end)
         startTimePicker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         endTimePicker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
+
+        //시간 default
+        startHour = startTimePicker.hour
+        startMinute = startTimePicker.minute
+        endHour = endTimePicker.hour
+        endMinute = endTimePicker.minute
+        var calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+        }
+        startTime = calendar.timeInMillis
+        endTime = calendar.timeInMillis
+
+        //리스너
         startTimePicker.setOnTimeChangedListener { view, hourOfDay, minute ->
-            Log.d("시 ", hourOfDay.toString())
-            Log.d("분 ", minute.toString())
+            startHour = hourOfDay
+            startMinute = minute
+
+            calendar = Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, hourOfDay)
+                set(Calendar.MINUTE, minute)
+            }
+            startTime = calendar.timeInMillis
         }
 
         endTimePicker.setOnTimeChangedListener { view, hourOfDay, minute ->
-            Log.d("시 ", hourOfDay.toString())
-            Log.d("분 ", minute.toString())
+            endHour = hourOfDay
+            endMinute = minute
+            calendar = Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, hourOfDay)
+                set(Calendar.MINUTE, minute)
+            }
+            endTime = calendar.timeInMillis
         }
 
     }

@@ -1,5 +1,8 @@
 package com.example.konwnow.ui.view.mypage
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -75,6 +78,15 @@ class MypageFragment: Fragment() {
                 startActivityForResult(mIntent,1)
             } else {
                 alarmFlag = isChecked
+                var am = context!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                var intent = Intent(context, AlarmBroadcastReceiver::class.java)
+                var PendingIntent = PendingIntent.getBroadcast(context, AlarmBroadcastReceiver.NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                if (PendingIntent != null) {
+                    am.cancel(PendingIntent)
+                    AlarmBroadcastReceiver.count = 0
+                    PendingIntent.cancel()
+                    toast("알람이 해제되었습니다.")
+                }
             }
         }
     }

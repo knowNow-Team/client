@@ -73,48 +73,16 @@
     <string name="AlarmTime">알림 시간대를 설정해주세요</string>
 
 
+
     <!-- manual -->
-    <string name="testString">알림 시간대를 설정해주세요
-    adsijo
-    adosijd
-    doiasjd
-    asdjio
-    dajsio
-    das
-    asd
-    asd
-    asd
-    asd
-    asca
-    sca
-    zx
-    cvd
-    v
-    ewtr
-    qw
-    eq
-    t
-    qgv
-    sd
-    vs
-    fg
-    w
-    ger
-    ht
-    rb
-    srg
-    bv
-    f
-    qe
-    rf
-    qea
-    dcas
-    f
-    qef
-    ca
-    dc
-    a
-    </string>
+    <string name="testString">알림 시간대를 설정해주세요</string>
+
+
+    <!-- alarm -->
+    <string name="setAlarm">알림이 설정되었습니다</string>
+    <string name="wrongAlarmTime">알림시간을 다시 설정해주세요</string>
+    <string name="missNoti">입력: %s [X]   정답: %s [O]</string>
+    <string name="rightNoti">Answer: %s [O]</string>
 
 
 
