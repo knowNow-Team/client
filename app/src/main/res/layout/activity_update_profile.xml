@@ -21,8 +21,8 @@
         style="@style/FontCaption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
         android:layout_marginTop="70dp"
         android:text="닉네임"
         android:textColor="@color/bw_g5"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="18dp"
         android:layout_marginTop="32dp"
         android:text="이름"
         android:textColor="@color/bw_g5"
@@ -82,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="18dp"
         android:layout_marginTop="32dp"
         android:text="상태 메세지"
         android:textColor="@color/bw_g5"
@@ -91,12 +91,12 @@
         app:layout_constraintTop_toBottomOf="@+id/et_update_name" />
 
     <EditText
-        android:id="@+id/ev_update_emotion"
+        android:id="@+id/et_update_emotion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
@@ -104,6 +104,7 @@
         android:text="상태 메세지"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_update_emotion"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_update_emotion" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
