@@ -32,7 +32,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
             finish()
         }
 
-        btnPlus = findViewById(R.id.tv_copy_link)
+        btnPlus = findViewById(R.id.ib_back)
         btnPlus!!.visibility = VISIBLE
         btnPlus!!.setImageResource(R.drawable.ic_plus_groups)
         btnPlus!!.setOnClickListener {
