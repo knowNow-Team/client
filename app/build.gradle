@@ -70,7 +70,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 
     //retorifit2
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.8.6' // 컨버터 gson
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.8.1' // 로깅 인터셉터
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     //Room database
