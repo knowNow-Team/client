@@ -72,5 +72,9 @@ dependencies {
 
     //graph
     implementation 'com.github.swapnil1104:CurveGraphView:2.1'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //folding cell
+    implementation 'com.ramotion.foldingcell:folding-cell:1.2.3'
 
 }
