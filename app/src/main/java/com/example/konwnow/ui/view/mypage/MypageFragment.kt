@@ -1,5 +1,7 @@
 package com.example.konwnow.ui.view.mypage
 
+import android.app.Activity.RESULT_CANCELED
+import android.app.Activity.RESULT_OK
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
@@ -33,12 +35,23 @@ class MypageFragment: Fragment() {
     private lateinit var switchAlarm: SwitchMaterial
     private var alarmFlag = false
 
+
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         v =  inflater.inflate(R.layout.fragment_mypage, container, false)
         setButton()
         setSwitch()
         return v
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==1){
+            if(resultCode== RESULT_CANCELED){
+                alarmFlag = false
+                switchAlarm.isChecked = false
+            }
+        }
     }
 
     private fun setButton() {
@@ -78,16 +91,20 @@ class MypageFragment: Fragment() {
                 startActivityForResult(mIntent,1)
             } else {
                 alarmFlag = isChecked
-                var am = context!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                var intent = Intent(context, AlarmBroadcastReceiver::class.java)
-                var PendingIntent = PendingIntent.getBroadcast(context, AlarmBroadcastReceiver.NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-                if (PendingIntent != null) {
-                    am.cancel(PendingIntent)
-                    AlarmBroadcastReceiver.count = 0
-                    PendingIntent.cancel()
-                    toast("알람이 해제되었습니다.")
-                }
+                alarmOff()
             }
+        }
+    }
+
+    private fun alarmOff(){
+        var am = context!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        var intent = Intent(context, AlarmBroadcastReceiver::class.java)
+        var PendingIntent = PendingIntent.getBroadcast(context, AlarmBroadcastReceiver.NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        if (PendingIntent != null) {
+            am.cancel(PendingIntent)
+            AlarmBroadcastReceiver.count = 0
+            PendingIntent.cancel()
+            toast("알람이 해제되었습니다.")
         }
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,12 @@ class ActivitySetAlarm : AppCompatActivity() {
     private lateinit var folderAdapter: FolderAdapter
     var folderList = arrayListOf<Folder>()
     var selectedFolderList = arrayListOf<Folder>()
+    private lateinit var notKnowCb: CheckBox
+    private lateinit var confuseCb: CheckBox
+    private lateinit var knowCb: CheckBox
+    var checkedTag = arrayListOf<Int>()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +35,7 @@ class ActivitySetAlarm : AppCompatActivity() {
         setToolbar()
         setButton()
         setFolderList()
+        setTag()
     }
 
     private fun setFolderList() {
@@ -61,11 +69,18 @@ class ActivitySetAlarm : AppCompatActivity() {
     private fun setButton() {
         val btnNext = findViewById<Button>(R.id.btn_next)
         btnNext.setOnClickListener {
+            //선택된 태그 체크
+            getCheckedTag()
             val mIntent = Intent(this,ActivitySetAlarmTime::class.java)
+            var bundle = Bundle()
+            bundle.putParcelableArrayList("folderList", selectedFolderList)
+            mIntent.putExtra("folder", bundle)
+            mIntent.putExtra("TagList",checkedTag)
             startActivity(mIntent)
             finish()
         }
     }
+
 
 
     private fun setToolbar() {
@@ -73,6 +88,31 @@ class ActivitySetAlarm : AppCompatActivity() {
         val btnBack = findViewById<ImageButton>(R.id.ib_back)
         title.text = getString(R.string.AlarmTitle)
 
-        btnBack.setOnClickListener { finish() }
+        btnBack.setOnClickListener {
+            setResult(RESULT_CANCELED)
+            finish()
+        }
+    }
+
+    private fun setTag(){
+        notKnowCb = findViewById(R.id.not_know)
+        confuseCb = findViewById(R.id.confuse)
+        knowCb = findViewById(R.id.know)
+    }
+
+    private fun getCheckedTag(){
+        checkedTag.clear()
+        if(notKnowCb.isChecked){
+            checkedTag.add(0)
+        }
+        if(confuseCb.isChecked){
+            checkedTag.add(1)
+        }
+        if(knowCb.isChecked){
+            checkedTag.add(2)
+        }
+        for(i: Int in checkedTag){
+            Log.d("선택된 태그",i.toString())
+        }
     }
 }

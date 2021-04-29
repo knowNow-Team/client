@@ -43,11 +43,6 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
         endHour = intent!!.getIntExtra("endHour",0)
         endMinute = intent!!.getIntExtra("endMinute",0)
 
-        Log.d("리시버 시작 시간",startHour.toString())
-        Log.d("리시버 시작 분",startMinute.toString())
-        Log.d("리시버 종료 시간",endHour.toString())
-        Log.d("리시버 종료 분",endMinute.toString())
-
 
         if(wordsList!= null){
             notificationManager = context.getSystemService(

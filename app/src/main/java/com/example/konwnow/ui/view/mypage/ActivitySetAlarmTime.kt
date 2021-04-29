@@ -10,10 +10,12 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.konwnow.R
+import com.example.konwnow.data.model.dto.Folder
 import com.example.konwnow.data.model.dto.Words
 import com.ramotion.fluidslider.FluidSlider
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ActivitySetAlarmTime : AppCompatActivity() {
@@ -28,6 +30,9 @@ class ActivitySetAlarmTime : AppCompatActivity() {
     private var endMinute = 0
     private var startTime:Long = 0
     private var endTime:Long = 0
+    var folderList = arrayListOf<Folder>()
+    var checkedTag = arrayListOf<Int>()
+
 
     val max = 45
     val min = 0
@@ -37,20 +42,32 @@ class ActivitySetAlarmTime : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestWords()
         setContentView(R.layout.activity_alarm_time)
+        setData()
         setToolbar()
         setTimePicker()
         setSeekBar()
         setButton()
     }
 
+    private fun setData() {
+        folderList = intent!!.getBundleExtra("folder")!!.getParcelableArrayList<Folder>("folderList") as ArrayList<Folder>
+        checkedTag = intent!!.getIntegerArrayListExtra("TagList") as ArrayList<Int>
+
+        for(item in folderList){
+            Log.d("폴더",item.name)
+        }
+
+        for(item in checkedTag){
+            Log.d("태그",item.toString())
+        }
+        requestWords()
+    }
+
     @RequiresApi(Build.VERSION_CODES.KITKAT_WATCH)
     private fun setButton() {
-
         btnSubmit = findViewById(R.id.btn_submit)
         btnSubmit.setOnClickListener {
-            requestWords()
             if(!checkTimeZone()){
                 Toast.makeText(this, getString(R.string.wrongAlarmTime), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -58,7 +75,7 @@ class ActivitySetAlarmTime : AppCompatActivity() {
             val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
             val intent = Intent(this, AlarmBroadcastReceiver::class.java)
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             var bundle = Bundle()
             bundle.putParcelableArrayList("wordList", wordsList)
             intent.putExtra("word", bundle)
@@ -75,10 +92,6 @@ class ActivitySetAlarmTime : AppCompatActivity() {
 
             val repeatInterval: Long = (endTime-startTime) / alarmNum
 
-            Log.d("시작", longTimeToDatetimeAsString(startTime)!!)
-            Log.d("종료", longTimeToDatetimeAsString(endTime)!!)
-            Log.d("리핏", longTimeToDatetimeAsString(repeatInterval)!!)
-            Log.d("알람넘", alarmNum.toString())
 
             var calendar = Calendar.getInstance().apply {
                 timeInMillis = System.currentTimeMillis()
@@ -87,12 +100,12 @@ class ActivitySetAlarmTime : AppCompatActivity() {
 
 
             alarmManager.setRepeating(
-//                AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 AlarmManager.RTC_WAKEUP,
                 startTime+10*1000,
                 repeatInterval,
                 pendingIntent
             )
+            setResult(RESULT_OK)
             finish()
             Toast.makeText(this, getString(R.string.setAlarm), Toast.LENGTH_SHORT).show()
         }
@@ -193,6 +206,9 @@ class ActivitySetAlarmTime : AppCompatActivity() {
         val btnBack = findViewById<ImageButton>(R.id.ib_back)
         title.text = getString(R.string.AlarmTitle)
 
-        btnBack.setOnClickListener { finish() }
+        btnBack.setOnClickListener {
+            setResult(RESULT_CANCELED)
+            finish()
+        }
     }
 }
