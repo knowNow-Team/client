@@ -35,11 +35,7 @@
         <activity android:name=".ui.view.test.PuzzleTestActivity" />
         <activity android:name=".ui.view.mypage.FriendActivity" />
         <activity android:name=".ui.view.mypage.SetAlarmActivity" />
-        <activity android:name=".ui.view.mypage.ManualActivity" />
         <activity android:name=".ui.view.mypage.CommentActivity" />
-        <activity android:name=".ui.view.mypage.ActivityFriend" />
-        <activity android:name=".ui.view.mypage.ActivitySetAlarm" />
-        <activity android:name=".ui.view.mypage.ActivityComment" />
         <activity android:name=".ui.view.mypage.ActivitySetAlarmTime" />
         <activity
             android:name=".ui.view.test.DictationTestActivity"

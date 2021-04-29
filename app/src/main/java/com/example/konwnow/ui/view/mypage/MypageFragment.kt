@@ -123,7 +123,7 @@ class MypageFragment: Fragment() {
         switchAlarm.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 alarmFlag = isChecked
-                mIntent = Intent(activity, ActivitySetAlarm::class.java)
+                mIntent = Intent(activity, SetAlarmActivity::class.java)
                 startActivityForResult(mIntent,1)
             } else {
                 alarmFlag = isChecked
