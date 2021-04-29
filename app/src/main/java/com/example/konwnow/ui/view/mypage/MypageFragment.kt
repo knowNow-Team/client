@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +59,15 @@ class MypageFragment: Fragment() {
             if(resultCode== RESULT_CANCELED){
                 alarmFlag = false
                 switchAlarm.isChecked = false
+            }else if(resultCode== RESULT_OK){
+                Log.d("코드1","성공")
+            }
+        }else if(requestCode == 2) {
+            if(resultCode== RESULT_CANCELED){
+                alarmFlag = false
+                switchAlarm.isChecked = false
+            }else if(resultCode== RESULT_OK){
+                Log.d("코드2","성공")
             }
         }
     }
@@ -82,8 +92,6 @@ class MypageFragment: Fragment() {
             startActivityForResult(mIntent,1)
         }
         tvManual.setOnClickListener{
-            mIntent = Intent(activity, ManualActivity::class.java)
-            startActivityForResult(mIntent,1)
             val dlg = ManualDialog(context!!)
             dlg.start()
         }

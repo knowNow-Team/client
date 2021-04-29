@@ -49,7 +49,7 @@ class ReplyReceiver: BroadcastReceiver() {
         Log.d("eng", wordEng.toString())
         Log.d("userAnswer", userAnswer)
         lateinit var repliedNotification: Notification
-        if(userAnswer == wordEng){
+        if(userAnswer == wordEng!!.toLowerCase()){
             repliedNotification =  NotificationCompat.Builder(mContext!!, PRIMARY_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_hit)
                 .setContentTitle("정답입니다")

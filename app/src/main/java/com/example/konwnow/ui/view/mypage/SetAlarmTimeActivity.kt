@@ -18,7 +18,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ActivitySetAlarmTime : AppCompatActivity() {
+class SetAlarmTimeActivity : AppCompatActivity() {
     private lateinit var startTimePicker: TimePicker
     private lateinit var endTimePicker: TimePicker
     private lateinit var sbAlarmNum: FluidSlider
@@ -110,6 +110,7 @@ class ActivitySetAlarmTime : AppCompatActivity() {
             Toast.makeText(this, getString(R.string.setAlarm), Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
 

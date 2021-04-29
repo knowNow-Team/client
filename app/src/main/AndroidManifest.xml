@@ -36,7 +36,7 @@
         <activity android:name=".ui.view.mypage.FriendActivity" />
         <activity android:name=".ui.view.mypage.SetAlarmActivity" />
         <activity android:name=".ui.view.mypage.CommentActivity" />
-        <activity android:name=".ui.view.mypage.ActivitySetAlarmTime" />
+        <activity android:name=".ui.view.mypage.SetAlarmTimeActivity" />
         <activity
             android:name=".ui.view.test.DictationTestActivity"
             android:windowSoftInputMode="adjustPan" />

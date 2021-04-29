@@ -13,10 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Folder
 import com.example.konwnow.ui.adapter.FolderAdapter
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_KEYBOARD
-import com.google.android.material.timepicker.TimeFormat
-import com.ramotion.foldingcell.FoldingCell
 
 class SetAlarmActivity : AppCompatActivity() {
     private lateinit var folderAdapter: FolderAdapter
@@ -36,6 +32,19 @@ class SetAlarmActivity : AppCompatActivity() {
         setButton()
         setFolderList()
         setTag()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==2){
+            if(resultCode== RESULT_CANCELED){
+                setResult(RESULT_CANCELED)
+                finish()
+            }else if(resultCode== RESULT_OK){
+                setResult(RESULT_OK)
+                finish()
+            }
+        }
     }
 
     private fun setFolderList() {
@@ -71,13 +80,12 @@ class SetAlarmActivity : AppCompatActivity() {
         btnNext.setOnClickListener {
             //선택된 태그 체크
             getCheckedTag()
-            val mIntent = Intent(this,ActivitySetAlarmTime::class.java)
+            val mIntent = Intent(this,SetAlarmTimeActivity::class.java)
             var bundle = Bundle()
             bundle.putParcelableArrayList("folderList", selectedFolderList)
             mIntent.putExtra("folder", bundle)
             mIntent.putExtra("TagList",checkedTag)
-            startActivity(mIntent)
-            finish()
+            startActivityForResult(mIntent,2)
         }
     }
 
