@@ -1,10 +1,8 @@
 package com.example.konwnow.ui.view.test
 
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -15,7 +13,6 @@ import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Quiz
 import com.example.konwnow.data.model.dto.Words
 import com.example.konwnow.ui.adapter.DictationAdapter
-import com.example.konwnow.ui.adapter.PuzzleAdapter
 
 
 class DictationTestActivity : AppCompatActivity() {
@@ -103,7 +100,7 @@ class DictationTestActivity : AppCompatActivity() {
                 if(target != userAnswer){
                     hit = false
                 }
-                quizLog.add(Quiz(target,kor,userAnswer,hit))
+                quizLog.add(Quiz(target!!,kor!!,userAnswer,hit))
             }
 
             toast(getString(R.string.lastPage))

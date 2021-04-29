@@ -24,7 +24,6 @@ class TestFragment: Fragment() {
     var checkedTag = arrayListOf<Int>()
     private lateinit var v: View
     private lateinit var puzzleTestButton: RadioButton
-    private lateinit var dictationTestButton: RadioButton
     private lateinit var folderListRv: RecyclerView
     private lateinit var startButton: Button
     private lateinit var testLogButton: ImageButton

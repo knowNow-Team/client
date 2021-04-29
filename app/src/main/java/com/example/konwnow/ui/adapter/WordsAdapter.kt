@@ -82,7 +82,7 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
     private fun showDetail(holder: WordsAdapter.Holder, position: Int) {
         holder.itemView.setOnClickListener {
             val dlg = WordDialog(context)
-            dlg.start(items[position].eng)
+            dlg.start(items[position].eng!!)
         }
     }
 

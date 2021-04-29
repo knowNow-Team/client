@@ -68,6 +68,22 @@
     <string name="client_id">180417186984-issn9ofh90sphbjqt36uqlu24oo4k4aq.apps.googleusercontent.com</string>
 
     <!-- myPage -->
+    <string name="AlarmTitle">데일리알람설정</string>
+    <string name="AlarmNum">하루에 받을 알림 횟수를 선택하세요</string>
+    <string name="AlarmTime">알림 시간대를 설정해주세요</string>
+
+
+
+    <!-- manual -->
+    <string name="testString">알림 시간대를 설정해주세요</string>
+
+
+    <!-- alarm -->
+    <string name="setAlarm">알림이 설정되었습니다</string>
+    <string name="wrongAlarmTime">알림시간을 다시 설정해주세요</string>
+    <string name="missNoti">입력: %s [X]   정답: %s [O]</string>
+    <string name="rightNoti">Answer: %s [O]</string>
+
 
 
     <string-array name="groups_list">

@@ -2,7 +2,6 @@ package com.example.konwnow.ui.view.test
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -93,7 +92,7 @@ class PuzzleTestActivity : AppCompatActivity() {
                 if(target != strTmp){
                     hit = false
                 }
-                quizlog.add(Quiz(target,kor,strTmp,hit))
+                quizlog.add(Quiz(target!!,kor!!,strTmp,hit))
             }
 
             toast(getString(R.string.lastPage))

@@ -1,3 +1,7 @@
 package com.example.konwnow.data.model.dto
 
-class Folder(val name: String, var wordsCount: Int)
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+class Folder(val name: String, var wordsCount: Int) : Parcelable
