@@ -62,7 +62,7 @@ class ManualDialog(context: Context) {
 
         manualList.add(Manual(R.raw.ranking_lottie, mContext.getString(R.string.testString)))
         manualList.add(Manual(R.raw.add_document, "설명2"))
-        manualList.add(Manual(R.raw.ranking_lottie, "설명3"))
+        manualList.add(Manual(R.raw.knownow, "설명3"))
     }
 
     fun Context.dialogResize(dialog: Dialog, width: Float, height: Float){

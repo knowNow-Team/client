@@ -145,7 +145,7 @@ class TestFragment: Fragment() {
         var mIntent : Intent
         startButton.setOnClickListener {
             //테스트 모드 체크
-            getCheckedTestMode()
+//            getCheckedTestMode()
             when(testMode){
                 0 -> {
                     mIntent = Intent(activity, PuzzleTestActivity::class.java)
@@ -191,17 +191,17 @@ class TestFragment: Fragment() {
         })
     }
 
-    private fun getCheckedTestMode() {
-        var selectedTestMode = testModeRg.checkedRadioButtonId
-        when(selectedTestMode){
-            R.id.rb_word_puzzle -> {
-                testMode=0
-            }
-            R.id.rb_test_dictation -> {
-                testMode=1
-            }
-        }
-    }
+//    private fun getCheckedTestMode() {
+//        var selectedTestMode = testModeRg.checkedRadioButtonId
+//        when(selectedTestMode){
+//            R.id.rb_word_puzzle -> {
+//                testMode=0
+//            }
+//            R.id.rb_test_dictation -> {
+//                testMode=1
+//            }
+//        }
+//    }
 
 
 }
