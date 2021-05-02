@@ -11,16 +11,12 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.example.konwnow.R
+import com.example.konwnow.utils.ALARM
 
 class ReplyReceiver: BroadcastReceiver() {
     var mContext: Context? = null
     var mIntent: Intent? = null
-    companion object {
-        const val NOTIFICATION_ID = 33
-        const val PRIMARY_CHANNEL_ID = "primary_notification_channel"
-        val REPLY_KEY = "reply"
-        val REPLY_LABEL = "단어 입력" // Action 에 표시되는 Label
-    }
+
 
     @RequiresApi(Build.VERSION_CODES.KITKAT_WATCH)
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -32,10 +28,9 @@ class ReplyReceiver: BroadcastReceiver() {
 
     @RequiresApi(Build.VERSION_CODES.KITKAT_WATCH)
     private fun receiveInput() {
-        val REPLY_KEY = "reply"
         val remoteInput = RemoteInput.getResultsFromIntent(mIntent)
         remoteInput?.let{
-            val userAnswer = it.getCharSequence(REPLY_KEY).toString()
+            val userAnswer = it.getCharSequence(ALARM.REPLY_KEY).toString()
             receiveSuccessNoti(userAnswer)
         }
     }
@@ -50,14 +45,14 @@ class ReplyReceiver: BroadcastReceiver() {
         Log.d("userAnswer", userAnswer)
         lateinit var repliedNotification: Notification
         if(userAnswer == wordEng!!.toLowerCase()){
-            repliedNotification =  NotificationCompat.Builder(mContext!!, PRIMARY_CHANNEL_ID)
+            repliedNotification =  NotificationCompat.Builder(mContext!!, ALARM.PRIMARY_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_hit)
                 .setContentTitle("정답입니다")
                 .setContentText(wordKor)
                 .setContentText(String.format(mContext!!.getString(R.string.rightNoti),text))
                 .build()
         }else{
-            repliedNotification =  NotificationCompat.Builder(mContext!!, PRIMARY_CHANNEL_ID)
+            repliedNotification =  NotificationCompat.Builder(mContext!!, ALARM.PRIMARY_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_miss)
                 .setContentTitle("틀렸습니다")
                 .setContentText(wordKor)
@@ -66,7 +61,7 @@ class ReplyReceiver: BroadcastReceiver() {
         }
 
         val notificationManager: NotificationManager = mContext!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(NOTIFICATION_ID, repliedNotification)
+        notificationManager.notify(ALARM.NOTIFICATION_ID, repliedNotification)
         Log.d("노티파이","성공")
     }
 

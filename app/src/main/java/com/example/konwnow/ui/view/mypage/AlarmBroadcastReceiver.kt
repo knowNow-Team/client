@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.RemoteInput
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Words
+import com.example.konwnow.utils.ALARM
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -20,11 +21,8 @@ import kotlin.collections.ArrayList
 class AlarmBroadcastReceiver: BroadcastReceiver() {
     companion object {
         const val TAG = "AlarmReceiver"
-        const val NOTIFICATION_ID = 33
-        const val PRIMARY_CHANNEL_ID = "primary_notification_channel"
         var count = 0
-        val REPLY_KEY = "reply"
-        val REPLY_LABEL = "단어 입력" // Action 에 표시되는 Label
+
     }
     lateinit var notificationManager: NotificationManager
     lateinit var wordsList: ArrayList<Words>
@@ -63,17 +61,17 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
         contentIntent.putExtra("wordKor",wordsList[count].kor)
         val contentPendingIntent = PendingIntent.getBroadcast(
             context,
-            NOTIFICATION_ID,
+            ALARM.NOTIFICATION_ID,
             contentIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
-        var remoteInput = RemoteInput.Builder(REPLY_KEY)
-            .setLabel(REPLY_LABEL)
+        var remoteInput = RemoteInput.Builder(ALARM.REPLY_KEY)
+            .setLabel(ALARM.REPLY_LABEL)
             .build()
 
         val notiAction = NotificationCompat.Action.Builder(
             R.drawable.ic_right,
-            REPLY_LABEL,
+            ALARM.REPLY_LABEL,
             contentPendingIntent
         )
             .addRemoteInput(remoteInput)
@@ -81,7 +79,7 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
             .build()
 
         val builder =
-            NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
+            NotificationCompat.Builder(context, ALARM.PRIMARY_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_hit)
                 .setContentTitle("단어 알림")
                 .setContentText(wordsList[count++].kor)
@@ -92,7 +90,7 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
                 .setAutoCancel(false)
 
         if(checkTimeZone()){
-            notificationManager.notify(NOTIFICATION_ID, builder.build())
+            notificationManager.notify(ALARM.NOTIFICATION_ID, builder.build())
         }
     }
 
@@ -118,7 +116,7 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
     fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel = NotificationChannel(
-                PRIMARY_CHANNEL_ID,
+                ALARM.PRIMARY_CHANNEL_ID,
                 "Stand up notification",
                 NotificationManager.IMPORTANCE_HIGH
             )
