@@ -27,6 +27,7 @@ import com.example.konwnow.data.model.dto.Users
 import com.example.konwnow.ui.adapter.RankingAdapter
 import com.example.konwnow.ui.view.test.PuzzleTestActivity
 import com.example.konwnow.ui.view.test.TestLogDialog
+import com.example.konwnow.utils.ALARM
 import com.google.android.material.switchmaterial.SwitchMaterial
 import me.relex.circleindicator.CircleIndicator3
 
@@ -143,7 +144,7 @@ class MypageFragment: Fragment() {
     private fun alarmOff(){
         var am = context!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         var intent = Intent(context, AlarmBroadcastReceiver::class.java)
-        var PendingIntent = PendingIntent.getBroadcast(context, AlarmBroadcastReceiver.NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        var PendingIntent = PendingIntent.getBroadcast(context, ALARM.NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         if (PendingIntent != null) {
             am.cancel(PendingIntent)
             AlarmBroadcastReceiver.count = 0

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Folder
 import com.example.konwnow.data.model.dto.Words
+import com.example.konwnow.utils.ALARM
 import com.ramotion.fluidslider.FluidSlider
 import java.text.SimpleDateFormat
 import java.util.*
@@ -85,7 +86,7 @@ class SetAlarmTimeActivity : AppCompatActivity() {
             intent.putExtra("endMinute", endMinute)
 
             val pendingIntent = PendingIntent.getBroadcast(
-                this, AlarmBroadcastReceiver.NOTIFICATION_ID, intent,
+                this, ALARM.NOTIFICATION_ID, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
 
