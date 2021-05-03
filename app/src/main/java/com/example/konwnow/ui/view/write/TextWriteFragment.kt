@@ -31,7 +31,7 @@ class TextWriteFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         v = inflater.inflate(R.layout.fragment_text_write, container, false)
-//        setWordList()
+        setWordList()
         setButton()
         setEditText()
         return v
@@ -42,7 +42,7 @@ class TextWriteFragment: Fragment() {
     }
 
     private fun setButton() {
-        testIv = v.findViewById(R.id.iv_test)
+//        testIv = v.findViewById(R.id.iv_test)
         searchBtn = v.findViewById(R.id.btn_search)
         searchBtn.setOnClickListener {
             //api 요청

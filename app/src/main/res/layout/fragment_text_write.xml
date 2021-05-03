@@ -86,19 +86,8 @@
             app:layout_constraintBottom_toTopOf="@+id/rv_word_list"
             app:layout_constraintLeft_toLeftOf="parent"/>
 
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/rv_word_list"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            app:layout_constraintVertical_weight="1"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/tv_select_word"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            android:background="@color/white"-->
-<!--            />-->
-        <ImageView
-            android:id="@+id/iv_test"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_word_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
@@ -107,7 +96,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="10dp"
             android:background="@color/white"
-        />
+            />
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_test"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            app:layout_constraintVertical_weight="1"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/tv_select_word"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            android:layout_marginBottom="10dp"-->
+<!--            android:background="@color/white"-->
+<!--        />-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
