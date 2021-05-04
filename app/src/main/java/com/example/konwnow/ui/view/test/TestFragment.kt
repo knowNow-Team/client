@@ -24,6 +24,7 @@ class TestFragment: Fragment() {
     var checkedTag = arrayListOf<Int>()
     private lateinit var v: View
     private lateinit var puzzleTestButton: RadioButton
+    private lateinit var dictationTestButton: RadioButton
     private lateinit var folderListRv: RecyclerView
     private lateinit var startButton: Button
     private lateinit var testLogButton: ImageButton
@@ -56,7 +57,7 @@ class TestFragment: Fragment() {
         setFolderList()
         setTag()
         setStartButton()
-        setRadioGroup()
+//        setRadioGroup()
         setTestLogButton()
         setSeekBar()
     }
@@ -91,6 +92,7 @@ class TestFragment: Fragment() {
     private fun setDefault() {
         //단어시험 모드 디폴트 설정
         puzzleTestButton = v.findViewById(R.id.rb_word_puzzle)
+        dictationTestButton = v.findViewById(R.id.rb_test_dictation)
         puzzleTestButton.isChecked = true
 
         //seekbar 퀴즈 수 설정
@@ -146,15 +148,12 @@ class TestFragment: Fragment() {
         startButton.setOnClickListener {
             //테스트 모드 체크
 //            getCheckedTestMode()
-            when(testMode){
-                0 -> {
-                    mIntent = Intent(activity, PuzzleTestActivity::class.java)
-                }
-                1 -> {
-                    mIntent = Intent(activity, DictationTestActivity::class.java)
+            mIntent = when(testModeRg.checkedRadioButtonId){
+                R.id.rb_word_puzzle-> {
+                    Intent(activity, PuzzleTestActivity::class.java)
                 }
                 else -> {
-                    mIntent = Intent(activity, PuzzleTestActivity::class.java)
+                    Intent(activity, DictationTestActivity::class.java)
                 }
             }
             //폴더 리스트체크
@@ -180,16 +179,16 @@ class TestFragment: Fragment() {
         }
     }
 
-    private fun setRadioGroup() {
-        testModeRg.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
-            if(group.id == R.id.rg_test_mode){
-                when(checkedId){
-                    R.id.rb_word_puzzle -> testMode=0
-                    R.id.rb_test_dictation -> testMode=1
-                }
-            }
-        })
-    }
+//    private fun setRadioGroup() {
+//        testModeRg.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
+//            if(group.id == R.id.rg_test_mode){
+//                when(checkedId){
+//                    R.id.rb_word_puzzle -> testMode=0
+//                    R.id.rb_test_dictation -> testMode=1
+//                }
+//            }
+//        })
+//    }
 
 //    private fun getCheckedTestMode() {
 //        var selectedTestMode = testModeRg.checkedRadioButtonId
