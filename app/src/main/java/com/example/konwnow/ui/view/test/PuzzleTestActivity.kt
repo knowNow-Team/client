@@ -42,6 +42,18 @@ class PuzzleTestActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+        dlg.setTitle(R.string.close)
+        dlg.setMessage(R.string.closeSub)
+        dlg.setPositiveButton("네", DialogInterface.OnClickListener { dialog, which ->
+            finish()
+        })
+        dlg.setNegativeButton("아니요") { dialog, which ->
+        }
+        dlg.show()
+    }
+
     private fun setQuiz(){
         puzzleAdapter = PuzzleAdapter(){
             goNext(it)
