@@ -1,8 +1,10 @@
 package com.example.konwnow.ui.view.write
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.konwnow.R
@@ -60,6 +62,13 @@ class WriteActivity: AppCompatActivity() {
         }
 
     }
+
+
+    override fun onBackPressed() {
+            setResult(RESULT_CANCELED)
+            finish()
+    }
+
 
     private fun setDefault(){
         btnBack = findViewById<ImageButton>(R.id.ib_back)

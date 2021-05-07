@@ -1,5 +1,6 @@
 package com.example.konwnow.ui.view.mypage
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +34,20 @@ class SetAlarmActivity : AppCompatActivity() {
         setButton()
         setFolderList()
         setTag()
+    }
+
+
+    override fun onBackPressed() {
+        val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+        dlg.setTitle(R.string.close)
+        dlg.setMessage(R.string.alarmCancel)
+        dlg.setPositiveButton("네", DialogInterface.OnClickListener { dialog, which ->
+            setResult(RESULT_CANCELED)
+            finish()
+        })
+        dlg.setNegativeButton("아니요") { dialog, which ->
+        }
+        dlg.show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
