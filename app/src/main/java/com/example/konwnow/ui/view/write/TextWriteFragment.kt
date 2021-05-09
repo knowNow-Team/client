@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.konwnow.R
 import com.example.konwnow.data.model.dto.Words
-import com.example.konwnow.data.retrofit.RetrofitManager
 import com.example.konwnow.ui.adapter.WordListAdapter
 import com.example.konwnow.utils.Constants.TAG
 import com.example.konwnow.utils.RESPONSE_STATE
@@ -46,19 +45,19 @@ class TextWriteFragment: Fragment() {
         searchBtn = v.findViewById(R.id.btn_search)
         searchBtn.setOnClickListener {
             //api 요청
-            RetrofitManager.instance.searchPhotos(searchTerm = sentenceEdt.text.toString(),completion = {
-                responseState, responseBody ->
-                when(responseState){
-                    RESPONSE_STATE.OK -> {
-                        Log.d(TAG,"응답 성공: $responseBody")
-                        Glide.with(this).load(responseBody).into(testIv)
-                    }
-
-                    RESPONSE_STATE.FAIL -> {
-                        Log.d(TAG,"응답 실패")
-                    }
-                }
-            })
+//            RetrofitManager.instance.searchPhotos(searchTerm = sentenceEdt.text.toString(),completion = {
+//                responseState, responseBody ->
+//                when(responseState){
+//                    RESPONSE_STATE.OK -> {
+//                        Log.d(TAG,"응답 성공: $responseBody")
+//                        Glide.with(this).load(responseBody).into(testIv)
+//                    }
+//
+//                    RESPONSE_STATE.FAIL -> {
+//                        Log.d(TAG,"응답 실패")
+//                    }
+//                }
+//            })
         }
     }
 
