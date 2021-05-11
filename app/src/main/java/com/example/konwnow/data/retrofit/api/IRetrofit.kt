@@ -1,4 +1,4 @@
-package com.example.konwnow.data.retrofit
+package com.example.konwnow.data.retrofit.api
 
 import com.example.konwnow.utils.API
 import com.google.gson.JsonElement
