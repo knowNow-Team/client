@@ -1,4 +1,4 @@
-package com.example.konwnow.ui.viewmodel
+package com.example.konwnow.viewmodel
 
 import android.provider.ContactsContract
 import android.util.Log

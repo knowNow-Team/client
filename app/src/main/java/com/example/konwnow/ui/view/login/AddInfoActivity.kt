@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.ViewModelProviders.of
 import com.example.konwnow.data.model.dto.Users
 import com.example.konwnow.ui.view.MainActivity
-import com.example.konwnow.ui.viewmodel.LoginViewModel
+import com.example.konwnow.viewmodel.LoginViewModel
 
 
 class AddInfoActivity : AppCompatActivity() {
