@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.konwnow.App
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Friend
+import com.example.konwnow.data.remote.dto.Friend
 
 class FriendAdapter : RecyclerView.Adapter<FriendAdapter.Holder>(){
 

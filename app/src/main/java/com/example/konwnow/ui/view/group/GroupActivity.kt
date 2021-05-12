@@ -8,7 +8,7 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Folder
+import com.example.konwnow.data.remote.dto.Folder
 import com.example.konwnow.ui.adapter.GroupsAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.home.HomeFragment

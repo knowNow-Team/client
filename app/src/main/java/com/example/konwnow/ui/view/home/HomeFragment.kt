@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Words
+import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.WordsAdapter
 import com.example.konwnow.ui.view.group.GroupActivity
 

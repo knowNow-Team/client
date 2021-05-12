@@ -1,4 +1,4 @@
-package com.example.konwnow.data.model.dto
+package com.example.konwnow.data.remote.dto
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

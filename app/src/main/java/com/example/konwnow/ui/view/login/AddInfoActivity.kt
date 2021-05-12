@@ -9,8 +9,7 @@ import android.widget.EditText
 import androidx.lifecycle.Observer
 import com.example.konwnow.R
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.ViewModelProviders.of
-import com.example.konwnow.data.model.dto.Users
+import com.example.konwnow.data.remote.dto.Users
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.viewmodel.LoginViewModel
 

@@ -1,24 +1,19 @@
 package com.example.konwnow.ui.view.test
 
-import android.app.ActionBar
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Point
 import android.os.Build
-import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.App
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Quiz
-import com.example.konwnow.data.model.dto.Words
+import com.example.konwnow.data.remote.dto.Quiz
 import com.example.konwnow.ui.adapter.TestWordsAdapter
-import com.example.konwnow.ui.adapter.WordsAdapter
 
 class TestLogDialog(context: Context) {
     var mContext = context

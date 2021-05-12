@@ -9,13 +9,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Folder
+import com.example.konwnow.data.remote.dto.Folder
 import com.example.konwnow.ui.view.home.HomeFragment
-import com.example.konwnow.ui.view.MainActivity as MainActivity
 
 
 class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
@@ -84,7 +81,7 @@ class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
 
    fun makeClicked(name: String) {
         Log.d("maked Clicked",name)
-        items.add(items.count(),Folder(name,0))
+        items.add(items.count(), Folder(name,0))
         notifyItemInserted(items.count())
     }
 }

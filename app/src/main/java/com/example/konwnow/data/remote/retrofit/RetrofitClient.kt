@@ -1,4 +1,4 @@
-package com.example.konwnow.data.retrofit
+package com.example.konwnow.data.remote.retrofit
 
 import android.util.Log
 import com.example.konwnow.utils.API

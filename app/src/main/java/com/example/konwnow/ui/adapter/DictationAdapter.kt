@@ -1,20 +1,14 @@
   package com.example.konwnow.ui.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Words
+import com.example.konwnow.data.remote.dto.Words
 
 class DictationAdapter(val itemClick: (ArrayList<String>) -> Unit) : RecyclerView.Adapter<DictationAdapter.Holder>() {
     lateinit var myContext: Context

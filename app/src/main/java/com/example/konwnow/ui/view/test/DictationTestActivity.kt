@@ -10,8 +10,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Quiz
-import com.example.konwnow.data.model.dto.Words
+import com.example.konwnow.data.remote.dto.Quiz
+import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.DictationAdapter
 
 

@@ -1,4 +1,4 @@
-package com.example.konwnow.data.model.dto
+package com.example.konwnow.data.remote.dto
 
 class Quiz(val target: String, val kor:String, val userAnswer: String, var hit: Boolean){
     override fun toString(): String {

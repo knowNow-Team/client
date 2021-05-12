@@ -21,15 +21,9 @@ import com.example.konwnow.ui.view.login.LoginActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.tasks.OnCompleteListener
 
-import com.example.konwnow.data.model.dto.Users
-import com.example.konwnow.ui.adapter.RankingAdapter
-import com.example.konwnow.ui.view.test.PuzzleTestActivity
-import com.example.konwnow.ui.view.test.TestLogDialog
 import com.example.konwnow.utils.ALARM
 import com.google.android.material.switchmaterial.SwitchMaterial
-import me.relex.circleindicator.CircleIndicator3
 
 class MypageFragment: Fragment() {
     private lateinit var v: View

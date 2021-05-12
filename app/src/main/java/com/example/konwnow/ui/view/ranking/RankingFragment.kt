@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
-import com.airbnb.lottie.LottieDrawable
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Users
+import com.example.konwnow.data.remote.dto.Users
 import com.example.konwnow.ui.adapter.RankingAdapter
 import me.relex.circleindicator.CircleIndicator3
 

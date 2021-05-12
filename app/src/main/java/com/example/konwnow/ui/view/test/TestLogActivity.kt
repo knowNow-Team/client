@@ -16,7 +16,7 @@ import com.broooapps.graphview.CurveGraphView
 import com.broooapps.graphview.models.GraphData
 import com.broooapps.graphview.models.PointMap
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.TestLog
+import com.example.konwnow.data.remote.dto.TestLog
 import com.example.konwnow.ui.adapter.TestLogAdapter
 
 

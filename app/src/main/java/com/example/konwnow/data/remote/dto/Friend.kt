@@ -1,3 +1,3 @@
-package com.example.konwnow.data.model.dto
+package com.example.konwnow.data.remote.dto
 
 class Friend(val level : Int, val nickname : String, val talk : String)

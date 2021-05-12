@@ -1,6 +1,6 @@
-package com.example.konwnow.data.retrofit.api
+package com.example.konwnow.data.remote.retrofit.api
 
-import com.example.konwnow.data.model.dto.Users
+import com.example.konwnow.data.remote.dto.Users
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Header
