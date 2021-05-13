@@ -1,19 +1,17 @@
 package com.example.konwnow.data.local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import androidx.room.OnConflictStrategy.REPLACE
 
 @Dao
 interface UserDao {
 
+    @Insert(onConflict = REPLACE)
+    fun insert(user : UserEntity)
+
     @Query("SELECT * FROM user")
     fun getAllUser() : List<UserEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(userEntity : UserEntity)
-
-    @Query("DELETE FROM user WHERE idToken = :idToken")
-    fun delete(idToken : String)
+    @Delete
+    fun delete(user : UserEntity)
 }
