@@ -23,6 +23,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 import com.example.konwnow.utils.ALARM
+import com.example.konwnow.utils.Constants
+import com.example.konwnow.utils.LOGIN
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MypageFragment: Fragment() {
@@ -38,6 +40,7 @@ class MypageFragment: Fragment() {
     lateinit var googleSignInClient : GoogleSignInClient
     private lateinit var switchAlarm: SwitchMaterial
     private var alarmFlag = false
+
 
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -116,7 +119,7 @@ class MypageFragment: Fragment() {
         googleSignInClient.signOut()
             .addOnCompleteListener {
                 mIntent = Intent(activity, LoginActivity::class.java)
-                startActivity(mIntent)
+                startActivityForResult(mIntent,LOGIN.RC_LOGOUT)
             }
     }
 

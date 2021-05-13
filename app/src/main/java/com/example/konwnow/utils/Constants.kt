@@ -10,9 +10,16 @@ object API{
     const val SEARCH_PHOTOS: String = "search/photos"
     const val SEARCH_USERS: String = "search/users"
 }
+
 enum class RESPONSE_STATE{
     OK,
     FAIL
+}
+
+object LOGIN {
+    const val RC_SIGN_UP : Int = 1001
+    const val RC_SIGN_IN : Int = 1002
+    const val RC_LOGOUT : Int = 1003
 }
 
 
