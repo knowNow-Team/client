@@ -116,6 +116,7 @@ class MypageFragment: Fragment() {
                 .build()
 
         googleSignInClient = GoogleSignIn.getClient(App.instance,gso);
+        googleSignInClient.revokeAccess()
         googleSignInClient.signOut()
             .addOnCompleteListener {
                 mIntent = Intent(activity, LoginActivity::class.java)

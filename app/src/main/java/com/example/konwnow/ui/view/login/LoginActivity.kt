@@ -42,6 +42,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             Log.d(Constants.TAG, "login automatically")
             startActivity(intent)
         }
+
+        /*TODO : 자동로그인
+        DB에 저장된 access token을 서버로 전달하여 로그인 시도
+        -> 토큰 유효하면 응딥 ok,  자동로그인 성공
+        -> 토큰 만료되면 응답 no,  로그인 화면으로 이동. -> refresh
+        */
     }
 
     override fun onClick(v: View?) {
@@ -76,6 +82,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
         try{
             val account = task.getResult(ApiException::class.java)
+            /*TODO : 회원가입 & 로그인 구분
+            tokenID 가 DB에 저장된 tokenID랑 같으면 -> 로그인 api -> 응답 성공하면 main -> 응답 실패하면( refresh 전달 )
+            같지 않거나 DB가 비어있다면 -> 회원가입 api -> 닉네임 입력 화면*/
             // 구글 로그인 성공
             Log.w("google", "signInResult:success code=" + account)
             updateGoogleLoginUi(account)
@@ -91,4 +100,5 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         intent.putExtra("idToken", idToken)
         startActivity(intent)
     }
+
 }
