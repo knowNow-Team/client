@@ -6,4 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user")
 data class UserEntity(
     @PrimaryKey val idToken : String,
-    val nickname : String)
+    val refreshToken : String,
+    val nickname : String,
+    val email : String)
