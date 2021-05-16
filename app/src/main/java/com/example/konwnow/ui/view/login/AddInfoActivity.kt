@@ -26,14 +26,14 @@ class AddInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_info)
 
-        db = UserDatabase.getInstance(this)!!
         val requestIntent = intent
         val idToken = requestIntent.getStringExtra("idToken")
+        val refreshToken = "refresh"
+        val email =requestIntent.getStringExtra("email")
 
         val viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(LoginViewModel::class.java)
         viewModel.getDataObserver().observe(this, Observer<Users>{
             if(it != null){
-                //업데이트 되어야 할 UI에 전달해주기.
                 Log.d("view","view에서 viewModel 접근 성공")
             }else{
                 Log.d("view","view에서 viewModel 관찰 실패")
@@ -48,9 +48,8 @@ class AddInfoActivity : AppCompatActivity() {
 
             //viewmodel을 통해 통신하기.
             viewModel.postLogin(idToken,nickname)
-            var user = UserEntity(idToken,nickname)
-           insertData(user)
-            
+            var user = UserEntity(idToken,refreshToken,nickname,email!!)
+            insertData(user)
 
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
@@ -60,6 +59,7 @@ class AddInfoActivity : AppCompatActivity() {
 
     @SuppressLint("StaticFieldLeak")
     private fun insertData(user : UserEntity) {
+        db = UserDatabase.getInstance(this)!!
         val insertTask = object : AsyncTask<Unit, Unit, Unit>(){
             override fun doInBackground(vararg params: Unit?) {
                 db.userDao().insert(user)
@@ -68,7 +68,6 @@ class AddInfoActivity : AppCompatActivity() {
 
             override fun onPostExecute(result: Unit?) {
                 super.onPostExecute(result)
-
             }
         }
         insertTask.execute()

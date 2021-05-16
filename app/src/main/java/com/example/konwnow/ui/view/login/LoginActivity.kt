@@ -1,12 +1,16 @@
 package com.example.konwnow.ui.view.login
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.konwnow.R
+import com.example.konwnow.data.local.UserDatabase
+import com.example.konwnow.data.local.UserEntity
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.Constants
 import com.example.konwnow.utils.LOGIN
@@ -21,29 +25,42 @@ import com.google.android.gms.tasks.Task
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var googleSignInClient : GoogleSignInClient
-
+    lateinit var localDB : UserDatabase
+    private var originId : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        getIdToken()
+
         val btnGoogle = findViewById<ImageView>(R.id.btn_google)
         btnGoogle.setOnClickListener(this)
     }
 
+    @SuppressLint("StaticFieldLeak")
+    private fun getIdToken() {
+        localDB = UserDatabase.getInstance(this)!!
+        val insertTask = object : AsyncTask<Unit, Unit, Unit>(){
+            override fun doInBackground(vararg params: Unit?) {
+                originId = localDB.userDao().getIdToken()
+                if(originId == null){
+                    Log.d("originId","null")
+                }else{
+                    Log.d("originId",originId)
+                }
+            }
+            override fun onPostExecute(result: Unit?) {
+                super.onPostExecute(result)
+            }
+        }
+        insertTask.execute()
+    }
 
     override fun onStart() {
         super.onStart()
-        val recentAccount = GoogleSignIn.getLastSignedInAccount(this)
-
-        //구글 로그인을 한 계정
-       if (recentAccount != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            Log.d(Constants.TAG, "login automatically")
-            startActivity(intent)
-        }
-
         /*TODO : 자동로그인
+        조건 : DB에 토큰이 저장되어 있는지 확인.
         DB에 저장된 access token을 서버로 전달하여 로그인 시도
         -> 토큰 유효하면 응딥 ok,  자동로그인 성공
         -> 토큰 만료되면 응답 no,  로그인 화면으로 이동. -> refresh
@@ -82,12 +99,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
         try{
             val account = task.getResult(ApiException::class.java)
-            /*TODO : 회원가입 & 로그인 구분
-            tokenID 가 DB에 저장된 tokenID랑 같으면 -> 로그인 api -> 응답 성공하면 main -> 응답 실패하면( refresh 전달 )
-            같지 않거나 DB가 비어있다면 -> 회원가입 api -> 닉네임 입력 화면*/
-            // 구글 로그인 성공
-            Log.w("google", "signInResult:success code=" + account)
-            updateGoogleLoginUi(account)
+            if(account.idToken == originId){
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                Log.d(Constants.TAG,"Login success")
+            }else{
+                updateGoogleLoginUi(account)
+                Log.d(Constants.TAG,"sign up")
+            }
         } catch (e: ApiException) {
             // 구글 로그인 실패
             Log.w("google", "signInResult:failed code=" + e.statusCode)
@@ -97,7 +116,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun updateGoogleLoginUi(account: GoogleSignInAccount) {
         val intent = Intent(this, AddInfoActivity::class.java)
         val idToken = account.idToken.toString()
+        val email = account.email.toString()
         intent.putExtra("idToken", idToken)
+        intent.putExtra("email",email)
         startActivity(intent)
     }
 
