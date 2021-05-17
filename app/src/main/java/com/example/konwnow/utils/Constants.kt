@@ -5,14 +5,22 @@ object Constants {
 }
 
 object API{
-    const val BASE_URL : String = "https://api.unsplash.com/"
+    const val BASE_URL : String = "https://www.apis.user.mjuknownow.com/ "
     const val CLIENT_ID : String = "4NvOa3hwj74vdCMStLhnvwJrt0dw4_HjCv_2MJzLd6Y"
     const val SEARCH_PHOTOS: String = "search/photos"
     const val SEARCH_USERS: String = "search/users"
+
+    const val CREATE_USERS : String = "v1/users"
 }
+
 enum class RESPONSE_STATE{
     OK,
     FAIL
+}
+
+object LOGIN {
+    const val RC_SIGN_UP : Int = 1001
+    const val RC_LOGOUT : Int = 1003
 }
 
 

@@ -1,11 +1,13 @@
 package com.example.konwnow.ui.view.mypage
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,12 +19,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.konwnow.App
 import com.example.konwnow.R
+import com.example.konwnow.data.local.UserDatabase
 import com.example.konwnow.ui.view.login.LoginActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 import com.example.konwnow.utils.ALARM
+import com.example.konwnow.utils.Constants
+import com.example.konwnow.utils.LOGIN
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MypageFragment: Fragment() {
@@ -39,12 +44,15 @@ class MypageFragment: Fragment() {
     private lateinit var switchAlarm: SwitchMaterial
     private var alarmFlag = false
 
+    private lateinit var db : UserDatabase
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         v =  inflater.inflate(R.layout.fragment_mypage, container, false)
         setButton()
         setSwitch()
+
+        getAllUserData()
         return v
     }
 
@@ -65,6 +73,24 @@ class MypageFragment: Fragment() {
                 Log.d("코드2","성공")
             }
         }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private fun getAllUserData() {
+        db = UserDatabase.getInstance(App.instance)!!
+        val insertTask = object : AsyncTask<Unit, Unit, Unit>(){
+            override fun doInBackground(vararg params: Unit?) {
+                val users = db.userDao().getAll()
+                for (user in users){
+                    val tvNickname = v.findViewById<TextView>(R.id.tv_user_nick)
+                    tvNickname.text = user.nickname
+                }
+            }
+            override fun onPostExecute(result: Unit?) {
+                super.onPostExecute(result)
+            }
+        }
+        insertTask.execute()
     }
 
     private fun setButton() {
@@ -104,6 +130,7 @@ class MypageFragment: Fragment() {
     }
 
     private fun signOut() {
+
         val gso: GoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestId()
@@ -116,7 +143,7 @@ class MypageFragment: Fragment() {
         googleSignInClient.signOut()
             .addOnCompleteListener {
                 mIntent = Intent(activity, LoginActivity::class.java)
-                startActivity(mIntent)
+                startActivityForResult(mIntent,LOGIN.RC_LOGOUT)
             }
     }
 

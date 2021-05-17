@@ -1,3 +1,6 @@
 package com.example.konwnow.data.remote.dto
 
-data class Users(val name : String, val nick : String, var level : Int)
+class Users{
+
+    data class SignUpBody(val google_id_token : String, val nickname : String)
+}

@@ -5,13 +5,11 @@ import com.example.konwnow.utils.API
 import com.example.konwnow.utils.Constants.TAG
 import com.example.konwnow.utils.isJsonArray
 import com.example.konwnow.utils.isJsonObject
-import com.google.gson.JsonObject
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 class RetrofitClient {
 
