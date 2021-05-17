@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.konwnow.R
 import com.example.konwnow.data.local.UserDatabase
@@ -99,13 +100,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
         try{
             val account = task.getResult(ApiException::class.java)
-            if(account.idToken == originId){
+            if(originId == null){
+                signupNext(account)
+                Log.d(Constants.TAG,"sign up")
+            } else if (account.idToken == originId) {
                 val intent = Intent(this, MainActivity::class.java)
+                Toast.makeText(this,"${account.email}님 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
                 startActivity(intent)
                 Log.d(Constants.TAG,"Login success")
-            }else{
-                updateGoogleLoginUi(account)
-                Log.d(Constants.TAG,"sign up")
             }
         } catch (e: ApiException) {
             // 구글 로그인 실패
@@ -113,7 +115,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun updateGoogleLoginUi(account: GoogleSignInAccount) {
+    private fun signupNext(account: GoogleSignInAccount) {
         val intent = Intent(this, AddInfoActivity::class.java)
         val idToken = account.idToken.toString()
         val email = account.email.toString()
