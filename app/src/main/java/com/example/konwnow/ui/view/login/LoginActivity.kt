@@ -9,12 +9,15 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.konwnow.R
 import com.example.konwnow.data.local.UserDatabase
-import com.example.konwnow.data.local.UserEntity
+import com.example.konwnow.data.remote.dto.Users
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.Constants
 import com.example.konwnow.utils.LOGIN
+import com.example.konwnow.viewmodel.LoginViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -28,6 +31,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var googleSignInClient : GoogleSignInClient
     lateinit var localDB : UserDatabase
     private var originId : String = ""
+
+    private lateinit var viewModel : LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,12 +107,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             val account = task.getResult(ApiException::class.java)
             if(originId == null){
                 signupNext(account)
-                Log.d(Constants.TAG,"sign up")
+                Log.d(Constants.TAG,"sign up ... ing")
             } else if (account.idToken == originId) {
-                val intent = Intent(this, MainActivity::class.java)
-                Toast.makeText(this,"${account.email}님 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
-                startActivity(intent)
-                Log.d(Constants.TAG,"Login success")
+                callLogin(account)
             }
         } catch (e: ApiException) {
             // 구글 로그인 실패
@@ -115,12 +117,26 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun callLogin(account: GoogleSignInAccount) {
+        viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(LoginViewModel::class.java)
+        viewModel.getLoginDataObserver().observe(this, Observer<Users.LoginResponseBody>{
+            if(it != null){
+                Log.d("google login body: ",it.toString())
+                Log.d(Constants.TAG,"Login success")
+                val intent = Intent(this, MainActivity::class.java)
+                Toast.makeText(this,"${account.email}님 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
+                startActivity(intent)
+            }else{
+                Log.d("view","view에서 viewModel 관찰 실패")
+            }
+        })
+        viewModel.postGoogleLogin(originId)
+    }
+
     private fun signupNext(account: GoogleSignInAccount) {
         val intent = Intent(this, AddInfoActivity::class.java)
         val idToken = account.idToken.toString()
-        val email = account.email.toString()
         intent.putExtra("idToken", idToken)
-        intent.putExtra("email",email)
         startActivity(intent)
     }
 

@@ -11,13 +11,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.konwnow.R
 import com.example.konwnow.data.local.UserDatabase
 import com.example.konwnow.data.local.UserEntity
 import com.example.konwnow.data.remote.dto.Users
 import com.example.konwnow.ui.view.MainActivity
+import com.example.konwnow.utils.Constants
 import com.example.konwnow.viewmodel.LoginViewModel
 
 
@@ -26,9 +26,6 @@ class AddInfoActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var db : UserDatabase
 
     private lateinit var idToken : String
-    private val refreshToken = "refresh"
-    private lateinit var email : String
-
     private lateinit var viewModel : LoginViewModel
 
 
@@ -38,7 +35,6 @@ class AddInfoActivity : AppCompatActivity(), View.OnClickListener {
 
         val requestIntent = intent
         idToken = requestIntent.getStringExtra("idToken")!!
-        email =requestIntent.getStringExtra("email")!!
 
 
         val btnSignin = findViewById<Button>(R.id.btn_sign_in)
@@ -61,24 +57,27 @@ class AddInfoActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
+        val nickname = findViewById<EditText>(R.id.et_nickname).text.toString()
         viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(LoginViewModel::class.java)
-        viewModel.getDataObserver().observe(this, Observer<Users.SignUpBody>{
+        viewModel.getSignUpDataObserver().observe(this, Observer<Users.SingUpResponseBody>{
             if(it != null){
-                Log.d("view","view에서 viewModel 접근 성공")
+                Log.d(Constants.TAG,"SignUpBody : $it")
+
+                val loginToken = it.data.userAuth.loginToken
+                val refreshToken = it.data.userAuth.refreshToken
+                val email = it.data.userEmail
+                var user = UserEntity(idToken,loginToken,refreshToken,nickname,email!!)
+                insertData(user)
+
+                val intent = Intent(this,MainActivity::class.java)
+                Toast.makeText(this,"${email}님 KnowNow회원이 되었습니다~*^^*", Toast.LENGTH_SHORT).show()
+                startActivity(intent)
             }else{
                 Log.d("view","view에서 viewModel 관찰 실패")
             }
         })
-        val nickname = findViewById<EditText>(R.id.et_nickname).text.toString()
 
-        //viewmodel을 통해 통신하기.
-        viewModel.postLogin(idToken,nickname)
-        var user = UserEntity(idToken,refreshToken,nickname,email!!)
-        insertData(user)
-
-        val intent = Intent(this,MainActivity::class.java)
-        Toast.makeText(this,"${email}님 KnowNow회원이 되었습니다~*^^*", Toast.LENGTH_SHORT).show()
-        startActivity(intent)
+        viewModel.postSignUp(idToken,nickname)
     }
 
 }
