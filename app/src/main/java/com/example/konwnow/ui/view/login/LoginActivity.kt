@@ -7,12 +7,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.konwnow.R
 import com.example.konwnow.data.local.UserDatabase
+import com.example.konwnow.data.local.UserEntity
 import com.example.konwnow.data.remote.dto.Users
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.Constants
@@ -30,22 +32,25 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var googleSignInClient : GoogleSignInClient
     lateinit var localDB : UserDatabase
-    private var originId : String = ""
 
     private lateinit var viewModel : LoginViewModel
+
+    private var originId : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        getIdToken()
+        getloginToken()
 
         val btnGoogle = findViewById<ImageView>(R.id.btn_google)
+        val btnSignUp = findViewById<TextView>(R.id.btn_sign_up)
+        btnSignUp.setOnClickListener(this)
         btnGoogle.setOnClickListener(this)
     }
 
     @SuppressLint("StaticFieldLeak")
-    private fun getIdToken() {
+    private fun getloginToken() {
         localDB = UserDatabase.getInstance(this)!!
         val insertTask = object : AsyncTask<Unit, Unit, Unit>(){
             override fun doInBackground(vararg params: Unit?) {
@@ -62,6 +67,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
         insertTask.execute()
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -89,6 +95,22 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun callLogin() {
+        viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(LoginViewModel::class.java)
+        viewModel.getLoginDataObserver().observe(this, Observer<Users.LoginResponseBody>{
+            if(it != null){
+                Log.d("google login body: ",it.toString())
+                Log.d(Constants.TAG,"Login success")
+                val intent = Intent(this, MainActivity::class.java)
+                Toast.makeText(this,"${it.user.nickName}님 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
+                startActivity(intent)
+            }else{
+                Log.d("view","view에서 viewModel 관찰 실패")
+            }
+        })
+        viewModel.postGoogleLogin(originId)
+    }
+
     private fun signIn() {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, LOGIN.RC_SIGN_UP)
@@ -105,32 +127,16 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
         try{
             val account = task.getResult(ApiException::class.java)
-            if(originId == null){
+            if(account.idToken == originId){
+                callLogin()
+            }else if(account.idToken != originId){
                 signupNext(account)
                 Log.d(Constants.TAG,"sign up ... ing")
-            } else if (account.idToken == originId) {
-                callLogin(account)
             }
         } catch (e: ApiException) {
             // 구글 로그인 실패
             Log.w("google", "signInResult:failed code=" + e.statusCode)
         }
-    }
-
-    private fun callLogin(account: GoogleSignInAccount) {
-        viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(LoginViewModel::class.java)
-        viewModel.getLoginDataObserver().observe(this, Observer<Users.LoginResponseBody>{
-            if(it != null){
-                Log.d("google login body: ",it.toString())
-                Log.d(Constants.TAG,"Login success")
-                val intent = Intent(this, MainActivity::class.java)
-                Toast.makeText(this,"${account.email}님 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
-                startActivity(intent)
-            }else{
-                Log.d("view","view에서 viewModel 관찰 실패")
-            }
-        })
-        viewModel.postGoogleLogin(originId)
     }
 
     private fun signupNext(account: GoogleSignInAccount) {
@@ -139,5 +145,4 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         intent.putExtra("idToken", idToken)
         startActivity(intent)
     }
-
 }

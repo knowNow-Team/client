@@ -24,7 +24,7 @@ class Users{
         val nickName: String,
         val role:String,
         val created : String,
-        val updated : String,
+        val updated : String?,
         val userAuth : UserAuth
     )
 

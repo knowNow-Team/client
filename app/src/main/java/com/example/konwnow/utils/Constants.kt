@@ -18,6 +18,7 @@ object LOGIN{
     const val CREATE_USERS : String = "v1/users"
     const val LOGIN : String = "v1/google/login"
     const val RE_LOGIN : String = "v1/login"
+    const val GET_USER : String = "v1/users/{userId}"
 }
 
 enum class RESPONSE_STATE{

@@ -81,10 +81,8 @@ class MypageFragment: Fragment() {
         val insertTask = object : AsyncTask<Unit, Unit, Unit>(){
             override fun doInBackground(vararg params: Unit?) {
                 val users = db.userDao().getAll()
-                for (user in users){
-                    val tvNickname = v.findViewById<TextView>(R.id.tv_user_nick)
-                    tvNickname.text = user.nickname
-                }
+                val tvNickname = v.findViewById<TextView>(R.id.tv_user_nick)
+                tvNickname.text = users.nickname
             }
             override fun onPostExecute(result: Unit?) {
                 super.onPostExecute(result)

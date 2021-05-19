@@ -41,6 +41,46 @@ class AddInfoActivity : AppCompatActivity(), View.OnClickListener {
         btnSignin.setOnClickListener(this)
     }
 
+    override fun onClick(v: View?) {
+        val nickname = findViewById<EditText>(R.id.et_nickname).text.toString()
+        viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(LoginViewModel::class.java)
+        viewModel.getSignUpDataObserver().observe(this, Observer<Users.SingUpResponseBody>{
+            Log.d(Constants.TAG,"SignUpBody : $it")
+            if(it != null) {
+                val loginToken = it.data!!.userAuth.loginToken
+                val refreshToken = it.data!!.userAuth.refreshToken
+                val email = it.data!!.userEmail
+                val userID = it.data!!.id
+                var user = UserEntity(idToken, loginToken, refreshToken, nickname, userID, email)
+                insertData(user)
+
+                val intent = Intent(this, MainActivity::class.java)
+                Toast.makeText(this, "${email}님 KnowNow회원이 되었습니다~*^^*", Toast.LENGTH_SHORT).show()
+                startActivity(intent)
+            }else{
+                viewModel.getLoginDataObserver().observe(this, Observer<Users.LoginResponseBody>{
+                    if(it != null){
+                        Log.d("google login body: ",it.toString())
+                        Log.d(Constants.TAG,"Login success")
+                        val loginToken = it.loginToken
+                        val refreshToken = it.refreshToken
+                        val email = it.user.userEmail
+                        val userID = it.user.id
+                        var user = UserEntity(idToken, loginToken, refreshToken, nickname, userID, email)
+                        insertData(user)
+                        val intent = Intent(this, MainActivity::class.java)
+                        Toast.makeText(this,"${it.user.nickName}님 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
+                        startActivity(intent)
+                    }else{
+                        Log.d("view","view에서 viewModel 관찰 실패")
+                    }
+                })
+                viewModel.postGoogleLogin(idToken)
+            }
+        })
+        viewModel.postSignUp(idToken,nickname)
+    }
+
     @SuppressLint("StaticFieldLeak")
     private fun insertData(user : UserEntity) {
         db = UserDatabase.getInstance(this)!!
@@ -54,30 +94,6 @@ class AddInfoActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
         insertTask.execute()
-    }
-
-    override fun onClick(v: View?) {
-        val nickname = findViewById<EditText>(R.id.et_nickname).text.toString()
-        viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(LoginViewModel::class.java)
-        viewModel.getSignUpDataObserver().observe(this, Observer<Users.SingUpResponseBody>{
-            if(it != null){
-                Log.d(Constants.TAG,"SignUpBody : $it")
-
-                val loginToken = it.data.userAuth.loginToken
-                val refreshToken = it.data.userAuth.refreshToken
-                val email = it.data.userEmail
-                var user = UserEntity(idToken,loginToken,refreshToken,nickname,email!!)
-                insertData(user)
-
-                val intent = Intent(this,MainActivity::class.java)
-                Toast.makeText(this,"${email}님 KnowNow회원이 되었습니다~*^^*", Toast.LENGTH_SHORT).show()
-                startActivity(intent)
-            }else{
-                Log.d("view","view에서 viewModel 관찰 실패")
-            }
-        })
-
-        viewModel.postSignUp(idToken,nickname)
     }
 
 }

@@ -9,4 +9,5 @@ data class UserEntity(
     val loginToken : String,
     val refreshToken : String,
     val nickname : String,
+    val userID : Int,
     val email : String)
