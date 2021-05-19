@@ -1,12 +1,14 @@
 package com.example.konwnow.data.remote.dto
 
+import com.google.gson.annotations.SerializedName
+
 class Users{
 
     data class SignUpBody(val nickname : String)
 
     data class SingUpResponseBody(
         val statusCode : Int,
-        val data : DataList,
+        val data : DataList?,
         val error : ErrorList?
     )
 
@@ -16,10 +18,10 @@ class Users{
     )
 
     data class DataList(
-        //val @id : Int,
+        @SerializedName("@id") val  _id : Int,
         val id : Int,
         val userEmail : String,
-        val nickname: String,
+        val nickName: String,
         val role:String,
         val created : String,
         val updated : String,
@@ -27,7 +29,7 @@ class Users{
     )
 
     data class UserAuth(
-        //val @id : Int,
+        @SerializedName("@id") val  _id : Int,
         val id : Int,
         val user : Int,
         val loginToken : String,
@@ -44,7 +46,7 @@ class Users{
     data class LoginUserList(
         val created : String,
         val id : Int,
-        val nickname : String,
+        val nickName : String,
         val role :String,
         val updated : String,
         val userEmail : String
