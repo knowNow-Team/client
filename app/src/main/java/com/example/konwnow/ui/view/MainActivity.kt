@@ -58,12 +58,12 @@ class MainActivity : AppCompatActivity() {
         val insertTask = object : AsyncTask<Unit, Unit, Unit>(){
             override fun doInBackground(vararg params: Unit?) {
                 val users = db.userDao().getAll()
-                for (user in users){
-                    Log.d("idtoken",user.idToken)
-                    Log.d("refreshToken",user.refreshToken)
-                    Log.d("nickname",user.nickname)
-                    Log.d("emaail",user.email)
-                }
+                Log.d("idtoken",users.idToken)
+                Log.d("logintoken",users.loginToken)
+                Log.d("refreshToken",users.refreshToken)
+                Log.d("nickname",users.nickname)
+                Log.d("emaail",users.email)
+
             }
             override fun onPostExecute(result: Unit?) {
                 super.onPostExecute(result)

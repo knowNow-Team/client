@@ -23,8 +23,11 @@ interface UserDao {
     fun getEmail() : String
 
     @Query("SELECT * FROM user")
-    fun getAll() : List<UserEntity>
+    fun getAll() : UserEntity
 
     @Delete
     fun delete(user: UserEntity)
+
+    @Update
+    fun updateUser (user: UserEntity)
 }
