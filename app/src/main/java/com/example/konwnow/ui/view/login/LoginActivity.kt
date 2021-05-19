@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -35,7 +34,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var viewModel : LoginViewModel
 
-    private var originId : String = ""
+    private var originId =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +43,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         getloginToken()
 
         val btnGoogle = findViewById<ImageView>(R.id.btn_google)
-        val btnSignUp = findViewById<TextView>(R.id.btn_sign_up)
-        btnSignUp.setOnClickListener(this)
         btnGoogle.setOnClickListener(this)
     }
 
@@ -60,6 +57,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 }else{
                     Log.d("originId",originId)
                 }
+
             }
             override fun onPostExecute(result: Unit?) {
                 super.onPostExecute(result)
@@ -67,7 +65,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
         insertTask.execute()
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -95,20 +92,37 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun callLogin() {
+    private fun callLogin(google_id_token: String, type: Int) {
         viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(LoginViewModel::class.java)
         viewModel.getLoginDataObserver().observe(this, Observer<Users.LoginResponseBody>{
             if(it != null){
+                when(type){
+                    1 -> {
+                        //room update
+                    }
+                    2 -> {
+                        // room insert
+                        val loginToken = it.data!!.loginToken
+                        val refreshToken = it.data!!.refreshToken
+                        val nickname = it.data.user.nickName
+                        val userID = it.data.user.id
+                        val email = it.data.user.userEmail
+                        var user = UserEntity(google_id_token, loginToken, refreshToken, nickname, userID, email)
+                        insertData(user)
+                    }
+                }
                 Log.d("google login body: ",it.toString())
-                Log.d(Constants.TAG,"Login success")
+
                 val intent = Intent(this, MainActivity::class.java)
-                Toast.makeText(this,"${it.user.nickName}님 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"${it.data!!.user.nickName}님 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
                 startActivity(intent)
+                Log.d(Constants.TAG,"Login success")
             }else{
-                Log.d("view","view에서 viewModel 관찰 실패")
+                signupNext(google_id_token)
+                Log.d(Constants.TAG,"sign up ... ing")
             }
         })
-        viewModel.postGoogleLogin(originId)
+        viewModel.postGoogleLogin(google_id_token)
     }
 
     private fun signIn() {
@@ -127,22 +141,38 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
         try{
             val account = task.getResult(ApiException::class.java)
-            if(account.idToken == originId){
-                callLogin()
-            }else if(account.idToken != originId){
-                signupNext(account)
-                Log.d(Constants.TAG,"sign up ... ing")
+            if(originId == null){
+                callLogin(account.idToken,2)
+            }else{
+                if(account.idToken == originId){
+                    callLogin(originId,0)
+                }else if(account.idToken != originId){
+                    callLogin(account.idToken,1)
+                }
             }
         } catch (e: ApiException) {
-            // 구글 로그인 실패
             Log.w("google", "signInResult:failed code=" + e.statusCode)
         }
     }
 
-    private fun signupNext(account: GoogleSignInAccount) {
+    private fun signupNext(idToken : String) {
         val intent = Intent(this, AddInfoActivity::class.java)
-        val idToken = account.idToken.toString()
         intent.putExtra("idToken", idToken)
         startActivity(intent)
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private fun insertData(user : UserEntity) {
+        localDB = UserDatabase.getInstance(this)!!
+        val insertTask = object : AsyncTask<Unit, Unit, Unit>(){
+            override fun doInBackground(vararg params: Unit?) {
+                localDB.userDao().insert(user)
+                Log.d("로그","room insert success")
+            }
+            override fun onPostExecute(result: Unit?) {
+                super.onPostExecute(result)
+            }
+        }
+        insertTask.execute()
     }
 }

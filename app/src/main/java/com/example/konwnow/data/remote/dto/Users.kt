@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 class Users{
 
+    //회원가입
     data class SignUpBody(val nickname : String)
 
     data class SingUpResponseBody(
@@ -36,20 +37,31 @@ class Users{
         val refreshToken: String
     )
 
+    //구글 로그인
     data class LoginResponseBody (
-        val id : Int,
-        val loginToken:String,
-        val refreshToken: String,
-        val user : LoginUserList
+        val statusCode : Int,
+        val data : LoginDataList?,
+        val error : ErrorList?
     )
 
-    data class LoginUserList(
-        val created : String,
+    data class LoginDataList(
+        @SerializedName("@id") val  _id : Int,
         val id : Int,
-        val nickName : String,
-        val role :String,
-        val updated : String,
-        val userEmail : String
+        val user : UserList,
+        val loginToken: String,
+        val refreshToken: String
+    )
+
+    data class UserList(
+        @SerializedName("@id") val  _id : Int,
+        val id : Int,
+        val user : Int,
+        val userEmail: String,
+        val nickName: String,
+        val role: String,
+        val created: String,
+        val updated: String?,
+        val userAuth : Int
     )
 
     data class ReLoginBody(

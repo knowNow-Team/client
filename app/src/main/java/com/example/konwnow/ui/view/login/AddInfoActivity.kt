@@ -9,9 +9,11 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.local.UserDatabase
 import com.example.konwnow.data.local.UserEntity
@@ -58,24 +60,8 @@ class AddInfoActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(this, "${email}님 KnowNow회원이 되었습니다~*^^*", Toast.LENGTH_SHORT).show()
                 startActivity(intent)
             }else{
-                viewModel.getLoginDataObserver().observe(this, Observer<Users.LoginResponseBody>{
-                    if(it != null){
-                        Log.d("google login body: ",it.toString())
-                        Log.d(Constants.TAG,"Login success")
-                        val loginToken = it.loginToken
-                        val refreshToken = it.refreshToken
-                        val email = it.user.userEmail
-                        val userID = it.user.id
-                        var user = UserEntity(idToken, loginToken, refreshToken, nickname, userID, email)
-                        insertData(user)
-                        val intent = Intent(this, MainActivity::class.java)
-                        Toast.makeText(this,"${it.user.nickName}님 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
-                        startActivity(intent)
-                    }else{
-                        Log.d("view","view에서 viewModel 관찰 실패")
-                    }
-                })
-                viewModel.postGoogleLogin(idToken)
+                val tvWaning = findViewById<TextView>(R.id.tv_wanning)
+                tvWaning.text = "이미 존재하는 닉네임 입니다."
             }
         })
         viewModel.postSignUp(idToken,nickname)
