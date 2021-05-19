@@ -27,4 +27,7 @@ interface UserDao {
 
     @Delete
     fun delete(user: UserEntity)
+
+    @Update
+    fun updateUser (user: UserEntity)
 }

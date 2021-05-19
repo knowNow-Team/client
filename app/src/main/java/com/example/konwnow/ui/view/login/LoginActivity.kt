@@ -92,22 +92,22 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun callLogin(google_id_token: String, type: Int) {
+    private fun callLogin(google_id_token: String, type: LOGIN.LOGIN_FLAG) {
         viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(LoginViewModel::class.java)
         viewModel.getLoginDataObserver().observe(this, Observer<Users.LoginResponseBody>{
             if(it != null){
+                val loginToken = it.data!!.loginToken
+                val refreshToken = it.data!!.refreshToken
+                val nickname = it.data.user.nickName
+                val userID = it.data.user.id
+                val email = it.data.user.userEmail
+                var user = UserEntity(google_id_token, loginToken, refreshToken, nickname, userID, email)
                 when(type){
-                    1 -> {
-                        //room update
+                    LOGIN.LOGIN_FLAG.OTHER_LOGIN-> {
+                        updateData(user)
+                        //TODO :: ROOM 업데이트 안됨 ,, 왜>?!
                     }
-                    2 -> {
-                        // room insert
-                        val loginToken = it.data!!.loginToken
-                        val refreshToken = it.data!!.refreshToken
-                        val nickname = it.data.user.nickName
-                        val userID = it.data.user.id
-                        val email = it.data.user.userEmail
-                        var user = UserEntity(google_id_token, loginToken, refreshToken, nickname, userID, email)
+                    LOGIN.LOGIN_FLAG.NULL_LOGIN -> {
                         insertData(user)
                     }
                 }
@@ -142,12 +142,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         try{
             val account = task.getResult(ApiException::class.java)
             if(originId == null){
-                callLogin(account.idToken,2)
+                callLogin(account.idToken,LOGIN.LOGIN_FLAG.NULL_LOGIN)
             }else{
                 if(account.idToken == originId){
-                    callLogin(originId,0)
+                    callLogin(originId,LOGIN.LOGIN_FLAG.NORMAL_LOGIN)
                 }else if(account.idToken != originId){
-                    callLogin(account.idToken,1)
+                    callLogin(account.idToken,LOGIN.LOGIN_FLAG.OTHER_LOGIN)
                 }
             }
         } catch (e: ApiException) {
@@ -168,6 +168,21 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             override fun doInBackground(vararg params: Unit?) {
                 localDB.userDao().insert(user)
                 Log.d("로그","room insert success")
+            }
+            override fun onPostExecute(result: Unit?) {
+                super.onPostExecute(result)
+            }
+        }
+        insertTask.execute()
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private fun updateData(user : UserEntity) {
+        localDB = UserDatabase.getInstance(this)!!
+        val insertTask = object : AsyncTask<Unit, Unit, Unit>(){
+            override fun doInBackground(vararg params: Unit?) {
+                localDB.userDao().updateUser(user)
+                Log.d("로그","room update success")
             }
             override fun onPostExecute(result: Unit?) {
                 super.onPostExecute(result)

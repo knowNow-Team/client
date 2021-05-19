@@ -19,6 +19,12 @@ object LOGIN{
     const val LOGIN : String = "v1/google/login"
     const val RE_LOGIN : String = "v1/login"
     const val GET_USER : String = "v1/users/{userId}"
+
+    enum class LOGIN_FLAG{
+        NORMAL_LOGIN,
+        OTHER_LOGIN,
+        NULL_LOGIN
+    }
 }
 
 enum class RESPONSE_STATE{
