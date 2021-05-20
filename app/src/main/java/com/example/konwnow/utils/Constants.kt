@@ -5,9 +5,9 @@ object Constants {
 }
 
 object API{
-    const val BASE_URL : String = "https://api.unsplash.com/"
+    const val BASE_URL : String = "https://www.apis.word.mjuknownow.com/"
     const val CLIENT_ID : String = "4NvOa3hwj74vdCMStLhnvwJrt0dw4_HjCv_2MJzLd6Y"
-    const val SEARCH_PHOTOS: String = "search/photos"
+    const val GET_TEST: String = "v1/tests"
     const val SEARCH_USERS: String = "search/users"
 }
 enum class RESPONSE_STATE{

@@ -3,12 +3,15 @@ package com.example.konwnow.ui.view.test
 import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.broooapps.graphview.CurveGraphConfig
@@ -16,8 +19,10 @@ import com.broooapps.graphview.CurveGraphView
 import com.broooapps.graphview.models.GraphData
 import com.broooapps.graphview.models.PointMap
 import com.example.konwnow.R
+import com.example.konwnow.data.model.dto.Quiz
 import com.example.konwnow.data.model.dto.TestLog
 import com.example.konwnow.ui.adapter.TestLogAdapter
+import com.example.konwnow.viewmodel.TestLogViewModel
 
 
 class TestLogActivity : AppCompatActivity() {
@@ -28,9 +33,24 @@ class TestLogActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_log)
+        requestTest()
         setToolbar()
         setTestLog()
         setGrapgh()
+    }
+
+    private fun requestTest() {
+        val viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(TestLogViewModel::class.java)
+        viewModel.getDataObserver().observe(this, Observer<TestLog>{
+            if(it != null){
+                //업데이트 되어야 할 UI에 전달해주기.
+                Log.d("observer 성공",it.toString())
+                testLogList.add(it)
+            }else{
+                Log.d("view","view에서 viewModel 관찰 실패")
+            }
+        })
+        viewModel.getTest()
     }
 
     private fun setGrapgh() {

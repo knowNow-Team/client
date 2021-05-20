@@ -64,11 +64,11 @@ class TestFragment: Fragment() {
 
     private fun setFolderList() {
         //폴더 리스트 데이터
-        folderList.add(Folder("name1",4))
-        folderList.add(Folder("name2",20))
-        folderList.add(Folder("name3",30))
-        folderList.add(Folder("name4",2))
-        folderList.add(Folder("name5",12))
+//        folderList.add(Folder("name1",4))
+//        folderList.add(Folder("name2",20))
+//        folderList.add(Folder("name3",30))
+//        folderList.add(Folder("name4",2))
+//        folderList.add(Folder("name5",12))
 
         folderListRv = v.findViewById(R.id.rv_word_folder) as RecyclerView
         folderListRv.setHasFixedSize(true)
