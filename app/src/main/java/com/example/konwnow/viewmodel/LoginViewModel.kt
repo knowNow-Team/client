@@ -32,7 +32,7 @@ class LoginViewModel : ViewModel() {
 
 
     fun postSignUp(idtoken: String, nickname: String){
-        val instance = RetrofitClient.getClient()?.create(LoginAPi::class.java)
+        val instance = RetrofitClient.getUserClient()?.create(LoginAPi::class.java)
         val postSignUp = Users.SignUpBody(nickname)
         val call = instance?.postSignUp(idtoken, postSignUp)
 
@@ -55,7 +55,7 @@ class LoginViewModel : ViewModel() {
     }
 
     fun postGoogleLogin(idtoken: String){
-        val instance = RetrofitClient.getClient()?.create(LoginAPi::class.java)
+        val instance = RetrofitClient.getUserClient()?.create(LoginAPi::class.java)
         val call = instance?.postGoogleLogin(idtoken)
 
         call?.enqueue(object : Callback<Users.LoginResponseBody> {

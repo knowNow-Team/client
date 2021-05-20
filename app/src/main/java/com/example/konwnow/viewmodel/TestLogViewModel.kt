@@ -24,7 +24,7 @@ class TestLogViewModel : ViewModel() {
 
     //input받는 값에 따라 live로 데이터를 호출해주는 부분
     fun getTest(){
-        val instance = RetrofitClient.getClient()?.create(TestAPI::class.java)
+        val instance = RetrofitClient.getWordClient()?.create(TestAPI::class.java)
         val call = instance?.getTestLog("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrbm93bm93IiwiZXhwIjoxNjIzODc1ODU4LCJ1c2VyIjoiYWFAYWEuY29tIiwidXNlcklkIjoxLCJpYXQiOjE2MjEyODM4NTh9.poh-Tq4SyOrBafBHvTN-Y-c9deRvzasJ7Jx-0_FiUfU")
 
         call?.enqueue(object : Callback<TestLog>{

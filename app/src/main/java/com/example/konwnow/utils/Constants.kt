@@ -5,7 +5,8 @@ object Constants {
 }
 
 object API{
-    const val BASE_URL : String = "http://www.apis.user.mjuknownow.com/ "
+    const val BASE_USER_URL : String = "http://www.apis.user.mjuknownow.com/"
+    const val BASE_WORD_URL : String = "http://www.apis.word.mjuknownow.com/"
     const val CLIENT_ID : String = "4NvOa3hwj74vdCMStLhnvwJrt0dw4_HjCv_2MJzLd6Y"
     const val GET_TEST : String = "v1/tests"
     const val SEARCH_PHOTOS: String = "search/photos"
