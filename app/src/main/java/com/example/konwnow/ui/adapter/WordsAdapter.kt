@@ -3,7 +3,6 @@ package com.example.konwnow.ui.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.*
@@ -12,7 +11,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Words
+import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.view.home.WordDialog
 
 

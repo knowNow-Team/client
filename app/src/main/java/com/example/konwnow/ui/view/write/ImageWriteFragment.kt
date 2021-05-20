@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Words
+import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.WordListAdapter
 
 

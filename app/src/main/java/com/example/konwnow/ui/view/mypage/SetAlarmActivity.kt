@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Folder
+import com.example.konwnow.data.remote.dto.Folder
 import com.example.konwnow.ui.adapter.FolderAdapter
 
 class SetAlarmActivity : AppCompatActivity() {

@@ -1,11 +1,10 @@
-package com.example.konwnow.data.retrofit
+package com.example.konwnow.data.remote.retrofit
 
 import android.util.Log
 import com.example.konwnow.utils.API
 import com.example.konwnow.utils.Constants.TAG
 import com.example.konwnow.utils.isJsonArray
 import com.example.konwnow.utils.isJsonObject
-import com.google.gson.JsonObject
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
@@ -22,6 +21,9 @@ class RetrofitClient {
 
             val baseUrl = API.BASE_URL
             val client = OkHttpClient.Builder()
+                .connectTimeout(100,TimeUnit.SECONDS)
+                .readTimeout(100,TimeUnit.SECONDS)
+                .writeTimeout(100,TimeUnit.SECONDS)
 
             val loggingInterceptor = HttpLoggingInterceptor(object: HttpLoggingInterceptor.Logger{
                 override fun log(message: String) {

@@ -1,12 +1,16 @@
 package com.example.konwnow.ui.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.konwnow.R
+import com.example.konwnow.data.local.UserDatabase
+import com.example.konwnow.data.local.UserEntity
 import com.example.konwnow.ui.view.home.HomeFragment
 import com.example.konwnow.ui.view.mypage.MypageFragment
 import com.example.konwnow.ui.view.ranking.RankingFragment
@@ -31,6 +35,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var fab : FloatingActionButton
 
+    private lateinit var db : UserDatabase
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +47,29 @@ class MainActivity : AppCompatActivity() {
         //bnv설정
         bnvHome = findViewById(R.id.bnv_home)
         initBottomNavigation()
+
+        db = UserDatabase.getInstance(this)!!
+        getAllUserData()
+
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private fun getAllUserData() {
+        val insertTask = object : AsyncTask<Unit, Unit, Unit>(){
+            override fun doInBackground(vararg params: Unit?) {
+                val users = db.userDao().getAll()
+                Log.d("idtoken",users.idToken)
+                Log.d("logintoken",users.loginToken)
+                Log.d("refreshToken",users.refreshToken)
+                Log.d("nickname",users.nickname)
+                Log.d("emaail",users.email)
+
+            }
+            override fun onPostExecute(result: Unit?) {
+                super.onPostExecute(result)
+            }
+        }
+        insertTask.execute()
     }
 
     private fun initBottomNavigation() {

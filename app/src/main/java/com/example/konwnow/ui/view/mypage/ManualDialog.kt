@@ -11,7 +11,7 @@ import android.widget.ImageButton
 import androidx.viewpager2.widget.ViewPager2
 import com.example.konwnow.App
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Manual
+import com.example.konwnow.data.remote.dto.Manual
 import com.example.konwnow.ui.adapter.ManualAdapter
 import me.relex.circleindicator.CircleIndicator3
 

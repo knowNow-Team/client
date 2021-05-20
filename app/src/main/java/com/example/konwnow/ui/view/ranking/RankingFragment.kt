@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
-import com.airbnb.lottie.LottieDrawable
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Users
+import com.example.konwnow.data.remote.dto.Users
 import com.example.konwnow.ui.adapter.RankingAdapter
 import me.relex.circleindicator.CircleIndicator3
 
@@ -82,19 +81,19 @@ class RankingFragment: Fragment() {
     private fun requestRanking(flag: Int) {
         userList.clear()
 
-        if(flag == 0){
-            userList.add(Users("가나다", "nick1", 0))
-            userList.add(Users("서동현", "nick2", 1))
-            userList.add(Users("빈지노", "nick3", 2))
-        }else if(flag == 1){
-            userList.add(Users("아이유", "nick4", 3))
-            userList.add(Users("박재범", "nick5", 4))
-            userList.add(Users("정기석", "nick6", 5))
-        }else{
-            userList.add(Users("윤진영", "nick7", 6))
-            userList.add(Users("창모", "nick8", 7))
-            userList.add(Users("넉살", "nick9", 8))
-        }
+//        if(flag == 0){
+//            userList.add(Users("가나다", "nick1", 0))
+//            userList.add(Users("서동현", "nick2", 1))
+//            userList.add(Users("빈지노", "nick3", 2))
+//        }else if(flag == 1){
+//            userList.add(Users("아이유", "nick4", 3))
+//            userList.add(Users("박재범", "nick5", 4))
+//            userList.add(Users("정기석", "nick6", 5))
+//        }else{
+//            userList.add(Users("윤진영", "nick7", 6))
+//            userList.add(Users("창모", "nick8", 7))
+//            userList.add(Users("넉살", "nick9", 8))
+//        }
     }
 
 }

@@ -1,7 +1,6 @@
 package com.example.konwnow.ui.view.write
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,9 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.konwnow.R
-import com.example.konwnow.data.model.dto.Words
+import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.WordListAdapter
-import com.example.konwnow.utils.Constants.TAG
-import com.example.konwnow.utils.RESPONSE_STATE
 
 class TextWriteFragment: Fragment() {
     private lateinit var v: View
