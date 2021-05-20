@@ -1,17 +1,12 @@
 package com.example.konwnow.viewmodel
 
-import android.provider.ContactsContract
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.konwnow.data.model.dto.Folder
-import com.example.konwnow.data.model.dto.Quiz
-import com.example.konwnow.data.model.dto.TestLog
-import com.example.konwnow.data.model.dto.Users
-import com.example.konwnow.data.retrofit.RetrofitClient
+import com.example.konwnow.data.remote.dto.TestLog
+import com.example.konwnow.data.remote.retrofit.RetrofitClient
 import retrofit2.Callback
-import com.example.konwnow.data.retrofit.api.LoginAPi
-import com.example.konwnow.data.retrofit.api.TestAPI
+import com.example.konwnow.data.remote.retrofit.api.TestAPI
 import retrofit2.Call
 import retrofit2.Response
 
