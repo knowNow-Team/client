@@ -16,8 +16,6 @@ import com.example.konwnow.R
 import com.example.konwnow.data.local.UserDatabase
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.adapter.GroupsAdapter
-import com.example.konwnow.ui.view.MainActivity
-import com.example.konwnow.ui.view.home.HomeFragment
 import com.example.konwnow.utils.Constants
 import com.example.konwnow.viewmodel.WordBookViewModel
 
@@ -26,7 +24,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
     var btnPlus : ImageButton? = null
     var btnApply : Button? = null
     private lateinit var rvGroups : RecyclerView
-    private var groupsList = arrayListOf<WordBook>()
+    private var groupsList = arrayListOf<WordBook.WordBooks>()
     private lateinit var groupsAdapter : GroupsAdapter
     private lateinit var db : UserDatabase
 
@@ -39,9 +37,9 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group)
+        viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
 
         getUserInfo()
-        requsetGroups()
 
         btnBack = findViewById(R.id.ib_back)
         btnBack!!.setOnClickListener{
@@ -65,6 +63,11 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        setRecycler()
+    }
+
     @SuppressLint("StaticFieldLeak")
     private fun getUserInfo() {
         db = UserDatabase.getInstance(this)!!
@@ -82,34 +85,46 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
 
     }
 
-    private fun requsetGroups() {
+    private fun setRecycler() {
         groupsList.clear()
+        groupsList.add(WordBook.WordBooks("휴지통",0))
 
         groupsAdapter = GroupsAdapter()
         rvGroups = findViewById(R.id.rv_groups)
         rvGroups.layoutManager = GridLayoutManager(this, 3)
 
-//
-//        groupsList.add(WordBook("휴지통",3))
-//        groupsList.add(WordBook("토익 영단어",4))
-//        groupsList.add(WordBook("영어2",5))
-
-        groupsAdapter.groupsUpdateList(groupsList)
-        rvGroups.adapter = groupsAdapter
-        groupsAdapter.notifyDataSetChanged()
+        requestGroups()
     }
 
-    override fun makeClicked(name: String) {
-        viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
-        viewModel.getDataResponse().observe(this, Observer {
+    private fun requestGroups() {
+        viewModel.getDataReponse().observe(this, Observer {
+            if (it != null){
+                Log.d(Constants.TAG,"단어장 가져오 성공!")
+                Log.d(Constants.TAG,"response Body : ${it}")
+                for (datas in it.data){
+                    groupsList.add(WordBook.WordBooks(datas.title,datas.allCount))
+                }
+            }else {
+                Log.d(Constants.TAG,"단어장 get response null!")
+            }
+            groupsAdapter.groupsUpdateList(groupsList)
+            rvGroups.adapter = groupsAdapter
+            groupsAdapter.notifyDataSetChanged()
+        })
+        viewModel.getWordBook(loginToken)
+    }
+
+    override fun makeWordBookClicked(name: String) {
+        viewModel.postDataResponse().observe(this, Observer {
             if(it != null){
                 Log.d(Constants.TAG,"단어장 만들기 성공!")
                 Log.d(Constants.TAG,"response Body : ${it}")
             }else {
-                Log.d(Constants.TAG,"단어장 response null!")
+                Log.d(Constants.TAG,"단어장 post response null!")
             }
         })
         val Body = WordBook.CreatedWordBookBody(name,userId)
         viewModel.postWordBook(loginToken,Body)
+        groupsAdapter.notifyDataSetChanged()
     }
 }

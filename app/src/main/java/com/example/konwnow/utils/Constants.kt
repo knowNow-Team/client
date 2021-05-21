@@ -35,7 +35,7 @@ enum class RESPONSE_STATE{
 }
 
 object WORDBOOK{
-    const val CREATED_WORDBOOK : String = "v1/wordbooks"
+    const val WORDBOOK : String = "v1/wordbooks"
 }
 
 

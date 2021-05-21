@@ -12,7 +12,6 @@ import android.widget.EditText
 import android.widget.ImageButton
 import com.example.konwnow.App
 import com.example.konwnow.R
-import com.example.konwnow.ui.adapter.GroupsAdapter
 
 class GroupDialog(context: Context,makeGroupInterface: MakeGroupInterface) : Dialog(context), View.OnClickListener{
     private val dlg = Dialog(context)   //부모 액티비티의 context 가 들어감
@@ -76,7 +75,7 @@ class GroupDialog(context: Context,makeGroupInterface: MakeGroupInterface) : Dia
     override fun onClick(v: View?) {
         when(v){
             btnMake -> {
-                this.makeGroupInterface?.makeClicked(etName.text.toString())
+                this.makeGroupInterface?.makeWordBookClicked(etName.text.toString())
                 dlg.dismiss()
             }
 
