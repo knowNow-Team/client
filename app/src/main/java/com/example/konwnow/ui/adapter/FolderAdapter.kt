@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.remote.dto.Folder
+import com.example.konwnow.data.remote.dto.WordBook
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -17,9 +17,9 @@ import com.ramotion.foldingcell.FoldingCell
 
 class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
         RecyclerView.Adapter<FolderAdapter.Holder>() {
-    private var items = ArrayList<Folder>()
+    private var items = ArrayList<WordBook>()
     private lateinit var view:View
-    var checkedFolder = mutableSetOf<Folder>()
+    var checkedFolder = mutableSetOf<WordBook>()
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val foldingcell = itemView?.findViewById<FoldingCell>(R.id.folding_cell)
@@ -101,7 +101,7 @@ class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
         }
     }
 
-    fun folderUpdateList(folderItem: ArrayList<Folder>){
-        this.items.addAll(folderItem)
+    fun folderUpdateList(wordBookItem: ArrayList<WordBook>){
+        this.items.addAll(wordBookItem)
     }
 }

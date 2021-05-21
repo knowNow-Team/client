@@ -11,7 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.konwnow.R
-import com.example.konwnow.data.remote.dto.Folder
+import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.utils.ALARM
 import com.ramotion.fluidslider.FluidSlider
@@ -32,7 +32,7 @@ class SetAlarmTimeActivity : AppCompatActivity() {
     private var endMinute = 0
     private var startTime:Long = 0
     private var endTime:Long = 0
-    var folderList = arrayListOf<Folder>()
+    var folderList = arrayListOf<WordBook>()
     var checkedTag = arrayListOf<Int>()
 
 
@@ -66,11 +66,11 @@ class SetAlarmTimeActivity : AppCompatActivity() {
     }
 
     private fun setData() {
-        folderList = intent!!.getBundleExtra("folder")!!.getParcelableArrayList<Folder>("folderList") as ArrayList<Folder>
+        //folderList = intent!!.getBundleExtra("folder")!!.getParcelableArrayList<WordBook>("folderList") as ArrayList<WordBook>
         checkedTag = intent!!.getIntegerArrayListExtra("TagList") as ArrayList<Int>
 
         for(item in folderList){
-            Log.d("폴더",item.name)
+            //Log.d("폴더",item.name)
         }
 
         for(item in checkedTag){
