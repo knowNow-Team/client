@@ -119,12 +119,12 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
             if(it != null){
                 Log.d(Constants.TAG,"단어장 만들기 성공!")
                 Log.d(Constants.TAG,"response Body : ${it}")
+                groupsAdapter.makeClicked(name)
             }else {
                 Log.d(Constants.TAG,"단어장 post response null!")
             }
         })
         val Body = WordBook.CreatedWordBookBody(name,userId)
         viewModel.postWordBook(loginToken,Body)
-        groupsAdapter.notifyDataSetChanged()
     }
 }
