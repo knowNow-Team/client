@@ -80,8 +80,8 @@ class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
     }
 
    fun makeClicked(name: String) {
-        Log.d("maked Clicked",name)
-        //items.add(items.count(), WordBook(name,0))
+        Log.d("adapter maked Clicked",name)
         notifyItemInserted(items.count())
     }
+
 }

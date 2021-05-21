@@ -25,6 +25,9 @@ interface UserDao {
     @Query("SELECT * FROM user")
     fun getAll() : UserEntity
 
+    @Query("SELECT loginToken FROM user")
+    fun getLoginToken() : String
+
     @Delete
     fun delete(user: UserEntity)
 
