@@ -8,6 +8,6 @@ import retrofit2.http.*
 interface TestAPI {
 
     @GET(API.GET_TEST)
-    fun getTestLog(@Header("Authorization") authorization:String): Call<TestLog>
+    fun getTestLog(@Header("Authorization") authorization:String): Call<TestLog.TestInfo>
 
 }

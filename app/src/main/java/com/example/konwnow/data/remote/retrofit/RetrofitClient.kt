@@ -1,6 +1,7 @@
 package com.example.konwnow.data.remote.retrofit
 
 import android.util.Log
+import com.example.konwnow.data.remote.retrofit.api.TestAPI
 import com.example.konwnow.utils.API
 import com.example.konwnow.utils.Constants.TAG
 import com.example.konwnow.utils.isJsonArray
@@ -9,6 +10,7 @@ import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
@@ -76,6 +78,7 @@ class RetrofitClient {
                     retrofitClient = Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(client.build())
                     .build()
             }
@@ -142,6 +145,7 @@ class RetrofitClient {
                 retrofitClient = Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(client.build())
                     .build()
             }
