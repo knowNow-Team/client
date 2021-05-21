@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("refreshToken",users.refreshToken)
                 Log.d("nickname",users.nickname)
                 Log.d("emaail",users.email)
+                Log.d("userId", users.userID.toString())
 
             }
             override fun onPostExecute(result: Unit?) {
