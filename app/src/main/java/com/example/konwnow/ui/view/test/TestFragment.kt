@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.remote.dto.Folder
+import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.adapter.FolderAdapter
 
 
 class TestFragment: Fragment() {
-    var folderList = arrayListOf<Folder>()
+    var folderList = arrayListOf<WordBook>()
     //체크된 태그
     //0: 몰라요
     //1: 헷갈려요
@@ -75,9 +75,9 @@ class TestFragment: Fragment() {
         folderListRv.layoutManager = LinearLayoutManager(context)
         folderAdapter = FolderAdapter(){ i: Int, b: Boolean ->
             if(b){
-                totalQuizNum += folderList[i].wordsCount
+                //totalQuizNum += folderList[i].wordsCount
             }else{
-                totalQuizNum -= folderList[i].wordsCount
+                //totalQuizNum -= folderList[i].wordsCount
                 if(selectedQuizNum > totalQuizNum){
                     selectedQuizNum = totalQuizNum
                 }
@@ -158,7 +158,7 @@ class TestFragment: Fragment() {
             }
             //폴더 리스트체크
             for(item in folderAdapter.checkedFolder){
-                Log.d("선택된 폴더", item.name)
+                //Log.d("선택된 폴더", item.name)
             }
             //문제수 체크
 //            Log.d("선택", selectedQuizNum.toString())

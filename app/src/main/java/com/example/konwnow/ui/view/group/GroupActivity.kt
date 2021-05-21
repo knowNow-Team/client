@@ -8,7 +8,7 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.remote.dto.Folder
+import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.adapter.GroupsAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.home.HomeFragment
@@ -18,7 +18,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
     var btnPlus : ImageButton? = null
     var btnApply : Button? = null
     private lateinit var rvGroups : RecyclerView
-    private var groupsList = arrayListOf<Folder>()
+    private var groupsList = arrayListOf<WordBook>()
     private lateinit var groupsAdapter : GroupsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,11 +58,10 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
         rvGroups = findViewById(R.id.rv_groups)
         rvGroups.layoutManager = GridLayoutManager(this, 3)
 
-        groupsList.add(Folder("전체",1))
-        groupsList.add(Folder("틀린 문제",2))
-        groupsList.add(Folder("휴지통",3))
-        groupsList.add(Folder("토익 영단어",4))
-        groupsList.add(Folder("영어2",5))
+//
+//        groupsList.add(WordBook("휴지통",3))
+//        groupsList.add(WordBook("토익 영단어",4))
+//        groupsList.add(WordBook("영어2",5))
 
         groupsAdapter.groupsUpdateList(groupsList)
         rvGroups.adapter = groupsAdapter

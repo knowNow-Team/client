@@ -13,13 +13,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.remote.dto.Folder
+import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.adapter.FolderAdapter
 
 class SetAlarmActivity : AppCompatActivity() {
     private lateinit var folderAdapter: FolderAdapter
-    var folderList = arrayListOf<Folder>()
-    var selectedFolderList = arrayListOf<Folder>()
+    var folderList = arrayListOf<WordBook>()
+    var selectedFolderList = arrayListOf<WordBook>()
     private lateinit var notKnowCb: CheckBox
     private lateinit var confuseCb: CheckBox
     private lateinit var knowCb: CheckBox
@@ -75,7 +75,7 @@ class SetAlarmActivity : AppCompatActivity() {
                 selectedFolderList.remove(folderList[i])
             }
             for(i in selectedFolderList){
-                Log.d("선택폴더",i.name)
+//                Log.d("선택폴더",i.name)
             }
         }
 
@@ -84,11 +84,11 @@ class SetAlarmActivity : AppCompatActivity() {
     }
 
     private fun requestFolder() {
-        folderList.add(Folder("name1",4))
-        folderList.add(Folder("name2",20))
-        folderList.add(Folder("name3",30))
-        folderList.add(Folder("name4",2))
-        folderList.add(Folder("name5",12))
+//        folderList.add(WordBook("name1",4))
+//        folderList.add(WordBook("name2",20))
+//        folderList.add(WordBook("name3",30))
+//        folderList.add(WordBook("name4",2))
+//        folderList.add(WordBook("name5",12))
     }
 
     private fun setButton() {
@@ -98,7 +98,7 @@ class SetAlarmActivity : AppCompatActivity() {
             getCheckedTag()
             val mIntent = Intent(this,SetAlarmTimeActivity::class.java)
             var bundle = Bundle()
-            bundle.putParcelableArrayList("folderList", selectedFolderList)
+//            bundle.putParcelableArrayList("folderList", selectedFolderList)
             mIntent.putExtra("folder", bundle)
             mIntent.putExtra("TagList",checkedTag)
             startActivityForResult(mIntent,2)
