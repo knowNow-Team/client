@@ -11,7 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.remote.dto.Folder
+import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.view.home.HomeFragment
 
 
@@ -19,7 +19,7 @@ class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
 
     private lateinit var view: View
     private lateinit var context : Context
-    private var items = ArrayList<Folder>()
+    private var items = ArrayList<WordBook.WordBooks>()
     private val selectedBook = ArrayList<String>()
 
     inner class Holder(itemView: View?): RecyclerView.ViewHolder(itemView!!) {
@@ -39,19 +39,19 @@ class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
     }
 
     override fun onBindViewHolder(holder: GroupsAdapter.Holder, position: Int) {
-        val wordBook = items[position].name
+        val wordBook = items[position].title
         holder.groupName.text = wordBook
-        holder.wordsCount.text = "${items[position].wordsCount}개의 단어"
+        holder.wordsCount.text = "${items[position].allCount}개의 단어"
         var i = 0
         holder.itemView.setOnClickListener {
             i = 1 - i
             when(i){
                 1 -> { // 선택하기
-                    if(selectedBook.contains(items[0].name) or selectedBook.contains(items[2].name)){ // 전체, 휴지통이 선택되어 있는 경우
-                        Toast.makeText(context,"전체&휴지통은 중복 선택이 불가능합니다.",Toast.LENGTH_SHORT).show()
+                    if(selectedBook.contains(items[0].title) ){ // 휴지통이 선택되어 있는 경우
+                        Toast.makeText(context,"휴지통은 중복 선택이 불가능합니다.",Toast.LENGTH_SHORT).show()
                         i = 0
-                    }else if((position == 0) or (position ==2) and selectedBook.isNotEmpty()){ // 다른게 이미 선택되어있는데 전체,휴지통을 선택하는 경우
-                        Toast.makeText(context,"${items[position].name}은 중복 선택이 불가능합니다.!!!!!",Toast.LENGTH_SHORT).show()
+                    }else if((position == 0) and selectedBook.isNotEmpty()){ // 다른게 이미 선택되어있는데 전체,휴지통을 선택하는 경우
+                        Toast.makeText(context,"${items[position].title}은 중복 선택이 불가능합니다.!!!!!",Toast.LENGTH_SHORT).show()
                         i = 0
                     } else{
                         holder.groupImage.setImageResource(R.drawable.ic_selected_group)
@@ -75,13 +75,14 @@ class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
         Toast.makeText(context,"홈으로 전환 " ,Toast.LENGTH_SHORT).show()
     }
 
-    fun groupsUpdateList(groupsItem: ArrayList<Folder>){
+    fun groupsUpdateList(groupsItem: ArrayList<WordBook.WordBooks>){
         this.items.addAll(groupsItem)
     }
 
    fun makeClicked(name: String) {
-        Log.d("maked Clicked",name)
-        items.add(items.count(), Folder(name,0))
-        notifyItemInserted(items.count())
+       items.add(items.count(), WordBook.WordBooks(name,0))
+       Log.d("adapter maked Clicked",name)
+       notifyItemInserted(items.count())
     }
+
 }

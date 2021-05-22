@@ -35,6 +35,10 @@ enum class RESPONSE_STATE{
     FAIL
 }
 
+object WORDBOOK{
+    const val WORDBOOK : String = "v1/wordbooks"
+}
+
 
 object  ALARM{
     const val NOTIFICATION_ID = 33
