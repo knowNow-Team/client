@@ -45,23 +45,23 @@ class TestWordsAdapter : RecyclerView.Adapter<TestWordsAdapter.Holder>(){
     @RequiresApi(Build.VERSION_CODES.M)
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.tvEng!!.text = items[position].target
-        holder.tvKor!!.text = items[position].kor
-        if(items[position].hit){
+        holder.tvEng!!.text = items[position].wordId
+        holder.tvKor!!.text = items[position].answer
+        if(items[position].isCorrect){
             holder.ivHit!!.background = context.getDrawable(R.drawable.ic_hit)
         }else{
             holder.ivHit!!.background = context.getDrawable(R.drawable.ic_miss)
             holder.tvMissAnswer!!.visibility = View.VISIBLE
-            val str = String.format(context.getString(R.string.miss), items[position].userAnswer)
+            val str = String.format(context.getString(R.string.miss), items[position].answer)
             var ssb = SpannableStringBuilder(str)
-            ssb.setSpan(ForegroundColorSpan( ContextCompat.getColor(context, R.color.red)), 7, 8+items[position].userAnswer.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            ssb.setSpan(ForegroundColorSpan( ContextCompat.getColor(context, R.color.red)), 7, 8+items[position].answer.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             holder.tvMissAnswer!!.text = ssb
         }
 
 
         holder.itemView.setOnClickListener {
             val dlg = WordDialog(context)
-            dlg.start(items[position].target)
+//            dlg.start(items[position].target)
         }
     }
 

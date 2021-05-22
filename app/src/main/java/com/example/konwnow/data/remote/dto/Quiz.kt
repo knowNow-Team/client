@@ -1,7 +1,16 @@
 package com.example.konwnow.data.remote.dto
 
-class Quiz(val target: String, val kor:String, val userAnswer: String, var hit: Boolean){
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
+class Quiz(
+    @SerializedName("answer")
+    val answer: String,
+    @SerializedName("isCorrect")
+    val isCorrect: Boolean,
+    @SerializedName("wordId")
+    val wordId: String) {
     override fun toString(): String {
-        return "타겟:$target\n뜻:$kor\n작성한 답:$userAnswer\n정답여부:$hit"
+        return "Quiz(answer='$answer', isCorrect=$isCorrect, wordId='$wordId')"
     }
 }

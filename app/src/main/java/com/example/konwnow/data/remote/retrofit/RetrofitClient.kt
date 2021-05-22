@@ -78,7 +78,6 @@ class RetrofitClient {
                     retrofitClient = Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(client.build())
                     .build()
             }
@@ -113,7 +112,7 @@ class RetrofitClient {
                 }
             })
 
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS)
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
             //loggingInterceptor 추가
             client.addInterceptor(loggingInterceptor)
@@ -145,7 +144,6 @@ class RetrofitClient {
                 retrofitClient = Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(client.build())
                     .build()
             }

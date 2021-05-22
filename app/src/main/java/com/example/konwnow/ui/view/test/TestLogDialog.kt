@@ -55,15 +55,15 @@ class TestLogDialog(context: Context) {
         wordsList.clear()
 
         wordsAdapter = TestWordsAdapter()
-        wordsList.add(Quiz("Complex", "복잡한","complex",true))
-        wordsList.add(Quiz("movie", "영화관","movie",true))
-        wordsList.add(Quiz("Fragment", "조각","Fragment",true))
-        wordsList.add(Quiz("Complex", "복잡한","cococo",false))
-        wordsList.add(Quiz("movie", "영화관","momomo",false))
-        wordsList.add(Quiz("Fragment", "조각","frfr",false))
-        wordsList.add(Quiz("Complex", "복잡한","plpl",false))
-        wordsList.add(Quiz("movie", "영화관","movie",true))
-        wordsList.add(Quiz("Fragment", "조각","fafa",false))
+//        wordsList.add(Quiz("Complex", "복잡한","complex",true))
+//        wordsList.add(Quiz("movie", "영화관","movie",true))
+//        wordsList.add(Quiz("Fragment", "조각","Fragment",true))
+//        wordsList.add(Quiz("Complex", "복잡한","cococo",false))
+//        wordsList.add(Quiz("movie", "영화관","momomo",false))
+//        wordsList.add(Quiz("Fragment", "조각","frfr",false))
+//        wordsList.add(Quiz("Complex", "복잡한","plpl",false))
+//        wordsList.add(Quiz("movie", "영화관","movie",true))
+//        wordsList.add(Quiz("Fragment", "조각","fafa",false))
 
     }
 

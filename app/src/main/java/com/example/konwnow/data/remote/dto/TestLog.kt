@@ -1,5 +1,6 @@
 package com.example.konwnow.data.remote.dto
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 class TestLog{
@@ -13,6 +14,31 @@ class TestLog{
             return "TestInfo(`data`=$`data`, message='$message')"
         }
     }
+
+    data class TestRequestBody(
+        @SerializedName("correctAnswerCount")
+        val correctAnswerCount: Int,
+        @SerializedName("difficulty")
+        val difficulty: String,
+        @SerializedName("filter")
+        val filter: List<String>,
+        @SerializedName("score")
+        val score: Int,
+        @SerializedName("testerId")
+        @Expose
+        val testerId: Int?,
+        @SerializedName("wordTotalCount")
+        val wordTotalCount: Int,
+        @SerializedName("wordbooks")
+        val wordbooks: List<String>,
+        @SerializedName("words")
+        val words: List<Quiz>
+    )
+
+    data class TestCreateResponse(
+        @SerializedName("message")
+        val message: String
+    )
 
     data class TestLogData(
         @SerializedName("correctAnswerCount")

@@ -36,7 +36,7 @@ class TestLogAdapter(private val mContext:Context, private val testLogList: Arra
             in 30..69 -> holder.tvTestScore!!.setTextColor(ContextCompat.getColor(mContext,R.color.yellow))
             in 70..100 -> holder.tvTestScore!!.setTextColor(ContextCompat.getColor(mContext,R.color.green))
         }
-        holder.tvTestCount!!.text = testLogList[position].wordTotalCount.toString()
+        holder.tvTestCount!!.text = testLogList[position].correctAnswerCount.toString() +" / "+ testLogList[position].wordTotalCount.toString()
         holder.tvTestGroup!!.text = testLogList[position].wordbooks.toString()
         holder.tvTestDate!!.text = testLogList[position].createdAt
         holder.itemView.setOnClickListener {

@@ -20,6 +20,13 @@ class DictationTestActivity : AppCompatActivity() {
     lateinit var quizNum:String
     private lateinit var quizVP: ViewPager2
     private lateinit var dictationAdapter: DictationAdapter
+    private lateinit var filters : List<String>
+    private lateinit var wordbooks : List<String>
+    private lateinit var quizlog : MutableList<Quiz>
+    var point = 0
+    var totalScore = 0
+    var correct = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +43,8 @@ class DictationTestActivity : AppCompatActivity() {
         wordsList.add(Words("hello", "복잡한",0))
         wordsList.add(Words("green", "영화관",1))
         wordsList.add(Words("hoxy", "조각",0))
+        filters = listOf("memorized","confused")
+        wordbooks = listOf("60a3ca4f25ac7300576e8c00")
         setQuiz()
 
 //        var imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -91,17 +100,7 @@ class DictationTestActivity : AppCompatActivity() {
 
     private fun goNext(answer: ArrayList<String>) {
         if (quizVP.currentItem == wordsList.size-1) {
-            val quizLog = ArrayList<Quiz>()
-
-            Log.d("유저",answer[0])
-            Log.d("유저",answer[1])
-            Log.d("유저",answer[2])
-            Log.d("유저",answer[3])
-            Log.d("유저",answer[4])
-            Log.d("유저",answer[5])
-            Log.d("유저",answer[6])
-            Log.d("유저",answer[7])
-            Log.d("유저",answer[8])
+            quizlog = mutableListOf()
 
             for(i in wordsList.indices){
                 var target = wordsList[i].eng
@@ -112,7 +111,17 @@ class DictationTestActivity : AppCompatActivity() {
                 if(target != userAnswer){
                     hit = false
                 }
-                quizLog.add(Quiz(target!!,kor!!,userAnswer,hit))
+                if(hit){
+                    correct++
+                    totalScore += point
+                }
+//                quizLog.add(Quiz(target!!,kor!!,userAnswer,hit))
+                quizlog.add(Quiz(wordId = "60a3e24bd3faa00058331b2b",isCorrect = hit,answer = userAnswer))
+
+            }
+
+            if(correct == wordsList.size){
+                totalScore=100
             }
 
             toast(getString(R.string.lastPage))

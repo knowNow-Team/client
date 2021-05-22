@@ -41,17 +41,18 @@ class TestLogActivity : AppCompatActivity() {
 
     private fun requestTest() {
         viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(TestLogViewModel::class.java)
-        viewModel.getDataObserver().observe(this, Observer<TestLog.TestLogData>{
+        viewModel.getDataObserver().observe(this, Observer<ArrayList<TestLog.TestLogData>>{
             if(it != null){
-                testLogList.add(it)
+                testLogList.clear()
+                testLogList.addAll(it)
                 testLogRv.adapter?.notifyDataSetChanged()
+                setGrapgh()
                 Log.d("observer 성공",testLogList.toString())
             }else{
                 Log.d("view","view에서 viewModel 관찰 실패")
             }
         })
         viewModel.getTest()
-        setGrapgh()
     }
 
     private fun setGrapgh() {
