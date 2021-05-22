@@ -1,7 +1,6 @@
 package com.example.konwnow.ui.view.test
 
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
@@ -11,15 +10,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.konwnow.R
-import com.example.konwnow.data.local.UserEntity
 import com.example.konwnow.data.remote.dto.Quiz
 import com.example.konwnow.data.remote.dto.TestLog
-import com.example.konwnow.data.remote.dto.Users
 import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.PuzzleAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.Constants
-import com.example.konwnow.viewmodel.LoginViewModel
 import com.example.konwnow.viewmodel.TestLogViewModel
 import kotlin.collections.ArrayList
 
@@ -32,7 +28,7 @@ class PuzzleTestActivity : AppCompatActivity() {
     private lateinit var viewModel : TestLogViewModel
     private lateinit var filters : List<String>
     private lateinit var wordbooks : List<String>
-    private lateinit var quizlog : MutableList<Quiz>
+    private lateinit var quizlog : MutableList<Quiz.TotalQuiz>
     var point = 0
     var totalScore = 0
     var correct = 0
@@ -61,6 +57,7 @@ class PuzzleTestActivity : AppCompatActivity() {
         setQuizNum()
 
     }
+
 
     override fun onBackPressed() {
         val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
@@ -128,7 +125,7 @@ class PuzzleTestActivity : AppCompatActivity() {
                     correct++
                     totalScore += point
                 }
-                quizlog.add(Quiz(wordId = "60a3e24bd3faa00058331b2b",isCorrect = hit,answer = strTmp))
+                quizlog.add(Quiz.TotalQuiz(wordId = "60a3e24bd3faa00058331b2b",isCorrect = hit,answer = strTmp))
             }
             if(correct == wordsList.size){
                 totalScore=100
@@ -153,9 +150,7 @@ class PuzzleTestActivity : AppCompatActivity() {
                 Log.d("로그 생성","실패")
             }
         })
-        viewModel.postTestLog("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrbm93bm93IiwiZXhwIjoxNjIzODc1ODU4LCJ1c2VyIjoiYWF" +
-                "AYWEuY29tIiwidXNlcklkIjoxLCJpYXQiOjE2MjEyODM4NTh9.poh-Tq4SyOrBafBHvTN-Y-c9deRvzasJ7Jx-0_FiUfU",correct, "hard",filters
-            ,totalScore,wordsList.size,wordbooks,quizlog.toList())
+        viewModel.postTestLog(MainActivity.getUserData().loginToken,correct, "hard",filters,totalScore,MainActivity.getUserData().userID,wordsList.size,wordbooks,quizlog.toList())
     }
 
 

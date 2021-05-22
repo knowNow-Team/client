@@ -13,26 +13,28 @@ import retrofit2.Response
 
 class TestLogViewModel : ViewModel() {
 
-    var TestLogList : MutableLiveData<ArrayList<TestLog.TestLogData>> = MutableLiveData()
-    var CreateTestLog : MutableLiveData<TestLog.TestCreateResponse> = MutableLiveData()
-    var TestLogs: ArrayList<TestLog.TestLogData> = ArrayList()
+    var testLogList : MutableLiveData<ArrayList<TestLog.TestLogData>> = MutableLiveData()
+    var testDetails : MutableLiveData<TestLog.TestDetails> = MutableLiveData()
+    var createTestLog : MutableLiveData<TestLog.TestCreateResponse> = MutableLiveData()
+    var testLogs: ArrayList<TestLog.TestLogData> = ArrayList()
 
 
     fun getDataObserver() : MutableLiveData<ArrayList<TestLog.TestLogData>>{
-        return TestLogList
+        return testLogList
+    }
+
+    fun getTestDetailObserver() : MutableLiveData<TestLog.TestDetails>{
+        return testDetails
     }
 
     fun getTestCreateResponseObserver() : MutableLiveData<TestLog.TestCreateResponse>{
-        return CreateTestLog
+        return createTestLog
     }
 
     //input받는 값에 따라 live로 데이터를 호출해주는 부분
-    fun getTest(){
+    fun getTest(loginToken: String){
         val instance = RetrofitClient.getWordClient()?.create(TestAPI::class.java)
-        val call = instance?.getTestLog(
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrbm93bm93IiwiZXhwIjoxNjIzODc1ODU4LCJ1c2VyIjoiYWF" +
-                    "AYWEuY29tIiwidXNlcklkIjoxLCJpYXQiOjE2MjEyODM4NTh9.poh-Tq4SyOrBafBHvTN-Y-c9deRvzasJ7Jx-0_FiUfU"
-        )
+        val call = instance?.getTestLog(loginToken)
 
         call?.enqueue(object : Callback<TestLog.TestInfo> {
             override fun onResponse(
@@ -40,7 +42,8 @@ class TestLogViewModel : ViewModel() {
                 response: Response<TestLog.TestInfo>
             ) {
                 if (response.isSuccessful()) {
-                    Log.d("viewmodel", response.body()?.data.toString())
+//                    Log.d("viewmodel", response.body()?.data.toString())
+                    Log.d("viewmodel",testLogList.toString())
                     //업데이트 시켜주기.
 //                    TestLogList.postValue(response.body()?.data)
                     for (it in response.body()?.data!!) {
@@ -52,34 +55,41 @@ class TestLogViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<TestLog.TestInfo>, t: Throwable) {
-                Log.d("viewmodel", "응답 실패")
+                Log.d("getDetail",t.message!! )
+            }
+
+        })
+    }
+
+    fun getTestById(loginToken: String,testId: String){
+        val instance = RetrofitClient.getWordClient()?.create(TestAPI::class.java)
+        val call = instance?.getTestLogDetail(loginToken,testId)
+
+        call?.enqueue(object : Callback<TestLog.TestDetailResponse> {
+            override fun onResponse(
+                call: Call<TestLog.TestDetailResponse>,
+                response: Response<TestLog.TestDetailResponse>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("viewmodel", response.body()?.data.toString())
+                    //업데이트 시켜주기.
+                    testDetails.postValue(response.body()?.data)
+                } else { // code == 400
+                    Log.d("viewmodel", "실패")
+                }
+            }
+
+            override fun onFailure(call: Call<TestLog.TestDetailResponse>, t: Throwable) {
+//                Log.d("getDetail",t.message!! )
             }
 
         })
     }
     fun add(item: TestLog.TestLogData) {
-        TestLogs.add(item)
-        TestLogList.setValue(TestLogs)
+        testLogs.add(item)
+        testLogList.setValue(testLogs)
     }
 
-
-
-//    @SerializedName("correctAnswerCount")
-//    val correctAnswerCount: Int,
-//    @SerializedName("difficulty")
-//    val difficulty: String,
-//    @SerializedName("filter")
-//    val filter: List<String>,
-//    @SerializedName("score")
-//    val score: Int,
-//    @SerializedName("testerId")
-//    val testerId: Int,
-//    @SerializedName("wordTotalCount")
-//    val wordTotalCount: Int,
-//    @SerializedName("wordbooks")
-//    val wordbooks: List<String>,
-//    @SerializedName("Quiz")
-//    val words: List<Quiz>
 
     fun postTestLog(
         idtoken: String,
@@ -87,9 +97,10 @@ class TestLogViewModel : ViewModel() {
         difficulty: String,
         filter: List<String>,
         score: Int,
+        testerId: Int,
         wordTotalCount: Int,
         wordbooks: List<String>,
-        words: List<Quiz>
+        words: List<Quiz.TotalQuiz>
     ){
         val instance = RetrofitClient.getWordClient()?.create(TestAPI::class.java)
         val request = TestLog.TestRequestBody(
@@ -97,7 +108,7 @@ class TestLogViewModel : ViewModel() {
             difficulty,
             filter,
             score,
-            1,
+            testerId,
             wordTotalCount,
             wordbooks,
             words
@@ -111,7 +122,7 @@ class TestLogViewModel : ViewModel() {
             ) {
                 if (testCreateResponse.isSuccessful) {
                     //업데이트 시켜주기.
-                    CreateTestLog.postValue(testCreateResponse.body())
+                    createTestLog.postValue(testCreateResponse.body())
                 } else {
                     Log.d("viewmodel", "실패!!")
                 }

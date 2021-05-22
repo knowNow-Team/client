@@ -1,6 +1,8 @@
 package com.example.konwnow.ui.view.test
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
@@ -16,6 +18,7 @@ import com.example.konwnow.data.remote.dto.Quiz
 import com.example.konwnow.data.remote.dto.TestLog
 import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.DictationAdapter
+import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.Constants
 import com.example.konwnow.viewmodel.TestLogViewModel
 
@@ -27,7 +30,7 @@ class DictationTestActivity : AppCompatActivity() {
     private lateinit var dictationAdapter: DictationAdapter
     private lateinit var filters : List<String>
     private lateinit var wordbooks : List<String>
-    private lateinit var quizlog : MutableList<Quiz>
+    private lateinit var quizlog : MutableList<Quiz.TotalQuiz>
     private lateinit var viewModel : TestLogViewModel
 
     var point = 0
@@ -123,7 +126,7 @@ class DictationTestActivity : AppCompatActivity() {
                     totalScore += point
                 }
 //                quizLog.add(Quiz(target!!,kor!!,userAnswer,hit))
-                quizlog.add(Quiz(wordId = "60a3e24bd3faa00058331b2b",isCorrect = hit,answer = userAnswer))
+                quizlog.add(Quiz.TotalQuiz(wordId = "60a3e24bd3faa00058331b2b",isCorrect = hit,answer = userAnswer))
 
             }
 
@@ -152,9 +155,7 @@ class DictationTestActivity : AppCompatActivity() {
                 Log.d("로그 생성","실패")
             }
         })
-        viewModel.postTestLog("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrbm93bm93IiwiZXhwIjoxNjIzODc1ODU4LCJ1c2VyIjoiYWF" +
-                "AYWEuY29tIiwidXNlcklkIjoxLCJpYXQiOjE2MjEyODM4NTh9.poh-Tq4SyOrBafBHvTN-Y-c9deRvzasJ7Jx-0_FiUfU",correct, "hard",filters
-            ,totalScore,wordsList.size,wordbooks,quizlog.toList())
+        viewModel.postTestLog(MainActivity.getUserData().loginToken,correct, "hard",filters,totalScore,MainActivity.getUserData().userID,wordsList.size,wordbooks,quizlog.toList())
     }
 
 

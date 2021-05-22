@@ -21,14 +21,22 @@ import com.broooapps.graphview.models.PointMap
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.TestLog
 import com.example.konwnow.ui.adapter.TestLogAdapter
+import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.viewmodel.TestLogViewModel
+import kotlin.collections.ArrayList
 
 
 class TestLogActivity : AppCompatActivity() {
+
+    companion object{
+        private lateinit var viewModel: TestLogViewModel
+        fun getViewModel(): TestLogViewModel{
+            return viewModel!!
+        }
+    }
     var testLogList = arrayListOf<TestLog.TestLogData>()
     private lateinit var testLogRv: RecyclerView
     private lateinit var curveGraphView : CurveGraphView
-    private lateinit var viewModel: TestLogViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,21 +46,22 @@ class TestLogActivity : AppCompatActivity() {
         setToolbar()
     }
 
-
     private fun requestTest() {
         viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(TestLogViewModel::class.java)
         viewModel.getDataObserver().observe(this, Observer<ArrayList<TestLog.TestLogData>>{
             if(it != null){
                 testLogList.clear()
                 testLogList.addAll(it)
-                testLogRv.adapter?.notifyDataSetChanged()
                 setGrapgh()
+                testLogList.reverse()
+                testLogRv.adapter?.notifyDataSetChanged()
                 Log.d("observer 성공",testLogList.toString())
             }else{
                 Log.d("view","view에서 viewModel 관찰 실패")
             }
         })
-        viewModel.getTest()
+
+        viewModel.getTest(MainActivity.getUserData()!!.loginToken)
     }
 
     private fun setGrapgh() {
@@ -98,16 +107,10 @@ class TestLogActivity : AppCompatActivity() {
 
     private fun setTestLog() {
         //테스트 로그 데이터
-//        testLogList.add(TestLog(20, "30/50", "전체", "2021.03.10"))
-//        testLogList.add(TestLog(50, "30/50", "토익 영단어, 영어2", "2021.02.10"))
-//        testLogList.add(TestLog(100, "30/50", "영어2", "2021.01.10"))
-
-        Log.d("테스트 로그",testLogList.size.toString())
-
         testLogRv = findViewById<RecyclerView>(R.id.rv_test_log)
         testLogRv.setHasFixedSize(true)
         testLogRv.layoutManager = LinearLayoutManager(this)
-        testLogRv.adapter = TestLogAdapter(this, testLogList){
+        testLogRv.adapter = TestLogAdapter(this, this,testLogList){
             reTestDialog(it)
         }
     }

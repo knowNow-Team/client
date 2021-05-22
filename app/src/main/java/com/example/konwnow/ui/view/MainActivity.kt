@@ -25,6 +25,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class MainActivity : AppCompatActivity() {
     var bnvHome: BottomNavigationView? = null
 
+    companion object {
+        private var users:UserEntity? = null
+        fun getUserData():UserEntity {
+            return users!!
+        }
+    }
+
     open lateinit var context_main : Context
 
     //Fragment
@@ -32,9 +39,7 @@ class MainActivity : AppCompatActivity() {
     private val testFragment : TestFragment by lazy { TestFragment() }
     private val rankingFragment : RankingFragment by lazy { RankingFragment() }
     private val mypageFragment : MypageFragment by lazy { MypageFragment() }
-
     private lateinit var fab : FloatingActionButton
-
     private lateinit var db : UserDatabase
 
 
@@ -57,13 +62,13 @@ class MainActivity : AppCompatActivity() {
     private fun getAllUserData() {
         val insertTask = object : AsyncTask<Unit, Unit, Unit>(){
             override fun doInBackground(vararg params: Unit?) {
-                val users = db.userDao().getAll()
-                Log.d("idtoken",users.idToken)
-                Log.d("logintoken",users.loginToken)
-                Log.d("refreshToken",users.refreshToken)
-                Log.d("nickname",users.nickname)
-                Log.d("emaail",users.email)
-                Log.d("userId", users.userID.toString())
+                MainActivity.users = db.userDao().getAll()
+                Log.d("idtoken",users!!.idToken)
+                Log.d("logintoken",users!!.loginToken)
+                Log.d("refreshToken",users!!.refreshToken)
+                Log.d("nickname",users!!.nickname)
+                Log.d("emaail",users!!.email)
+                Log.d("userId", users!!.userID.toString())
 
             }
             override fun onPostExecute(result: Unit?) {

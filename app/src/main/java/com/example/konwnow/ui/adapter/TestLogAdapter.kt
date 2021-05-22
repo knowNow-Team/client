@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
@@ -14,7 +15,7 @@ import com.example.konwnow.data.remote.dto.TestLog
 import com.example.konwnow.ui.view.test.TestLogDialog
 import com.example.konwnow.viewmodel.TestLogViewModel
 
-class TestLogAdapter(private val mContext:Context, private val testLogList: ArrayList<TestLog.TestLogData>, val itemClick: (Int) -> Unit) :
+class TestLogAdapter(private val mContext:Context,private val lifecycleOwner: LifecycleOwner, private val testLogList: ArrayList<TestLog.TestLogData>, val itemClick: (Int) -> Unit) :
         RecyclerView.Adapter<TestLogAdapter.Holder>() {
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
@@ -22,6 +23,7 @@ class TestLogAdapter(private val mContext:Context, private val testLogList: Arra
         val tvTestCount = itemView?.findViewById<TextView>(R.id.tv_test_count)
         val tvTestGroup = itemView?.findViewById<TextView>(R.id.tv_test_group)
         val tvTestDate = itemView?.findViewById<TextView>(R.id.tv_test_date)
+        lateinit var dlg: TestLogDialog
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -40,8 +42,8 @@ class TestLogAdapter(private val mContext:Context, private val testLogList: Arra
         holder.tvTestGroup!!.text = testLogList[position].wordbooks.toString()
         holder.tvTestDate!!.text = testLogList[position].createdAt
         holder.itemView.setOnClickListener {
-            val dlg = TestLogDialog(mContext)
-            dlg.start(testLogList[position].createdAt)
+            holder.dlg = TestLogDialog(mContext,lifecycleOwner)
+            holder.dlg.start(testLogList[position].id)
         }
     }
 

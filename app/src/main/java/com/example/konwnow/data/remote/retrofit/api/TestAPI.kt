@@ -12,6 +12,9 @@ interface TestAPI {
     @GET(API.GET_TEST)
     fun getTestLog(@Header("Authorization") authorization:String): Call<TestLog.TestInfo>
 
+    @GET(API.GET_TEST_ONE)
+    fun getTestLogDetail(@Header("Authorization") authorization:String, @Path("id")id: String): Call<TestLog.TestDetailResponse>
+
     @POST(API.CREATE_TEST)
     fun postTestLog(@Header("Authorization") authorization:String, @Body testRequestBody : TestLog.TestRequestBody): Call<TestLog.TestCreateResponse>
 
