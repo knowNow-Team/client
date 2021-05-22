@@ -8,11 +8,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.Quiz
+import com.example.konwnow.data.remote.dto.TestLog
 import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.DictationAdapter
+import com.example.konwnow.utils.Constants
+import com.example.konwnow.viewmodel.TestLogViewModel
 
 
 class DictationTestActivity : AppCompatActivity() {
@@ -23,6 +28,8 @@ class DictationTestActivity : AppCompatActivity() {
     private lateinit var filters : List<String>
     private lateinit var wordbooks : List<String>
     private lateinit var quizlog : MutableList<Quiz>
+    private lateinit var viewModel : TestLogViewModel
+
     var point = 0
     var totalScore = 0
     var correct = 0
@@ -124,11 +131,30 @@ class DictationTestActivity : AppCompatActivity() {
                 totalScore=100
             }
 
-            toast(getString(R.string.lastPage))
+//            toast(getString(R.string.lastPage))
+            postTestLog()
+            finish()
+
         } else {
             quizVP.currentItem = quizVP.currentItem + 1
             setQuizNum()
         }
+    }
+
+
+    private fun postTestLog() {
+        viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(TestLogViewModel::class.java)
+        viewModel.getTestCreateResponseObserver().observe(this, Observer<TestLog.TestCreateResponse>{
+            Log.d(Constants.TAG,"Response : $it")
+            if(it != null) {
+                Log.d("로그 생성","성공")
+            }else{
+                Log.d("로그 생성","실패")
+            }
+        })
+        viewModel.postTestLog("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrbm93bm93IiwiZXhwIjoxNjIzODc1ODU4LCJ1c2VyIjoiYWF" +
+                "AYWEuY29tIiwidXNlcklkIjoxLCJpYXQiOjE2MjEyODM4NTh9.poh-Tq4SyOrBafBHvTN-Y-c9deRvzasJ7Jx-0_FiUfU",correct, "hard",filters
+            ,totalScore,wordsList.size,wordbooks,quizlog.toList())
     }
 
 

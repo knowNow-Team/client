@@ -136,7 +136,7 @@ class PuzzleTestActivity : AppCompatActivity() {
 
             //post
             postTestLog()
-            toast(getString(R.string.lastPage))
+            finish()
         } else {
                 quizVP.currentItem = quizVP.currentItem + 1
                 setQuizNum()
