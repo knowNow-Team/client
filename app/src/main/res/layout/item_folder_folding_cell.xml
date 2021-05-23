@@ -35,6 +35,7 @@
                 android:orientation="vertical"
                 >
                 <TextView
+                    android:id="@+id/tv_title_opened"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -48,6 +49,7 @@
                     android:layout_marginBottom="10dp"
                     android:background="@color/bw_g4" />
                 <TextView
+                    android:id="@+id/tv_count_opened"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="단어 수: 56"
@@ -55,6 +57,7 @@
                     android:layout_marginBottom="5dp"
                     />
                 <TextView
+                    android:id="@+id/tv_date_opened"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="생성일자: 2020-04-28"
@@ -62,6 +65,7 @@
                     style="@style/FontBody3"
                     />
                 <TextView
+                    android:id="@+id/tv_words_opened"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="단어: word1, word2, wrod3..."
@@ -88,6 +92,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp">
                 <TextView
+                    android:id="@+id/tv_groups_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -96,6 +101,7 @@
                     android:layout_marginBottom="8dp"
                     />
                 <TextView
+                    android:id="@+id/tv_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/test"

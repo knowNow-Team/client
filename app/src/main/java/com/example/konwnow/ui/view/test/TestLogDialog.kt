@@ -69,7 +69,7 @@ class TestLogDialog(private var mContext: Context, var lifecycleOwner: Lifecycle
 
     private fun requestWords(testId: String) {
 
-        viewModel = TestLogActivity.getViewModel()
+        viewModel = TestLogActivity.getTestViewModel()
         viewModel.getTestDetailObserver().observe(lifecycleOwner, Observer<TestLog.TestDetails> {
             if (it != null) {
                 try {

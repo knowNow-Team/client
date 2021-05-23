@@ -109,6 +109,9 @@ class DictationTestActivity : AppCompatActivity() {
 
 
     private fun goNext(answer: ArrayList<String>) {
+        point = 100 / wordsList.size as Int
+        totalScore = 0
+        correct = 0
         if (quizVP.currentItem == wordsList.size-1) {
             quizlog = mutableListOf()
 

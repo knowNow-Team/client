@@ -8,15 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.adapter.FolderAdapter
+import com.example.konwnow.ui.view.MainActivity
+import com.example.konwnow.utils.Constants
+import com.example.konwnow.viewmodel.WordBookViewModel
+import com.google.gson.annotations.SerializedName
 
 
 class TestFragment: Fragment() {
-    var folderList = arrayListOf<WordBook>()
+    var folderList = arrayListOf<WordBook.WordBookData>()
     //체크된 태그
     //0: 몰라요
     //1: 헷갈려요
@@ -36,6 +42,8 @@ class TestFragment: Fragment() {
     private lateinit var folderAdapter: FolderAdapter
     private var totalQuizNum: Int = 0
     private  var selectedQuizNum: Int = 0
+    private lateinit var viewModel: WordBookViewModel
+
 
     //0: 단어퍼즐
     //1: 단어 받아쓰기
@@ -53,6 +61,8 @@ class TestFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
+
         setDefault()
         setFolderList()
         setTag()
@@ -64,12 +74,7 @@ class TestFragment: Fragment() {
 
     private fun setFolderList() {
         //폴더 리스트 데이터
-//        folderList.add(Folder("name1",4))
-//        folderList.add(Folder("name2",20))
-//        folderList.add(Folder("name3",30))
-//        folderList.add(Folder("name4",2))
-//        folderList.add(Folder("name5",12))
-
+        requestGroups()
         folderListRv = v.findViewById(R.id.rv_word_folder) as RecyclerView
         folderListRv.setHasFixedSize(true)
         folderListRv.layoutManager = LinearLayoutManager(context)
@@ -85,8 +90,23 @@ class TestFragment: Fragment() {
             quizNumSb.max = totalQuizNum
             setQuizNum()
         }
-        folderAdapter.folderUpdateList(folderList)
         folderListRv.adapter = folderAdapter
+    }
+
+    private fun requestGroups() {
+        viewModel.getDataReponse().observe(viewLifecycleOwner, Observer {
+            if (it != null){
+                Log.d(Constants.TAG,"단어장 가져오기 성공!")
+                folderList.clear()
+                folderList.addAll(it.data)
+                Log.d(Constants.TAG,folderList.toString())
+            }else {
+                Log.d(Constants.TAG,"단어장 get response null!")
+            }
+            folderAdapter.folderUpdateList(folderList)
+            folderAdapter.notifyDataSetChanged()
+        })
+        viewModel.getWordBook(MainActivity.getUserData().loginToken)
     }
 
     private fun setDefault() {
@@ -178,29 +198,6 @@ class TestFragment: Fragment() {
             startActivity(testLogIntent)
         }
     }
-
-//    private fun setRadioGroup() {
-//        testModeRg.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
-//            if(group.id == R.id.rg_test_mode){
-//                when(checkedId){
-//                    R.id.rb_word_puzzle -> testMode=0
-//                    R.id.rb_test_dictation -> testMode=1
-//                }
-//            }
-//        })
-//    }
-
-//    private fun getCheckedTestMode() {
-//        var selectedTestMode = testModeRg.checkedRadioButtonId
-//        when(selectedTestMode){
-//            R.id.rb_word_puzzle -> {
-//                testMode=0
-//            }
-//            R.id.rb_test_dictation -> {
-//                testMode=1
-//            }
-//        }
-//    }
 
 
 }

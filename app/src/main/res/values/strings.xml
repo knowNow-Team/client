@@ -41,6 +41,9 @@
     <string name="closeSub">종료하시면 테스트내용은 저장되지 않습니다.</string>
     <string name="submit">제출</string>
     <string name="miss">내가 쓴 답\t\t%s</string>
+    <string name="word_count">단어 수: %d</string>
+    <string name="createAt">생성일자: %s</string>
+    <string name="words">"단어: %s</string>
 
     <!-- Word -->
     <string name="not_know">몰라요</string>

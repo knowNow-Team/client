@@ -72,7 +72,7 @@ class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
         bundle.putStringArrayList("wordBook",selectedBook)
         val homeFragment = HomeFragment()
         homeFragment.arguments = bundle
-        Toast.makeText(context,"홈으로 전환 " ,Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context,"홈으로 전환 " ,Toast.LENGTH_SHORT).show()
     }
 
     fun groupsUpdateList(groupsItem: ArrayList<WordBook.WordBooks>){

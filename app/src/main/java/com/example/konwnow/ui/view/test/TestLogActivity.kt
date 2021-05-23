@@ -20,18 +20,21 @@ import com.broooapps.graphview.models.GraphData
 import com.broooapps.graphview.models.PointMap
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.TestLog
+import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.adapter.TestLogAdapter
 import com.example.konwnow.ui.view.MainActivity
+import com.example.konwnow.utils.Constants
 import com.example.konwnow.viewmodel.TestLogViewModel
+import com.example.konwnow.viewmodel.WordBookViewModel
 import kotlin.collections.ArrayList
 
 
 class TestLogActivity : AppCompatActivity() {
 
     companion object{
-        private lateinit var viewModel: TestLogViewModel
-        fun getViewModel(): TestLogViewModel{
-            return viewModel!!
+        private lateinit var TestViewModel: TestLogViewModel
+        fun getTestViewModel(): TestLogViewModel{
+            return TestViewModel!!
         }
     }
     var testLogList = arrayListOf<TestLog.TestLogData>()
@@ -47,8 +50,8 @@ class TestLogActivity : AppCompatActivity() {
     }
 
     private fun requestTest() {
-        viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(TestLogViewModel::class.java)
-        viewModel.getDataObserver().observe(this, Observer<ArrayList<TestLog.TestLogData>>{
+        TestViewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(TestLogViewModel::class.java)
+        TestViewModel.getDataObserver().observe(this, Observer<ArrayList<TestLog.TestLogData>>{
             if(it != null){
                 testLogList.clear()
                 testLogList.addAll(it)
@@ -60,9 +63,9 @@ class TestLogActivity : AppCompatActivity() {
                 Log.d("view","view에서 viewModel 관찰 실패")
             }
         })
-
-        viewModel.getTest(MainActivity.getUserData()!!.loginToken)
+        TestViewModel.getTest(MainActivity.getUserData()!!.loginToken)
     }
+
 
     private fun setGrapgh() {
         curveGraphView = findViewById(R.id.cgv_test)

@@ -1,10 +1,13 @@
 package com.example.konwnow.ui.adapter
 
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
@@ -14,14 +17,24 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.ramotion.foldingcell.FoldingCell
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
         RecyclerView.Adapter<FolderAdapter.Holder>() {
-    private var items = ArrayList<WordBook>()
+    private var items = ArrayList<WordBook.WordBookData>()
     private lateinit var view:View
-    var checkedFolder = mutableSetOf<WordBook>()
+    var checkedFolder = mutableSetOf<WordBook.WordBookData>()
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
+        val titleTv = itemView?.findViewById<TextView>(R.id.tv_groups_name)
+        val countTv = itemView?.findViewById<TextView>(R.id.tv_count)
+        val openTitleTv = itemView?.findViewById<TextView>(R.id.tv_title_opened)
+        val openCountTv = itemView?.findViewById<TextView>(R.id.tv_count_opened)
+        val openDateTv = itemView?.findViewById<TextView>(R.id.tv_date_opened)
+        val openwordTv = itemView?.findViewById<TextView>(R.id.tv_words_opened)
         val foldingcell = itemView?.findViewById<FoldingCell>(R.id.folding_cell)
         val pieChart = itemView?.findViewById<PieChart>(R.id.pieChart)
     }
@@ -43,6 +56,19 @@ class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
                 itemClick(position,holder.foldingcell.isSelected)
             }
         }
+        holder.titleTv!!.text = items[position].title
+        holder.countTv!!.text = items[position].allCount.toString()
+        holder.openTitleTv!!.text = items[position].title
+        holder.openCountTv!!.text = String.format(view.context.getString(R.string.word_count),items[position].allCount)
+        holder.openDateTv!!.text = String.format(view.context.getString(R.string.createAt),parseDate(items[position].createdAt))
+        //TODO: 변경해야됨 (임시)
+        var tempWords: String ="0"
+        for(i in 1..2){
+            tempWords += ", $i"
+        }
+        tempWords+="..."
+
+        holder.openwordTv!!.text = String.format(view.context.getString(R.string.words),tempWords)
         holder.foldingcell!!.setOnLongClickListener {
             holder.foldingcell!!.toggle(false)
             holder.pieChart!!.setUsePercentValues(true)
@@ -57,7 +83,15 @@ class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
             holder.pieChart!!.invalidate()
             true
         }
+    }
 
+    private fun parseDate(createdAt: String): String {
+        val oldFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.KOREA) // 받은 데이터 형식
+        oldFormat.timeZone = TimeZone.getTimeZone("KST")
+        val newFormat = SimpleDateFormat("yyyy년 MM월 dd일 HH:mm:ss", Locale.KOREA) // 바꿀 데이터 형식
+
+        val oldDate: Date = oldFormat.parse(createdAt)
+        return newFormat.format(oldDate)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -95,13 +129,10 @@ class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
         return items.size
     }
 
-    fun getItemChecked() {
-        for(item in items){
 
-        }
-    }
-
-    fun folderUpdateList(wordBookItem: ArrayList<WordBook>){
+    fun folderUpdateList(wordBookItem: ArrayList<WordBook.WordBookData>){
+//        this.items.clear()
+        Log.d("노티파이",wordBookItem.toString())
         this.items.addAll(wordBookItem)
     }
 }

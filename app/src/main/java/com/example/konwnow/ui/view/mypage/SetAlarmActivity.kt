@@ -18,8 +18,8 @@ import com.example.konwnow.ui.adapter.FolderAdapter
 
 class SetAlarmActivity : AppCompatActivity() {
     private lateinit var folderAdapter: FolderAdapter
-    var folderList = arrayListOf<WordBook>()
-    var selectedFolderList = arrayListOf<WordBook>()
+    var folderList = arrayListOf<WordBook.WordBookData>()
+    var selectedFolderList = arrayListOf<WordBook.WordBookData>()
     private lateinit var notKnowCb: CheckBox
     private lateinit var confuseCb: CheckBox
     private lateinit var knowCb: CheckBox
