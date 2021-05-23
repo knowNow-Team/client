@@ -14,6 +14,43 @@ class TestLog{
             return "TestInfo(`data`=$`data`, message='$message')"
         }
     }
+    data class TestDetailResponse(
+        @SerializedName("data")
+        val `data`: TestDetails,
+        @SerializedName("message")
+        val message: String
+    ) {
+        override fun toString(): String {
+            return "TestInfo(`data`=$`data`, message='$message')"
+        }
+    }
+
+    data class TestDetails(
+        @SerializedName("correctAnswerCount")
+        val correctAnswerCount: Int,
+        @SerializedName("createdAt")
+        val createdAt: String,
+        @SerializedName("difficulty")
+        val difficulty: String,
+        @SerializedName("filter")
+        val filter: List<String>,
+        @SerializedName("_id")
+        val id: String,
+        @SerializedName("score")
+        val score: String,
+        @SerializedName("testerId")
+        val testerId: Int,
+        @SerializedName("updatedAt")
+        val updatedAt: String,
+        @SerializedName("__v")
+        val v: Int,
+        @SerializedName("wordTotalCount")
+        val wordTotalCount: Int,
+        @SerializedName("wordbooks")
+        val wordbooks: List<String>,
+        @SerializedName("words")
+        val words: List<Quiz.QuizDetail>
+    )
 
     data class TestRequestBody(
         @SerializedName("correctAnswerCount")
@@ -32,7 +69,7 @@ class TestLog{
         @SerializedName("wordbooks")
         val wordbooks: List<String>,
         @SerializedName("words")
-        val words: List<Quiz>
+        val words: List<Quiz.TotalQuiz>
     )
 
     data class TestCreateResponse(

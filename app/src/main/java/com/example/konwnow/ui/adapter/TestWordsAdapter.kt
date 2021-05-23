@@ -6,6 +6,7 @@ import android.os.Build
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,7 @@ import com.example.konwnow.ui.view.home.WordDialog
 class TestWordsAdapter : RecyclerView.Adapter<TestWordsAdapter.Holder>(){
 
     private lateinit var context : Context
-    private var items = ArrayList<Quiz>()
+    private var items = ArrayList<Quiz.QuizDetail>()
 
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
@@ -45,8 +46,8 @@ class TestWordsAdapter : RecyclerView.Adapter<TestWordsAdapter.Holder>(){
     @RequiresApi(Build.VERSION_CODES.M)
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.tvEng!!.text = items[position].wordId
-        holder.tvKor!!.text = items[position].answer
+        holder.tvEng!!.text = items[position].wordId.word
+        holder.tvKor!!.text = items[position].wordId.meanings[0] +", " + items[position].wordId.meanings[1]
         if(items[position].isCorrect){
             holder.ivHit!!.background = context.getDrawable(R.drawable.ic_hit)
         }else{
@@ -65,8 +66,11 @@ class TestWordsAdapter : RecyclerView.Adapter<TestWordsAdapter.Holder>(){
         }
     }
 
-    fun wordsUpdateList(wordItem: ArrayList<Quiz>){
+    fun wordsUpdateList(wordItem: ArrayList<Quiz.QuizDetail>){
+        this.items.clear()
         this.items.addAll(wordItem)
+        Log.d("items:",items.size.toString())
+        notifyDataSetChanged()
     }
 
 }

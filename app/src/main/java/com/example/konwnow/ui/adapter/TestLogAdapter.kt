@@ -14,6 +14,9 @@ import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.TestLog
 import com.example.konwnow.ui.view.test.TestLogDialog
 import com.example.konwnow.viewmodel.TestLogViewModel
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TestLogAdapter(private val mContext:Context,private val lifecycleOwner: LifecycleOwner, private val testLogList: ArrayList<TestLog.TestLogData>, val itemClick: (Int) -> Unit) :
         RecyclerView.Adapter<TestLogAdapter.Holder>() {
@@ -40,11 +43,20 @@ class TestLogAdapter(private val mContext:Context,private val lifecycleOwner: Li
         }
         holder.tvTestCount!!.text = testLogList[position].correctAnswerCount.toString() +" / "+ testLogList[position].wordTotalCount.toString()
         holder.tvTestGroup!!.text = testLogList[position].wordbooks.toString()
-        holder.tvTestDate!!.text = testLogList[position].createdAt
+        holder.tvTestDate!!.text = parseDate(testLogList[position].createdAt)
         holder.itemView.setOnClickListener {
             holder.dlg = TestLogDialog(mContext,lifecycleOwner)
             holder.dlg.start(testLogList[position].id)
         }
+    }
+
+    private fun parseDate(createdAt: String): String {
+        val oldFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.KOREA) // 받은 데이터 형식
+        oldFormat.timeZone = TimeZone.getTimeZone("KST")
+        val newFormat = SimpleDateFormat("yyyy년 MM월 dd일 HH:mm:ss", Locale.KOREA) // 바꿀 데이터 형식
+
+        val oldDate: Date = oldFormat.parse(createdAt)
+        return newFormat.format(oldDate)
     }
 
     override fun getItemCount(): Int {

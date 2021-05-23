@@ -20,6 +20,9 @@ import com.example.konwnow.data.remote.dto.TestLog
 import com.example.konwnow.ui.adapter.TestWordsAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.viewmodel.TestLogViewModel
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class TestLogDialog(private var mContext: Context, var lifecycleOwner: LifecycleOwner) {
@@ -69,17 +72,21 @@ class TestLogDialog(private var mContext: Context, var lifecycleOwner: Lifecycle
         viewModel = TestLogActivity.getViewModel()
         viewModel.getTestDetailObserver().observe(lifecycleOwner, Observer<TestLog.TestDetails> {
             if (it != null) {
-                tvTestDate.text = it.createdAt // 날짜
+                try {
+                    tvTestDate.text = parseDate(it.createdAt)
+                }catch (e: ParseException){
+                    Log.e("error",e.toString())
+                }
                 wordsList.clear()
                 wordsList.addAll(it.words) //단어
                 wordsAdapter.wordsUpdateList(wordsList)
-                Log.d("관찰",wordsList.size.toString())
+                Log.d("관찰", wordsList.size.toString())
             } else {
                 Log.d("view", "view에서 viewModel 관찰 실패")
             }
         })
 
-        viewModel.getTestById(MainActivity.getUserData()!!.loginToken,testId)
+        viewModel.getTestById(MainActivity.getUserData()!!.loginToken, testId)
 //        wordsList.add(Quiz("Complex", "복잡한","complex",true))
 //        wordsList.add(Quiz("movie", "영화관","movie",true))
 //        wordsList.add(Quiz("Fragment", "조각","Fragment",true))
@@ -90,6 +97,15 @@ class TestLogDialog(private var mContext: Context, var lifecycleOwner: Lifecycle
 //        wordsList.add(Quiz("movie", "영화관","movie",true))
 //        wordsList.add(Quiz("Fragment", "조각","fafa",false))
 
+    }
+
+    private fun parseDate(createdAt: String): String {
+        val oldFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.KOREA) // 받은 데이터 형식
+        oldFormat.timeZone = TimeZone.getTimeZone("KST")
+        val newFormat = SimpleDateFormat("yyyy년 MM월 dd일 HH:mm:ss", Locale.KOREA) // 바꿀 데이터 형식
+
+        val oldDate: Date = oldFormat.parse(createdAt)
+        return newFormat.format(oldDate)
     }
 
 
