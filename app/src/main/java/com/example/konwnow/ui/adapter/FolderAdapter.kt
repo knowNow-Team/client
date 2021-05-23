@@ -1,6 +1,5 @@
 package com.example.konwnow.ui.adapter
 
-import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
 import android.util.Log
@@ -12,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
+import com.example.konwnow.ui.view.test.TestFragment
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -26,7 +26,6 @@ class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
         RecyclerView.Adapter<FolderAdapter.Holder>() {
     private var items = ArrayList<WordBook.WordBookData>()
     private lateinit var view:View
-    var checkedFolder = mutableSetOf<WordBook.WordBookData>()
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val titleTv = itemView?.findViewById<TextView>(R.id.tv_groups_name)
@@ -52,12 +51,13 @@ class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
                 holder.foldingcell.isSelected = false
                 itemClick(position,holder.foldingcell.isSelected)
             }else{
+                TestFragment.selectedWordBook[items[position].id] = items[position].title
                 holder.foldingcell.isSelected = true
                 itemClick(position,holder.foldingcell.isSelected)
             }
         }
         holder.titleTv!!.text = items[position].title
-        holder.countTv!!.text = items[position].allCount.toString()
+        holder.countTv!!.text = String.format(view.context.getString(R.string.word_count),items[position].allCount)
         holder.openTitleTv!!.text = items[position].title
         holder.openCountTv!!.text = String.format(view.context.getString(R.string.word_count),items[position].allCount)
         holder.openDateTv!!.text = String.format(view.context.getString(R.string.createAt),parseDate(items[position].createdAt))

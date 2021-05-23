@@ -25,11 +25,13 @@ import com.example.konwnow.viewmodel.TestLogViewModel
 
 class DictationTestActivity : AppCompatActivity() {
     var wordsList =  arrayListOf<Words>()
-    lateinit var quizNum:String
+    var quizNum = 0
     private lateinit var quizVP: ViewPager2
     private lateinit var dictationAdapter: DictationAdapter
     private lateinit var filters : List<String>
-    private lateinit var wordbooks : List<String>
+    private lateinit var wordbooks : HashMap<String,String>
+    private lateinit var wordbookTitleList : List<String>
+    private lateinit var wordbookIdList : List<String>
     private lateinit var quizlog : MutableList<Quiz.TotalQuiz>
     private lateinit var viewModel : TestLogViewModel
 
@@ -53,8 +55,10 @@ class DictationTestActivity : AppCompatActivity() {
         wordsList.add(Words("hello", "복잡한",0))
         wordsList.add(Words("green", "영화관",1))
         wordsList.add(Words("hoxy", "조각",0))
-        filters = listOf("memorized","confused")
-        wordbooks = listOf("60a3ca4f25ac7300576e8c00")
+
+        wordbooks = intent.extras!!.get("selectedFolder") as HashMap<String, String>
+        quizNum = intent.extras!!.get("selectedQuizNum") as Int
+        filters = intent.extras!!.get("checkedTag") as List<String>
         setQuiz()
 
 //        var imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -102,9 +106,8 @@ class DictationTestActivity : AppCompatActivity() {
     }
 
     private fun setQuizNum(){
-        quizNum = String.format(resources.getString(R.string.quizNum),(quizVP.currentItem+1), wordsList.size)
         val tvQuizNum = findViewById<TextView>(R.id.tv_quiz_num)
-        tvQuizNum.text = quizNum
+        tvQuizNum.text = String.format(resources.getString(R.string.quizNum),(quizVP.currentItem+1), wordsList.size)
     }
 
 
@@ -158,7 +161,7 @@ class DictationTestActivity : AppCompatActivity() {
                 Log.d("로그 생성","실패")
             }
         })
-        viewModel.postTestLog(MainActivity.getUserData().loginToken,correct, "hard",filters,totalScore,MainActivity.getUserData().userID,wordsList.size,wordbooks,quizlog.toList())
+        viewModel.postTestLog(MainActivity.getUserData().loginToken,correct, "hard",filters,totalScore,MainActivity.getUserData().userID,wordsList.size,wordbookTitleList,quizlog.toList())
     }
 
 

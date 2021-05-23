@@ -22,12 +22,16 @@ import com.google.gson.annotations.SerializedName
 
 
 class TestFragment: Fragment() {
+
+    companion object{
+        var selectedWordBook: HashMap<String,String> = HashMap()
+    }
     var folderList = arrayListOf<WordBook.WordBookData>()
     //체크된 태그
     //0: 몰라요
     //1: 헷갈려요
     //2: 알아요
-    var checkedTag = arrayListOf<Int>()
+    var checkedTag = arrayListOf<String>()
     private lateinit var v: View
     private lateinit var puzzleTestButton: RadioButton
     private lateinit var dictationTestButton: RadioButton
@@ -44,10 +48,6 @@ class TestFragment: Fragment() {
     private  var selectedQuizNum: Int = 0
     private lateinit var viewModel: WordBookViewModel
 
-
-    //0: 단어퍼즐
-    //1: 단어 받아쓰기
-    private var testMode: Int =0
 
     private val testModeRg: RadioGroup by lazy {
         view?.findViewById(R.id.rg_test_mode) as RadioGroup
@@ -67,7 +67,6 @@ class TestFragment: Fragment() {
         setFolderList()
         setTag()
         setStartButton()
-//        setRadioGroup()
         setTestLogButton()
         setSeekBar()
     }
@@ -80,9 +79,9 @@ class TestFragment: Fragment() {
         folderListRv.layoutManager = LinearLayoutManager(context)
         folderAdapter = FolderAdapter(){ i: Int, b: Boolean ->
             if(b){
-                //totalQuizNum += folderList[i].wordsCount
+                totalQuizNum += folderList[i].allCount
             }else{
-                //totalQuizNum -= folderList[i].wordsCount
+                totalQuizNum -= folderList[i].allCount
                 if(selectedQuizNum > totalQuizNum){
                     selectedQuizNum = totalQuizNum
                 }
@@ -133,16 +132,16 @@ class TestFragment: Fragment() {
     private fun getCheckedTag(){
         checkedTag.clear()
         if(notKnowCb.isChecked){
-            checkedTag.add(0)
+            checkedTag.add(getString(R.string.doNotKnow))
         }
         if(confuseCb.isChecked){
-            checkedTag.add(1)
+            checkedTag.add(getString(R.string.confused))
         }
         if(knowCb.isChecked){
-            checkedTag.add(2)
+            checkedTag.add(getString(R.string.memorized))
         }
-        for(i: Int in checkedTag){
-            Log.d("선택된 태그",i.toString())
+        for(i: String in checkedTag){
+            Log.d("선택된 태그",i)
         }
     }
 
@@ -176,18 +175,32 @@ class TestFragment: Fragment() {
                     Intent(activity, DictationTestActivity::class.java)
                 }
             }
-            //폴더 리스트체크
-            for(item in folderAdapter.checkedFolder){
-                //Log.d("선택된 폴더", item.name)
+            if(checkValid()){
+                mIntent.putExtra("selectedFolder", selectedWordBook)
+                mIntent.putExtra("selectedQuizNum", selectedQuizNum)
+                mIntent.putExtra("selectedTag", checkedTag)
+                startActivity(mIntent)
             }
-            //문제수 체크
-//            Log.d("선택", selectedQuizNum.toString())
-//            Log.d("전체",totalQuizNum.toString())
 
-            //태그 체크
-            getCheckedTag()
-            startActivity(mIntent)
         }
+    }
+
+    private fun checkValid():Boolean{
+        //태그 체크
+        getCheckedTag()
+        if(selectedWordBook.isEmpty()){
+            toast("단어장을 선택해주세요")
+            return false
+        }
+        if(selectedQuizNum==0){
+            toast("문제 수를 선택해주세요")
+            return false
+        }
+        if(checkedTag.isEmpty()){
+            toast("태그를 선택해주세요")
+            return false
+        }
+        return true
     }
 
     private fun setTestLogButton() {
@@ -199,5 +212,6 @@ class TestFragment: Fragment() {
         }
     }
 
+    private fun toast(message: String){ Toast.makeText(context, message, Toast.LENGTH_SHORT).show() }
 
 }

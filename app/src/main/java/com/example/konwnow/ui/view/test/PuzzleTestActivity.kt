@@ -1,6 +1,7 @@
 package com.example.konwnow.ui.view.test
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
@@ -12,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.Quiz
 import com.example.konwnow.data.remote.dto.TestLog
+import com.example.konwnow.data.remote.dto.WordId
 import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.PuzzleAdapter
 import com.example.konwnow.ui.view.MainActivity
@@ -21,13 +23,15 @@ import kotlin.collections.ArrayList
 
 
 class PuzzleTestActivity : AppCompatActivity() {
-    var wordsList =  arrayListOf<Words>()
-    lateinit var quizNum:String
+    var wordsList =  arrayListOf<WordId>()
+    private var quizNum:Int =0
     private lateinit var quizVP: ViewPager2
     private lateinit var puzzleAdapter: PuzzleAdapter
-    private lateinit var viewModel : TestLogViewModel
+    private lateinit var TestLogViewModel : TestLogViewModel
     private lateinit var filters : List<String>
-    private lateinit var wordbooks : List<String>
+    private lateinit var wordbooks : HashMap<String,String>
+    private lateinit var wordbookTitleList : List<String>
+    private lateinit var wordbookIdList : List<String>
     private lateinit var quizlog : MutableList<Quiz.TotalQuiz>
     var point = 0
     var totalScore = 0
@@ -39,23 +43,62 @@ class PuzzleTestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_test_puzzle)
         setToolbar()
         wordsList.clear()
-        wordsList.add(Words("Complex", "복잡한",1))
-        wordsList.add(Words("movie", "영화관",2))
-        wordsList.add(Words("Fragment", "조각",1))
-        wordsList.add(Words("apple", "복잡한",0))
-        wordsList.add(Words("banana", "영화관",2))
-        wordsList.add(Words("carrot", "조각",1))
-        wordsList.add(Words("hello", "복잡한",0))
-        wordsList.add(Words("green", "영화관",2))
-        wordsList.add(Words("hoxy", "조각",1))
-        filters = listOf("memorized","confused")
-        wordbooks = listOf("60a3ca4f25ac7300576e8c00")
-        setQuiz()
+//        requestWords()
 
+//        wordsList.add(WordId("Complex", "복잡한",1))
+//        wordsList.add(Words("movie", "영화관",2))
+//        wordsList.add(Words("Fragment", "조각",1))
+//        wordsList.add(Words("apple", "복잡한",0))
+//        wordsList.add(Words("banana", "영화관",2))
+//        wordsList.add(Words("carrot", "조각",1))
+//        wordsList.add(Words("hello", "복잡한",0))
+//        wordsList.add(Words("green", "영화관",2))
+//        wordsList.add(Words("hoxy", "조각",1))
+        printInent(intent)
+
+        wordbooks = intent.extras!!.get("selectedFolder") as HashMap<String, String>
+        quizNum = intent.extras!!.get("selectedQuizNum") as Int
+        filters = intent.extras!!.get("checkedTag") as List<String>
+        Log.d("퍼즐테스트",intent.extras.toString())
+
+        wordbookIdList = wordbooks.keys.toList()
+        wordbookTitleList = wordbooks.values.toList()
+        //두개는 이전 액티비티에서 전달받자
+        setQuiz()
 
         //문제수 표시 스트링
         setQuizNum()
 
+    }
+
+    fun printInent(i: Intent) {
+        try {
+            Log.d(Constants.TAG,"-------------------------------------------------------")
+            Log.d(Constants.TAG,"intent = " + i)
+            if (i != null) {
+                var extras = i.extras
+                Log.d(Constants.TAG,"extras = " + extras);
+                if (extras != null) {
+                    var keys = extras.keySet()
+                    Log.d(Constants.TAG,"++ bundle key count = " + keys.size)
+
+                    for (_key in keys) {
+                        Log.d(Constants.TAG,"key=" + _key + " : " + extras.get(_key))
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.d(Constants.TAG,e.toString())
+        } finally {
+            Log.d(Constants.TAG,"-------------------------------------------------------")
+        }
+    }
+
+
+
+    private fun requestWords() {
+        TODO("Not yet implemented")
+        //전달받은 wordbooks ID로 word GET
     }
 
 
@@ -97,9 +140,8 @@ class PuzzleTestActivity : AppCompatActivity() {
     }
 
     private fun setQuizNum(){
-        quizNum = String.format(resources.getString(R.string.quizNum),(quizVP.currentItem+1), wordsList.size)
         val tvQuizNum = findViewById<TextView>(R.id.tv_quiz_num)
-        tvQuizNum.text = quizNum
+        tvQuizNum.text =  String.format(resources.getString(R.string.quizNum),(quizVP.currentItem+1), wordsList.size)
     }
 
 
@@ -110,8 +152,7 @@ class PuzzleTestActivity : AppCompatActivity() {
         quizlog = mutableListOf()
         if (quizVP.currentItem == wordsList.size-1) {
             for(i in wordsList.indices){
-                var target = wordsList[i].eng
-                var kor = wordsList[i].kor
+                var target = wordsList[i].word
                 var userAnswer = answer[i]
                 var strTmp = ""
                 var hit = true
@@ -141,8 +182,8 @@ class PuzzleTestActivity : AppCompatActivity() {
     }
 
     private fun postTestLog() {
-        viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(TestLogViewModel::class.java)
-        viewModel.getTestCreateResponseObserver().observe(this, Observer<TestLog.TestCreateResponse>{
+        TestLogViewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(TestLogViewModel::class.java)
+        TestLogViewModel.getTestCreateResponseObserver().observe(this, Observer<TestLog.TestCreateResponse>{
             Log.d(Constants.TAG,"Response : $it")
             if(it != null) {
                 Log.d("로그 생성","성공")
@@ -150,7 +191,7 @@ class PuzzleTestActivity : AppCompatActivity() {
                 Log.d("로그 생성","실패")
             }
         })
-        viewModel.postTestLog(MainActivity.getUserData().loginToken,correct, "hard",filters,totalScore,MainActivity.getUserData().userID,wordsList.size,wordbooks,quizlog.toList())
+        TestLogViewModel.postTestLog(MainActivity.getUserData().loginToken,correct, "hard",filters,totalScore,MainActivity.getUserData().userID,wordsList.size,wordbookTitleList,quizlog.toList())
     }
 
 

@@ -50,6 +50,12 @@
     <string name="confuse">헷갈려요</string>
     <string name="know">다 외웠어요</string>
 
+    <!-- Tag -->
+    <string name="doNotKnow">doNotKnow</string>
+    <string name="confused">confused</string>
+    <string name="memorized">memorized</string>
+
+
 
     <!-- Input -->
     <string name="text_write">직접등록</string>

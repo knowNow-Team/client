@@ -13,11 +13,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
+import com.example.konwnow.data.remote.dto.WordId
 import com.example.konwnow.data.remote.dto.Words
 
 class PuzzleAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : RecyclerView.Adapter<PuzzleAdapter.Holder>() {
     lateinit var myContext: Context
-    private var quizList = ArrayList<Words>()
+    private var quizList = ArrayList<WordId>()
 
     var cursor = arrayListOf<Int>()
     lateinit var mHloder:Holder
@@ -44,7 +45,7 @@ class PuzzleAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : Rec
 
     override fun onBindViewHolder(holder: Holder, position: Int){
         Log.d("포지션",position.toString())
-        holder.tvQuizKor!!.text = quizList[position].kor
+        holder.tvQuizKor!!.text = quizList[position].meanings[0]
         cursor.add(0)
         totalBlank.add(ArrayList<TextView>())
         totalWrote.add(ArrayList<String>())
@@ -70,7 +71,7 @@ class PuzzleAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : Rec
 
 
     private fun setBlank(holder: Holder, position: Int) {
-        var tmpString = quizList[position].eng
+        var tmpString = quizList[position].word
         //reset
         totalBlank[position].clear()
         holder.blankPuzzleLl!!.removeAllViews()
@@ -97,7 +98,7 @@ class PuzzleAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : Rec
 
     private fun setButton(holder: Holder, position: Int) {
         //스펠링 리스트
-        var tmpString = quizList[position].eng
+        var tmpString = quizList[position].word
         var spellList = arrayListOf<String>()
 
         for(element in tmpString!!){
@@ -147,7 +148,7 @@ class PuzzleAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : Rec
         }
     }
 
-    fun wordsUpdateList(quizItem: ArrayList<Words>){
+    fun wordsUpdateList(quizItem: ArrayList<WordId>){
         this.quizList.addAll(quizItem)
     }
 
