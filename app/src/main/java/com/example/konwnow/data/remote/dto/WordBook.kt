@@ -22,6 +22,28 @@ class WordBook {
         @SerializedName("message")
         val message: String
     )
+
+    data class PostWordResponse(
+        @SerializedName("data")
+        val data: Data,
+        @SerializedName("message")
+        val message: String
+    )
+
+
+    data class PostWordRequestBody(
+        @SerializedName("userId")
+        val userId: Int,
+        @SerializedName("wordNames")
+        val wordNames: List<String>
+    )
+
+    data class GetAllWordResponse(
+        @SerializedName("data")
+        val data: List<GetAllWordResponseData>,
+        @SerializedName("message")
+        val message: String
+    )
     
     data class Data(
         @SerializedName("createdAt")
@@ -63,6 +85,34 @@ class WordBook {
         val title: String,
         @SerializedName("updatedAt")
         val updatedAt: String
+    )
+
+    data class GetAllWordResponseData(
+        @SerializedName("createdAt")
+        val createdAt: String,
+        @SerializedName("_id")
+        val id: String,
+        @SerializedName("owner")
+        val owner: Int,
+        @SerializedName("title")
+        val title: String,
+        @SerializedName("updatedAt")
+        val updatedAt: String,
+        @SerializedName("words")
+        val words: WordState,
+        @SerializedName("words-doc")
+        val wordsDoc: List<WordId>
+    )
+
+    data class WordState(
+        @SerializedName("addedAt")
+        val addedAt: String,
+        @SerializedName("filter")
+        val filter: String,
+        @SerializedName("isRemoved")
+        val isRemoved: Boolean,
+        @SerializedName("wordId")
+        val wordId: String
     )
 
     data class Filter(

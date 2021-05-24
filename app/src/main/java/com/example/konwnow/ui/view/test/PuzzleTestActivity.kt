@@ -11,15 +11,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.konwnow.R
-import com.example.konwnow.data.remote.dto.Quiz
-import com.example.konwnow.data.remote.dto.TestLog
-import com.example.konwnow.data.remote.dto.WordId
-import com.example.konwnow.data.remote.dto.Words
+import com.example.konwnow.data.remote.dto.*
 import com.example.konwnow.ui.adapter.PuzzleAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.Constants
 import com.example.konwnow.viewmodel.TestLogViewModel
+import com.example.konwnow.viewmodel.WordBookViewModel
+import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class PuzzleTestActivity : AppCompatActivity() {
@@ -27,7 +27,8 @@ class PuzzleTestActivity : AppCompatActivity() {
     private var quizNum:Int =0
     private lateinit var quizVP: ViewPager2
     private lateinit var puzzleAdapter: PuzzleAdapter
-    private lateinit var TestLogViewModel : TestLogViewModel
+    private lateinit var testLogViewModel : TestLogViewModel
+    private lateinit var workBookViewModel: WordBookViewModel
     private lateinit var filters : List<String>
     private lateinit var wordbooks : HashMap<String,String>
     private lateinit var wordbookTitleList : List<String>
@@ -43,32 +44,61 @@ class PuzzleTestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_test_puzzle)
         setToolbar()
         wordsList.clear()
-//        requestWords()
 
-//        wordsList.add(WordId("Complex", "복잡한",1))
-//        wordsList.add(Words("movie", "영화관",2))
-//        wordsList.add(Words("Fragment", "조각",1))
-//        wordsList.add(Words("apple", "복잡한",0))
-//        wordsList.add(Words("banana", "영화관",2))
-//        wordsList.add(Words("carrot", "조각",1))
-//        wordsList.add(Words("hello", "복잡한",0))
-//        wordsList.add(Words("green", "영화관",2))
-//        wordsList.add(Words("hoxy", "조각",1))
-        printInent(intent)
-
+//        printInent(intent)
         wordbooks = intent.extras!!.get("selectedFolder") as HashMap<String, String>
         quizNum = intent.extras!!.get("selectedQuizNum") as Int
-        filters = intent.extras!!.get("checkedTag") as List<String>
-        Log.d("퍼즐테스트",intent.extras.toString())
+        filters = intent.extras!!.get("selectedTag") as List<String>
 
         wordbookIdList = wordbooks.keys.toList()
         wordbookTitleList = wordbooks.values.toList()
-        //두개는 이전 액티비티에서 전달받자
+        requestAllWord()
         setQuiz()
 
         //문제수 표시 스트링
         setQuizNum()
 
+    }
+
+    private fun getRandom(totalSize: Int, selectSize:Int): TreeSet<Int>{
+        var set: TreeSet<Int> = TreeSet()
+        while(set.size < selectSize){
+            val random = Random()
+            val num = random.nextInt(totalSize)
+            set.add(num)
+        }
+        return set
+    }
+
+    private fun requestAllWord() {
+        workBookViewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
+        workBookViewModel.getWordDataResponse().observe(this, Observer {
+            if (it != null){
+                Log.d(Constants.TAG,"단어 가져오기 성공!")
+                Log.d(Constants.TAG,"response Body : ${it}")
+                var allWord = ArrayList<WordId>()
+
+                for (item in it.data){
+                    if(!item.words.isRemoved && item.words.filter in filters){
+                        var tempWord = item.wordsDoc
+                        for(word in tempWord){
+                            allWord.add(word)
+                        }
+                    }
+                }
+                val quizIndexSet = getRandom(allWord.size,quizNum)
+
+                for(i in quizIndexSet){
+                    wordsList.add(allWord[i])
+                }
+                Log.d(Constants.TAG,"wordList: ${wordsList}")
+            }else {
+                Log.d(Constants.TAG,"단어장 get response null!")
+            }
+//            puzzleAdapter.wordsUpdateList(wordsList)
+            puzzleAdapter.notifyDataSetChanged()
+        })
+        workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordbookIdList)
     }
 
     fun printInent(i: Intent) {
@@ -96,12 +126,6 @@ class PuzzleTestActivity : AppCompatActivity() {
 
 
 
-    private fun requestWords() {
-        TODO("Not yet implemented")
-        //전달받은 wordbooks ID로 word GET
-    }
-
-
     override fun onBackPressed() {
         val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
         dlg.setTitle(R.string.close)
@@ -115,12 +139,12 @@ class PuzzleTestActivity : AppCompatActivity() {
     }
 
     private fun setQuiz(){
-        puzzleAdapter = PuzzleAdapter(){
+        puzzleAdapter = PuzzleAdapter(wordsList){
             goNext(it)
         }
         quizVP = findViewById(R.id.vp_puzzle)
         quizVP.isUserInputEnabled = false
-        puzzleAdapter.wordsUpdateList(wordsList)
+//        puzzleAdapter.wordsUpdateList(wordsList)
         quizVP.adapter = puzzleAdapter
     }
 
@@ -141,7 +165,7 @@ class PuzzleTestActivity : AppCompatActivity() {
 
     private fun setQuizNum(){
         val tvQuizNum = findViewById<TextView>(R.id.tv_quiz_num)
-        tvQuizNum.text =  String.format(resources.getString(R.string.quizNum),(quizVP.currentItem+1), wordsList.size)
+        tvQuizNum.text =  String.format(resources.getString(R.string.quizNum),(quizVP.currentItem+1), quizNum)
     }
 
 
@@ -182,8 +206,8 @@ class PuzzleTestActivity : AppCompatActivity() {
     }
 
     private fun postTestLog() {
-        TestLogViewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(TestLogViewModel::class.java)
-        TestLogViewModel.getTestCreateResponseObserver().observe(this, Observer<TestLog.TestCreateResponse>{
+        testLogViewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(TestLogViewModel::class.java)
+        testLogViewModel.getTestCreateResponseObserver().observe(this, Observer<TestLog.TestCreateResponse>{
             Log.d(Constants.TAG,"Response : $it")
             if(it != null) {
                 Log.d("로그 생성","성공")
@@ -191,7 +215,7 @@ class PuzzleTestActivity : AppCompatActivity() {
                 Log.d("로그 생성","실패")
             }
         })
-        TestLogViewModel.postTestLog(MainActivity.getUserData().loginToken,correct, "hard",filters,totalScore,MainActivity.getUserData().userID,wordsList.size,wordbookTitleList,quizlog.toList())
+        testLogViewModel.postTestLog(MainActivity.getUserData().loginToken,correct, "hard",filters,totalScore,MainActivity.getUserData().userID,wordsList.size,wordbookTitleList,quizlog.toList())
     }
 
 

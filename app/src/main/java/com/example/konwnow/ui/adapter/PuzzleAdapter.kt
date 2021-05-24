@@ -16,9 +16,10 @@ import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordId
 import com.example.konwnow.data.remote.dto.Words
 
-class PuzzleAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : RecyclerView.Adapter<PuzzleAdapter.Holder>() {
+class PuzzleAdapter(var wordList:ArrayList<WordId>,val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : RecyclerView.Adapter<PuzzleAdapter.Holder>() {
     lateinit var myContext: Context
-    private var quizList = ArrayList<WordId>()
+//    private var quizList = ArrayList<WordId>()
+    private var quizList = wordList
 
     var cursor = arrayListOf<Int>()
     lateinit var mHloder:Holder
@@ -148,9 +149,9 @@ class PuzzleAdapter(val itemClick: (ArrayList<ArrayList<String>>) -> Unit) : Rec
         }
     }
 
-    fun wordsUpdateList(quizItem: ArrayList<WordId>){
-        this.quizList.addAll(quizItem)
-    }
+//    fun wordsUpdateList(quizItem: ArrayList<WordId>){
+//        this.quizList.addAll(quizItem)
+//    }
 
 
 }
