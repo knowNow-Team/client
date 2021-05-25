@@ -22,7 +22,7 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.A
     private lateinit var view: View
     private lateinit var context : Context
     private var items = ArrayList<WordBook.WordBooks>()
-    private val selectedBook = ArrayList<String>()
+    private val selectedBook = ArrayList<WordBook.WordBooks>()
 
     private var applyGroupsInterface : ApplyGroupsInterface? = null
 
@@ -55,7 +55,7 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.A
             i = 1 - i
             when(i){
                 1 -> { // 선택하기
-                    if(selectedBook.contains(items[0].title) ){ // 휴지통이 선택되어 있는 경우
+                    if(selectedBook.contains(items[0]) ){ // 휴지통이 선택되어 있는 경우
                         Toast.makeText(context,"휴지통은 중복 선택이 불가능합니다.",Toast.LENGTH_SHORT).show()
                         i = 0
                     }else if((position == 0) and selectedBook.isNotEmpty()){ // 다른게 이미 선택되어있는데 전체,휴지통을 선택하는 경우
@@ -63,7 +63,7 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.A
                         i = 0
                     } else{
                         holder.groupImage.setImageResource(R.drawable.ic_selected_group)
-                        selectedBook.add(items[position].wordBookID)
+                        selectedBook.add(items[position])
                         Log.d("${position}값이 추가되었다!",selectedBook.toString())
                     }
                 }else -> { // 선택 해제하기
@@ -76,13 +76,6 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.A
         }
     }
 
-
-    fun applySelectedGroups(){
-        val bundle = Bundle()
-        bundle.putStringArrayList("wordBook",selectedBook)
-        val homeFragment = HomeFragment()
-        homeFragment.arguments = bundle
-    }
 
     fun groupsUpdateList(groupsItem: ArrayList<WordBook.WordBooks>){
         this.items.addAll(groupsItem)

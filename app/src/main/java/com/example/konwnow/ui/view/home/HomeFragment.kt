@@ -17,6 +17,7 @@ import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.WordsAdapter
 import com.example.konwnow.ui.view.group.GroupActivity
+import com.example.konwnow.utils.Constants
 
 class HomeFragment : Fragment() {
 
@@ -28,7 +29,6 @@ class HomeFragment : Fragment() {
     private lateinit var wordsAdapter: WordsAdapter
     private var wordsList = arrayListOf<Words>()
 
-    private var wordBookList : ArrayList<String>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +45,20 @@ class HomeFragment : Fragment() {
         setRecycler()
 
         return v
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 1004){
+            val datas = data?.getStringArrayListExtra("selected")
+            val firstTitle = data?.getStringExtra("first")
+
+            if(datas?.size == 1){
+                groupButton.text = firstTitle
+            }else{
+                groupButton.text = "${firstTitle} 외 ${(datas?.size)?.minus(1)}"
+            }
+        }
     }
 
     private fun setRecycler() {
@@ -68,27 +82,19 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode == 1){
-            wordBookList = arguments?.getStringArrayList("wordBook")
-            Log.d("시바", wordBookList.toString())
-        }
-    }
 
     private fun requestWords() {
         wordsList.clear()
 
-        wordsList.add(Words("Complex", "복잡한",0))
-        wordsList.add(Words("movie", "영화관",1))
-        wordsList.add(Words("Fragment", "조각",2))
-        wordsList.add(Words("Complex", "복잡한",0))
-        wordsList.add(Words("movie", "영화관",0))
-        wordsList.add(Words("Fragment", "조각",1))
-        wordsList.add(Words("Complex", "복잡한",2))
-        wordsList.add(Words("movie", "영화관",0))
-        wordsList.add(Words("Fragment", "조각",1))
+        wordsList.add(Words("Complex", "복잡한", 0))
+        wordsList.add(Words("movie", "영화관", 1))
+        wordsList.add(Words("Fragment", "조각", 2))
+        wordsList.add(Words("Complex", "복잡한", 0))
+        wordsList.add(Words("movie", "영화관", 0))
+        wordsList.add(Words("Fragment", "조각", 1))
+        wordsList.add(Words("Complex", "복잡한", 2))
+        wordsList.add(Words("movie", "영화관", 0))
+        wordsList.add(Words("Fragment", "조각", 1))
     }
 
     private fun setSwitch() {
@@ -108,7 +114,7 @@ class HomeFragment : Fragment() {
         groupButton.setOnClickListener {
             activity?.let {
                 val intent = Intent(context, GroupActivity::class.java)
-                startActivityForResult(intent,1)
+                startActivityForResult(intent,1004)
             }
         }
 
