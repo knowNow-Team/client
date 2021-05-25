@@ -12,15 +12,23 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
+import com.example.konwnow.ui.view.group.ApplyGroupsInterface
+import com.example.konwnow.ui.view.group.MakeGroupInterface
 import com.example.konwnow.ui.view.home.HomeFragment
 
 
-class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
+class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.Adapter<GroupsAdapter.Holder>(){
 
     private lateinit var view: View
     private lateinit var context : Context
     private var items = ArrayList<WordBook.WordBooks>()
     private val selectedBook = ArrayList<String>()
+
+    private var applyGroupsInterface : ApplyGroupsInterface? = null
+
+    init{
+        this.applyGroupsInterface = applyGroupsInterface
+    }
 
     inner class Holder(itemView: View?): RecyclerView.ViewHolder(itemView!!) {
         val groupName = itemView!!.findViewById<TextView>(R.id.tv_groups_name)
@@ -55,24 +63,25 @@ class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
                         i = 0
                     } else{
                         holder.groupImage.setImageResource(R.drawable.ic_selected_group)
-                        selectedBook.add(wordBook)
+                        selectedBook.add(items[position].wordBookID)
                         Log.d("${position}값이 추가되었다!",selectedBook.toString())
                     }
                 }else -> { // 선택 해제하기
                     holder.groupImage.setImageResource(R.drawable.ic_group)
-                    selectedBook.removeAt(selectedBook.indexOf(wordBook))
+                    selectedBook.removeAt(selectedBook.indexOf(items[position].wordBookID))
                     Log.d("${position}값이 삭되었다!",selectedBook.toString())
                 }
             }
+            this.applyGroupsInterface?.applyGroupsCliked(selectedBook)
         }
     }
+
 
     fun applySelectedGroups(){
         val bundle = Bundle()
         bundle.putStringArrayList("wordBook",selectedBook)
         val homeFragment = HomeFragment()
         homeFragment.arguments = bundle
-//        Toast.makeText(context,"홈으로 전환 " ,Toast.LENGTH_SHORT).show()
     }
 
     fun groupsUpdateList(groupsItem: ArrayList<WordBook.WordBooks>){
@@ -80,7 +89,7 @@ class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.Holder>(){
     }
 
    fun makeClicked(name: String) {
-       items.add(items.count(), WordBook.WordBooks(name,0))
+       items.add(items.count(), WordBook.WordBooks(name,0,""))
        Log.d("adapter maked Clicked",name)
        notifyItemInserted(items.count())
     }

@@ -16,21 +16,19 @@ import com.example.konwnow.R
 import com.example.konwnow.data.local.UserDatabase
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.adapter.GroupsAdapter
+import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.Constants
 import com.example.konwnow.viewmodel.WordBookViewModel
 
-class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
+class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterface {
     var btnBack : ImageButton? = null
     var btnPlus : ImageButton? = null
     var btnApply : Button? = null
     private lateinit var rvGroups : RecyclerView
     private var groupsList = arrayListOf<WordBook.WordBooks>()
     private lateinit var groupsAdapter : GroupsAdapter
-    private lateinit var db : UserDatabase
 
-    var loginToken : String =""
-    var userId : Int = 0
-
+    private val selectedBook = ArrayList<String>()
     private lateinit var viewModel: WordBookViewModel
 
 
@@ -38,8 +36,6 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group)
         viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
-
-        getUserInfo()
 
         btnBack = findViewById(R.id.ib_back)
         btnBack!!.setOnClickListener{
@@ -56,8 +52,6 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
 
         btnApply = findViewById(R.id.btn_apply_groups)
         btnApply!!.setOnClickListener {
-            groupsAdapter.applySelectedGroups()
-            setResult(1)
             finish()
         }
 
@@ -68,28 +62,12 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
         setRecycler()
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private fun getUserInfo() {
-        db = UserDatabase.getInstance(this)!!
-        val insertTask = object : AsyncTask<Unit, Unit, Unit>(){
-            override fun doInBackground(vararg params: Unit?) {
-                val users = db.userDao().getAll()
-                userId = users.userID
-                loginToken = users.loginToken
-            }
-            override fun onPostExecute(result: Unit?) {
-                super.onPostExecute(result)
-            }
-        }
-        insertTask.execute()
-
-    }
 
     private fun setRecycler() {
         groupsList.clear()
-        groupsList.add(WordBook.WordBooks("휴지통",0))
+        groupsList.add(WordBook.WordBooks("휴지통",0,""))
 
-        groupsAdapter = GroupsAdapter()
+        groupsAdapter = GroupsAdapter(this)
         rvGroups = findViewById(R.id.rv_groups)
         rvGroups.layoutManager = GridLayoutManager(this, 3)
 
@@ -102,7 +80,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
                 Log.d(Constants.TAG,"단어장 가져오 성공!")
                 Log.d(Constants.TAG,"response Body : ${it}")
                 for (datas in it.data){
-                    groupsList.add(WordBook.WordBooks(datas.title,datas.allCount))
+                    groupsList.add(WordBook.WordBooks(datas.title,datas.allCount,datas.id))
                 }
             }else {
                 Log.d(Constants.TAG,"단어장 get response null!")
@@ -111,8 +89,9 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
             rvGroups.adapter = groupsAdapter
             groupsAdapter.notifyDataSetChanged()
         })
-        viewModel.getWordBook(loginToken)
+        viewModel.getWordBook(MainActivity.getUserData().loginToken)
     }
+
 
     override fun makeWordBookClicked(name: String) {
         viewModel.postDataResponse().observe(this, Observer {
@@ -124,7 +103,14 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface  {
                 Log.d(Constants.TAG,"단어장 post response null!")
             }
         })
-        val Body = WordBook.CreatedWordBookBody(name,userId)
-        viewModel.postWordBook(loginToken,Body)
+        val Body = WordBook.CreatedWordBookBody(name,MainActivity.getUserData().userID)
+        viewModel.postWordBook(MainActivity.getUserData().loginToken,Body)
+    }
+
+
+    override fun applyGroupsCliked(selectedList: ArrayList<String>) {
+        selectedBook.clear()
+        selectedBook.addAll(selectedList)
+        Log.d(Constants.TAG,selectedBook.toString())
     }
 }
