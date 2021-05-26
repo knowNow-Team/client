@@ -10,11 +10,16 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.adapter.FolderAdapter
+import com.example.konwnow.ui.view.MainActivity
+import com.example.konwnow.utils.Constants
+import com.example.konwnow.viewmodel.WordBookViewModel
 
 class SetAlarmActivity : AppCompatActivity() {
     private lateinit var folderAdapter: FolderAdapter
@@ -24,11 +29,13 @@ class SetAlarmActivity : AppCompatActivity() {
     private lateinit var confuseCb: CheckBox
     private lateinit var knowCb: CheckBox
     var checkedTag = arrayListOf<Int>()
+    private lateinit var viewModel: WordBookViewModel
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
         setContentView(R.layout.activity_alarm)
         setToolbar()
         setButton()
@@ -64,11 +71,11 @@ class SetAlarmActivity : AppCompatActivity() {
     }
 
     private fun setFolderList() {
-        requestFolder()
+        requestGroups()
         var folderRV = findViewById<RecyclerView>(R.id.rv_folder)
         folderRV.setHasFixedSize(true)
         folderRV.layoutManager = LinearLayoutManager(this)
-        folderAdapter = FolderAdapter(){ i: Int, b: Boolean ->
+        folderAdapter = FolderAdapter(folderList){ i: Int, b: Boolean ->
             if(b){
                 selectedFolderList.add(folderList[i])
             }else{
@@ -83,12 +90,19 @@ class SetAlarmActivity : AppCompatActivity() {
         folderRV.adapter = folderAdapter
     }
 
-    private fun requestFolder() {
-//        folderList.add(WordBook("name1",4))
-//        folderList.add(WordBook("name2",20))
-//        folderList.add(WordBook("name3",30))
-//        folderList.add(WordBook("name4",2))
-//        folderList.add(WordBook("name5",12))
+    private fun requestGroups() {
+        viewModel.getDataReponse().observe(this, Observer {
+            if (it != null){
+                Log.d(Constants.TAG,"단어장 가져오기 성공!")
+                folderList.clear()
+                folderList.addAll(it.data)
+                Log.d(Constants.TAG,folderList.toString())
+            }else {
+                Log.d(Constants.TAG,"단어장 get response null!")
+            }
+            folderAdapter.notifyDataSetChanged()
+        })
+        viewModel.getWordBook(MainActivity.getUserData().loginToken)
     }
 
     private fun setButton() {

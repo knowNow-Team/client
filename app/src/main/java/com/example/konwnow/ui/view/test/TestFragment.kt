@@ -25,6 +25,9 @@ class TestFragment: Fragment() {
 
     companion object{
         var selectedWordBook: HashMap<String,String> = HashMap()
+        fun clearSelectedWordBook(){
+            selectedWordBook.clear()
+        }
     }
     var folderList = arrayListOf<WordBook.WordBookData>()
     //체크된 태그
@@ -62,13 +65,32 @@ class TestFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
+//        resetView()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        folderList.clear()
+        clearSelectedWordBook()
+        resetView()
+    }
+
+
+    private fun resetView() {
+        //태그, 폴더, 시크바 초기화
         setDefault()
-        setFolderList()
         setTag()
+        notKnowCb.isChecked=false
+        confuseCb.isChecked=false
+        knowCb.isChecked=false
+        setFolderList()
         setStartButton()
-        setTestLogButton()
+        totalQuizNum = 0
+        selectedQuizNum = 0
         setSeekBar()
+        setTestLogButton()
+        clearSelectedWordBook()
+        Log.d("초기화","호출")
     }
 
     private fun setFolderList() {
@@ -77,7 +99,7 @@ class TestFragment: Fragment() {
         folderListRv = v.findViewById(R.id.rv_word_folder) as RecyclerView
         folderListRv.setHasFixedSize(true)
         folderListRv.layoutManager = LinearLayoutManager(context)
-        folderAdapter = FolderAdapter(){ i: Int, b: Boolean ->
+        folderAdapter = FolderAdapter(folderList){ i: Int, b: Boolean ->
             if(b){
                 totalQuizNum += folderList[i].allCount
             }else{
@@ -102,7 +124,6 @@ class TestFragment: Fragment() {
             }else {
                 Log.d(Constants.TAG,"단어장 get response null!")
             }
-            folderAdapter.folderUpdateList(folderList)
             folderAdapter.notifyDataSetChanged()
         })
         viewModel.getWordBook(MainActivity.getUserData().loginToken)

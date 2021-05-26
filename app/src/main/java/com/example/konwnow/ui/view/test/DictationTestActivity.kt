@@ -9,13 +9,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.Quiz
 import com.example.konwnow.data.remote.dto.TestLog
-import com.example.konwnow.data.remote.dto.WordId
+import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.DictationAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.Constants
@@ -27,7 +28,7 @@ import kotlin.collections.HashMap
 
 
 class DictationTestActivity : AppCompatActivity() {
-    var wordsList =  arrayListOf<WordId>()
+    var wordsList =  arrayListOf<Words.Word>()
     var quizNum = 0
     private lateinit var quizVP: ViewPager2
     private lateinit var dictationAdapter: DictationAdapter
@@ -110,7 +111,7 @@ class DictationTestActivity : AppCompatActivity() {
             if (it != null){
                 Log.d(Constants.TAG,"단어 가져오기 성공!")
                 Log.d(Constants.TAG,"response Body : ${it}")
-                var allWord = ArrayList<WordId>()
+                var allWord = ArrayList<Words.Word>()
 
                 for (item in it.data){
                     if(!item.words.isRemoved && item.words.filter in filters){
@@ -119,6 +120,25 @@ class DictationTestActivity : AppCompatActivity() {
                             allWord.add(word)
                         }
                     }
+                }
+                if (allWord.isEmpty()) {
+                    Log.d("워드리스트", allWord.toString())
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("해당필터가 없습니다.").setMessage("필터를 확인해주세요")
+                    builder.setNeutralButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                        finish()
+                    }
+                    val alertDialog = builder.create()
+                    alertDialog.setOnShowListener {
+                        alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(applicationContext,R.color.colorMain))
+                    }
+                    alertDialog.show()
+                }else{
+                    val quizIndexSet = getRandom(allWord.size, quizNum)
+                    for (i in quizIndexSet) {
+                        wordsList.add(allWord[i])
+                    }
+                    Log.d(Constants.TAG, "wordList: ${wordsList}")
                 }
                 val quizIndexSet = getRandom(allWord.size,quizNum)
 

@@ -101,7 +101,7 @@ class WordBook {
         @SerializedName("words")
         val words: WordState,
         @SerializedName("words-doc")
-        val wordsDoc: List<WordId>
+        val wordsDoc: List<Words.Word>
     )
 
     data class WordState(

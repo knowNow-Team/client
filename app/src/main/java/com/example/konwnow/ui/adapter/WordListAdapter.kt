@@ -10,8 +10,8 @@ import com.example.konwnow.data.remote.dto.Words
 
 class WordListAdapter() :
         RecyclerView.Adapter<WordListAdapter.Holder>() {
-    private var items = ArrayList<Words>()
-    var checkedWords = mutableSetOf<Words>()
+    private var items = ArrayList<Words.Word>()
+    var checkedWords = mutableSetOf<Words.Word>()
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val cbFolder = itemView?.findViewById<CheckBox>(R.id.cb_folder_name)
@@ -23,7 +23,7 @@ class WordListAdapter() :
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.cbFolder!!.text = items[position].eng
+        holder.cbFolder!!.text = items[position].word
         holder.cbFolder!!.setOnClickListener {
             if(holder.cbFolder!!.isChecked){
                 checkedWords.add(items[position])
@@ -38,7 +38,7 @@ class WordListAdapter() :
     }
 
 
-    fun wordUpdateList(wordItem: ArrayList<Words>){
+    fun wordUpdateList(wordItem: ArrayList<Words.Word>){
         this.items.addAll(wordItem)
     }
 }

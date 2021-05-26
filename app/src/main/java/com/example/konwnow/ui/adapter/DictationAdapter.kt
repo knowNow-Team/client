@@ -8,10 +8,9 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
-import com.example.konwnow.data.remote.dto.WordId
 import com.example.konwnow.data.remote.dto.Words
 
-class DictationAdapter(var wordList:ArrayList<WordId>,val itemClick: (ArrayList<String>) -> Unit) : RecyclerView.Adapter<DictationAdapter.Holder>() {
+class DictationAdapter(var wordList:ArrayList<Words.Word>,val itemClick: (ArrayList<String>) -> Unit) : RecyclerView.Adapter<DictationAdapter.Holder>() {
     lateinit var myContext: Context
     private var quizList = wordList
     lateinit var mHloder:Holder

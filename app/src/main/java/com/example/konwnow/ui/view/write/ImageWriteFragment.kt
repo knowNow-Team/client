@@ -21,7 +21,7 @@ import com.example.konwnow.ui.adapter.WordListAdapter
 
 class ImageWriteFragment: Fragment() {
     private lateinit var v: View
-    var wordList = arrayListOf<Words>()
+    var wordList = arrayListOf<Words.Word>()
     private lateinit var wordListRv: RecyclerView
     private lateinit var wordAdapter: WordListAdapter
     private lateinit var imageWriteIv: ImageView
@@ -68,15 +68,15 @@ class ImageWriteFragment: Fragment() {
     private fun requestWords() {
         wordList.clear()
 
-        wordList.add(Words("Complex", "복잡한", 0))
-        wordList.add(Words("movie", "영화관", 1))
-        wordList.add(Words("Fragment", "조각", 2))
-        wordList.add(Words("Complex", "복잡한", 0))
-        wordList.add(Words("movie", "영화관", 0))
-        wordList.add(Words("Fragment", "조각", 1))
-        wordList.add(Words("Complex", "복잡한", 2))
-        wordList.add(Words("movie", "영화관", 0))
-        wordList.add(Words("Fragment", "조각", 1))
+//        wordList.add(Words("Complex", "복잡한", 0))
+//        wordList.add(Words("movie", "영화관", 1))
+//        wordList.add(Words("Fragment", "조각", 2))
+//        wordList.add(Words("Complex", "복잡한", 0))
+//        wordList.add(Words("movie", "영화관", 0))
+//        wordList.add(Words("Fragment", "조각", 1))
+//        wordList.add(Words("Complex", "복잡한", 2))
+//        wordList.add(Words("movie", "영화관", 0))
+//        wordList.add(Words("Fragment", "조각", 1))
     }
 
     private fun setImage(uri: Uri) {
