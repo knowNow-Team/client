@@ -49,7 +49,12 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.A
     override fun onBindViewHolder(holder: GroupsAdapter.Holder, position: Int) {
         val wordBook = items[position].title
         holder.groupName.text = wordBook
-        holder.wordsCount.text = "${items[position].allCount}개의 단어"
+        if(items[position].allCount == null){
+            holder.wordsCount.text = ""
+        }else{
+            holder.wordsCount.text = "${items[position].allCount}개의 단어"
+        }
+
         var i = 0
         holder.itemView.setOnClickListener {
             i = 1 - i

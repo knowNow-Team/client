@@ -30,4 +30,9 @@ interface WordBookAPI {
         @Header("Authorization") token : String,
         @Body request: WordBook.PostWordRequestBody
     ): Call<WordBook.PostWordResponse>
+
+    @GET(WORDBOOK.GET_TRASH_WORD)
+    fun getTrashWord(
+        @Header("Authorization") token : String,
+    ): Call<WordBook.GetAllWordResponse>
 }

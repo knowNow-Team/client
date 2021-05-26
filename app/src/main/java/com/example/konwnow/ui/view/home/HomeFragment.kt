@@ -22,6 +22,7 @@ import com.example.konwnow.ui.adapter.WordsAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.group.GroupActivity
 import com.example.konwnow.utils.Constants
+import com.example.konwnow.utils.WORDBOOK
 import com.example.konwnow.viewmodel.WordBookViewModel
 
 
@@ -59,20 +60,25 @@ class HomeFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 1004 && data != null){
             val datas = data!!.getStringArrayListExtra("selected")
-            wordBookIDlist = datas!!.toList()
             val firstTitle = data!!.getStringExtra("first")
+            wordBookIDlist = datas!!.toList()
 
-            if(wordBookIDlist!!.size == 1){
+            if(datas!!.get(0) == WORDBOOK.TRASH_BOOK_ID){
                 groupButton.text = firstTitle
+                requestTrashWord()
             }else{
-                groupButton.text = "${firstTitle} 외 ${(wordBookIDlist?.size)?.minus(1)}"
+                if(wordBookIDlist!!.size == 1){
+                    groupButton.text = firstTitle
+                }else{
+                    groupButton.text = "${firstTitle} 외 ${(wordBookIDlist?.size)?.minus(1)}"
+                }
+                requestAllWord()
             }
             setRecycler()
         }
     }
 
     private fun setRecycler() {
-        requestAllWord()
         wordsAdapter = WordsAdapter()
         wordsAdapter.wordsUpdateList(wordsList)
 
@@ -107,7 +113,23 @@ class HomeFragment : Fragment() {
             }
         })
         workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordBookIDlist.joinToString(","))
+    }
 
+
+    private fun requestTrashWord() {
+        workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
+        workBookViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                Log.d(Constants.TAG, "휴지통 가져오기 성공!")
+                var allWord = ArrayList<Words.Word>()
+                allWord.clear()
+                //TODO: filter 확인
+
+            } else {
+                Log.d(Constants.TAG, "휴지통 get response null!")
+            }
+        })
+        workBookViewModel.getTrashWord(MainActivity.getUserData().loginToken)
     }
 
 

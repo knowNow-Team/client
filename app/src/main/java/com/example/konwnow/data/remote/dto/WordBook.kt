@@ -7,7 +7,7 @@ class WordBook {
 
     data class WordBooks(
         val title : String,
-        val allCount : Int,
+        val allCount : Int?,
         val wordBookID : String
     )
 

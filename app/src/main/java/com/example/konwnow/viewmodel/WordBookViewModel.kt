@@ -108,4 +108,22 @@ class WordBookViewModel : ViewModel() {
 
         })
     }
+
+    fun getTrashWord(token : String){
+        val instance = RetrofitClient.getWordClient()?.create(WordBookAPI::class.java)
+        val call = instance?.getTrashWord(token)
+
+        call?.enqueue(object : Callback<WordBook.GetAllWordResponse>{
+            override fun onResponse(
+                call: Call<WordBook.GetAllWordResponse>,
+                response: Response<WordBook.GetAllWordResponse>
+            ) {
+                getAllWordResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<WordBook.GetAllWordResponse>, t: Throwable) {
+                Log.d(Constants.TAG, "get wordbook fail")
+            }
+        })
+    }
 }

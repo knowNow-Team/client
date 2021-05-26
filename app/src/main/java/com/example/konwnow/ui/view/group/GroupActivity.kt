@@ -18,6 +18,7 @@ import com.example.konwnow.ui.adapter.GroupsAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.home.HomeFragment
 import com.example.konwnow.utils.Constants
+import com.example.konwnow.utils.WORDBOOK
 import com.example.konwnow.viewmodel.WordBookViewModel
 
 class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterface {
@@ -72,7 +73,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
 
     private fun setRecycler() {
         groupsList.clear()
-        groupsList.add(WordBook.WordBooks("휴지통", 0, "trashWordBook"))
+        groupsList.add(WordBook.WordBooks("휴지통", null, WORDBOOK.TRASH_BOOK_ID))
 
         groupsAdapter = GroupsAdapter(this)
         rvGroups = findViewById(R.id.rv_groups)
