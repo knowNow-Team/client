@@ -22,9 +22,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
+class FolderAdapter(var folderList:ArrayList<WordBook.WordBookData>,val itemClick: (Int, Boolean) -> Unit) :
         RecyclerView.Adapter<FolderAdapter.Holder>() {
-    private var items = ArrayList<WordBook.WordBookData>()
+    private var items = folderList
     private lateinit var view:View
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
@@ -33,7 +33,7 @@ class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
         val openTitleTv = itemView?.findViewById<TextView>(R.id.tv_title_opened)
         val openCountTv = itemView?.findViewById<TextView>(R.id.tv_count_opened)
         val openDateTv = itemView?.findViewById<TextView>(R.id.tv_date_opened)
-        val openwordTv = itemView?.findViewById<TextView>(R.id.tv_words_opened)
+//        val openwordTv = itemView?.findViewById<TextView>(R.id.tv_words_opened)
         val foldingcell = itemView?.findViewById<FoldingCell>(R.id.folding_cell)
         val pieChart = itemView?.findViewById<PieChart>(R.id.pieChart)
     }
@@ -61,14 +61,14 @@ class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
         holder.openTitleTv!!.text = items[position].title
         holder.openCountTv!!.text = String.format(view.context.getString(R.string.word_count),items[position].allCount)
         holder.openDateTv!!.text = String.format(view.context.getString(R.string.createAt),parseDate(items[position].createdAt))
-        //TODO: 변경해야됨 (임시)
-        var tempWords: String ="0"
-        for(i in 1..2){
-            tempWords += ", $i"
-        }
-        tempWords+="..."
+//        //TODO: 단어 들어가야 됨, 후순위
+//        var tempWords: String ="0"
+//        for(i in 1..2){
+//            tempWords += ", $i"
+//        }
+//        tempWords+="..."
 
-        holder.openwordTv!!.text = String.format(view.context.getString(R.string.words),tempWords)
+//        holder.openwordTv!!.text = String.format(view.context.getString(R.string.words),tempWords)
         holder.foldingcell!!.setOnLongClickListener {
             holder.foldingcell!!.toggle(false)
             holder.pieChart!!.setUsePercentValues(true)
@@ -128,6 +128,7 @@ class FolderAdapter(val itemClick: (Int, Boolean) -> Unit) :
     override fun getItemCount(): Int {
         return items.size
     }
+
 
 
     fun folderUpdateList(wordBookItem: ArrayList<WordBook.WordBookData>){

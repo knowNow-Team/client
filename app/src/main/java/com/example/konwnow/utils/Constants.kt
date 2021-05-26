@@ -10,6 +10,10 @@ object API{
     const val GET_TEST : String = "v1/tests"
     const val GET_TEST_ONE : String = "v1/tests/{id}"
     const val CREATE_TEST : String = "v1/tests"
+    const val GET_WORDS : String = "v1/wordbooks/words"
+    const val POST_WORDS : String = "v1/wordbooks/{wordbook}/words"
+    const val WORD_FROM_IMAGE : String = "detect/text"
+
 }
 
 object LOGIN{

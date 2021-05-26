@@ -50,6 +50,7 @@ class TestWordsAdapter : RecyclerView.Adapter<TestWordsAdapter.Holder>(){
         holder.tvKor!!.text = items[position].wordId.meanings[0] +", " + items[position].wordId.meanings[1]
         if(items[position].isCorrect){
             holder.ivHit!!.background = context.getDrawable(R.drawable.ic_hit)
+            holder.tvMissAnswer!!.visibility = View.GONE
         }else{
             holder.ivHit!!.background = context.getDrawable(R.drawable.ic_miss)
             holder.tvMissAnswer!!.visibility = View.VISIBLE
@@ -62,7 +63,7 @@ class TestWordsAdapter : RecyclerView.Adapter<TestWordsAdapter.Holder>(){
 
         holder.itemView.setOnClickListener {
             val dlg = WordDialog(context)
-//            dlg.start(items[position].target)
+            dlg.start(items[position].wordId.word)
         }
     }
 

@@ -16,7 +16,7 @@ import com.example.konwnow.ui.adapter.WordListAdapter
 
 class TextWriteFragment: Fragment() {
     private lateinit var v: View
-    var wordList = arrayListOf<Words>()
+    var wordList = arrayListOf<Words.Word>()
     private lateinit var wordListRv: RecyclerView
     private lateinit var testIv: ImageView
     private lateinit var wordAdapter: WordListAdapter
@@ -40,20 +40,7 @@ class TextWriteFragment: Fragment() {
 //        testIv = v.findViewById(R.id.iv_test)
         searchBtn = v.findViewById(R.id.btn_search)
         searchBtn.setOnClickListener {
-            //api 요청
-//            RetrofitManager.instance.searchPhotos(searchTerm = sentenceEdt.text.toString(),completion = {
-//                responseState, responseBody ->
-//                when(responseState){
-//                    RESPONSE_STATE.OK -> {
-//                        Log.d(TAG,"응답 성공: $responseBody")
-//                        Glide.with(this).load(responseBody).into(testIv)
-//                    }
-//
-//                    RESPONSE_STATE.FAIL -> {
-//                        Log.d(TAG,"응답 실패")
-//                    }
-//                }
-//            })
+        requestWords()
         }
     }
 
@@ -72,15 +59,15 @@ class TextWriteFragment: Fragment() {
     private fun requestWords() {
         wordList.clear()
 
-        wordList.add(Words("Complex", "복잡한",0))
-        wordList.add(Words("movie", "영화관",1))
-        wordList.add(Words("Fragment", "조각",2))
-        wordList.add(Words("Complex", "복잡한",0))
-        wordList.add(Words("movie", "영화관",0))
-        wordList.add(Words("Fragment", "조각",1))
-        wordList.add(Words("Complex", "복잡한",2))
-        wordList.add(Words("movie", "영화관",0))
-        wordList.add(Words("Fragment", "조각",1))
+//        wordList.add(Words("Complex", "복잡한",0))
+//        wordList.add(Words("movie", "영화관",1))
+//        wordList.add(Words("Fragment", "조각",2))
+//        wordList.add(Words("Complex", "복잡한",0))
+//        wordList.add(Words("movie", "영화관",0))
+//        wordList.add(Words("Fragment", "조각",1))
+//        wordList.add(Words("Complex", "복잡한",2))
+//        wordList.add(Words("movie", "영화관",0))
+//        wordList.add(Words("Fragment", "조각",1))
     }
 
 

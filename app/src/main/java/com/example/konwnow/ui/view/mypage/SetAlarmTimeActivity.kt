@@ -10,10 +10,15 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.utils.ALARM
+import com.example.konwnow.utils.Constants
+import com.example.konwnow.viewmodel.WordBookViewModel
 import com.ramotion.fluidslider.FluidSlider
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,7 +30,7 @@ class SetAlarmTimeActivity : AppCompatActivity() {
     private lateinit var endTimePicker: TimePicker
     private lateinit var sbAlarmNum: FluidSlider
     private lateinit var btnSubmit: Button
-    private var wordsList = arrayListOf<Words>()
+    private var wordsList = arrayListOf<Words.Word>()
     private var startHour = 0
     private var startMinute = 0
     private var endHour = 0
@@ -34,6 +39,7 @@ class SetAlarmTimeActivity : AppCompatActivity() {
     private var endTime:Long = 0
     var folderList = arrayListOf<WordBook>()
     var checkedTag = arrayListOf<Int>()
+    private lateinit var workBookViewModel: WordBookViewModel
 
 
     val max = 45
@@ -76,7 +82,7 @@ class SetAlarmTimeActivity : AppCompatActivity() {
         for(item in checkedTag){
             Log.d("태그",item.toString())
         }
-        requestWords()
+        requestAllWord()
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT_WATCH)
@@ -146,18 +152,61 @@ class SetAlarmTimeActivity : AppCompatActivity() {
         return true
     }
 
-    private fun requestWords() {
-        wordsList.clear()
-        wordsList.add(Words("Complex", "복잡한", 0))
-        wordsList.add(Words("movie", "영화관", 1))
-        wordsList.add(Words("Fragment", "조각", 2))
-        wordsList.add(Words("Complex", "복잡한", 0))
-        wordsList.add(Words("movie", "영화관", 0))
-        wordsList.add(Words("Fragment", "조각", 1))
-        wordsList.add(Words("Complex", "복잡한", 2))
-        wordsList.add(Words("movie", "영화관", 0))
-        wordsList.add(Words("Fragment", "조각", 1))
+    private fun getRandom(totalSize: Int, selectSize: Int): TreeSet<Int>{
+        var set: TreeSet<Int> = TreeSet()
+        while(set.size < selectSize){
+            val random = Random()
+            val num = random.nextInt(totalSize)
+            set.add(num)
+        }
+        return set
     }
+
+    private fun requestAllWord() {
+        workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
+        workBookViewModel.getWordDataResponse().observe(this, Observer {
+            if (it != null) {
+                Log.d(Constants.TAG, "단어 가져오기 성공!")
+                Log.d(Constants.TAG, "response Body : ${it}")
+                var allWord = ArrayList<Words.Word>()
+                allWord.clear()
+                for (item in it.data) {
+                    if (!item.words.isRemoved && item.words.filter in checkedTag) {
+                        var tempWord = item.wordsDoc
+                        for (word in tempWord) {
+                            allWord.add(word)
+                        }
+                    }
+                }
+                Log.d("워드리스트",allWord.toString())
+
+                if (allWord.isEmpty()) {
+                    Log.d("워드리스트", allWord.toString())
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("해당필터가 없습니다.").setMessage("필터를 확인해주세요")
+                    builder.setNeutralButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                        finish()
+                    }
+                    val alertDialog = builder.create()
+                    alertDialog.setOnShowListener {
+                        alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(ContextCompat.getColor(applicationContext,R.color.colorMain))
+                    }
+                    alertDialog.show()
+                }else{
+                    val AlarmIndexSet = getRandom(allWord.size, alarmNum)
+                    for (i in AlarmIndexSet) {
+                        wordsList.add(allWord[i])
+                    }
+                    Log.d(Constants.TAG, "wordList: ${wordsList}")
+                }
+            } else {
+                Log.d(Constants.TAG, "단어장 get response null!")
+            }
+        })
+//        TODO:wordbook List Intent로 전달받자
+//        workBookViewModel.getAllWord(MainActivity.getUserData().loginToken, wordbookIdList)
+    }
+
 
 
     private fun setSeekBar() {

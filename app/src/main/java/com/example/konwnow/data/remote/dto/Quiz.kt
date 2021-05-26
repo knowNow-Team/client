@@ -23,5 +23,5 @@ class Quiz{
     @SerializedName("isCorrect")
     val isCorrect: Boolean,
     @SerializedName("wordId")
-    val wordId: WordId)
+    val wordId: Words.Word)
 }

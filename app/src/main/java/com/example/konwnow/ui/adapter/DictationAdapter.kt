@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.Words
 
-class DictationAdapter(val itemClick: (ArrayList<String>) -> Unit) : RecyclerView.Adapter<DictationAdapter.Holder>() {
+class DictationAdapter(var wordList:ArrayList<Words.Word>,val itemClick: (ArrayList<String>) -> Unit) : RecyclerView.Adapter<DictationAdapter.Holder>() {
     lateinit var myContext: Context
-    private var quizList = ArrayList<Words>()
+    private var quizList = wordList
     lateinit var mHloder:Holder
     var wrote = arrayListOf<String>()
 
@@ -31,7 +31,7 @@ class DictationAdapter(val itemClick: (ArrayList<String>) -> Unit) : RecyclerVie
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int){
-        holder.tvDictationEng!!.text = quizList[position].kor
+        holder.tvDictationEng!!.text = quizList[position].meanings[0]
         holder.edtDictation!!.text = ""
         holder.edtDictation!!.isFocusableInTouchMode = true;
         holder.edtDictation!!.requestFocus()
@@ -54,9 +54,9 @@ class DictationAdapter(val itemClick: (ArrayList<String>) -> Unit) : RecyclerVie
         }
     }
 
-    fun wordsUpdateList(quizItem: ArrayList<Words>){
-        this.quizList.addAll(quizItem)
-    }
+//    fun wordsUpdateList(quizItem: ArrayList<WordId>){
+//        this.quizList.addAll(quizItem)
+//    }
 
 
 }

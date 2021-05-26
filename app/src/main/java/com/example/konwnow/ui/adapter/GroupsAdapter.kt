@@ -59,7 +59,7 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.A
                         Toast.makeText(context,"휴지통은 중복 선택이 불가능합니다.",Toast.LENGTH_SHORT).show()
                         i = 0
                     }else if((position == 0) and selectedBook.isNotEmpty()){ // 다른게 이미 선택되어있는데 전체,휴지통을 선택하는 경우
-                        Toast.makeText(context,"${items[position].title}은 중복 선택이 불가능합니다.!!!!!",Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(context,"${items[position].title}은 중복 선택이 불가능합니다.!!!!!",Toast.LENGTH_SHORT).show()
                         i = 0
                     } else{
                         holder.groupImage.setImageResource(R.drawable.ic_selected_group)

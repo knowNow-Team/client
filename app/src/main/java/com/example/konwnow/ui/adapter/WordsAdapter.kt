@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
+import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.view.home.WordDialog
 
@@ -18,7 +19,7 @@ import com.example.konwnow.ui.view.home.WordDialog
 class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
 
     private lateinit var context : Context
-    private var items = ArrayList<Words>()
+    private var items = ArrayList<WordBook.GetAllWordResponseData>()
     private var toggleStatus = true
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
@@ -42,20 +43,20 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: Holder, position: Int) {
         //바인딩
-        holder.tvEng!!.text = items[position].eng
-        holder.tvKor!!.text = items[position].kor
+        holder.tvEng!!.text = items[position].wordsDoc[0].word
+        holder.tvKor!!.text = items[position].wordsDoc[0].meanings[0]
 
         var levelText = holder.level!!
-        when(items[position].levelStatus){
-            0-> {
+        when(items[position].words.filter){
+            context.getString(R.string.doNotKnow)-> {
                 levelText.setTextColor(context.getColor(R.color.red))
                 levelText.text = context.getString(R.string.not_know)
             }
-            1 -> {
+            context.getString(R.string.confused) -> {
                 levelText.setTextColor(context.getColor(R.color.orange))
                 levelText.text = context.getString(R.string.confuse)
             }
-            2 -> {
+            context.getString(R.string.know) -> {
                 levelText.setTextColor(context.getColor(R.color.colorMain))
                 levelText.text = context.getString(R.string.know)
             }
@@ -63,7 +64,7 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
 
         // 이벤트발생 시 호출되는 함수
         changeToggle(holder)
-        changeLevel(levelText,position)
+//        changeLevel(levelText,position)
         showDetail(holder,position)
         deleteWord(holder,position)
 
@@ -81,28 +82,34 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
     private fun showDetail(holder: WordsAdapter.Holder, position: Int) {
         holder.itemView.setOnClickListener {
             val dlg = WordDialog(context)
-            dlg.start(items[position].eng!!)
+            dlg.start(items[position].wordsDoc[0].word!!)
         }
     }
+    //체크된 태그
+    //0: 몰라요
+    //1: 헷갈려요
+    //2: 알아요
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    @SuppressLint("ResourceAsColor")
-    private fun changeLevel(levelText: TextView,position: Int) {
-        levelText.setOnClickListener {
-            when(items[position].levelStatus){
-                0-> {
-                    items[position].levelStatus = 1
-                }
-                1 -> {
-                    items[position].levelStatus = 2
-                }
-                2 -> {
-                    items[position].levelStatus = 0
-                }
-            }
-            notifyDataSetChanged()
-        }
-    }
+
+//    TODO:필터 변경되는거 request 넣어야됨
+//    @RequiresApi(Build.VERSION_CODES.M)
+//    @SuppressLint("ResourceAsColor")
+//    private fun changeLevel(levelText: TextView,position: Int) {
+//        levelText.setOnClickListener {
+//            when(items[position].words.filter){
+//                context.getString(R.string.doNotKnow)-> {
+//                    items[position].words.filter = context.getString(R.string.confused)
+//                }
+//                context.getString(R.string.confused) -> {
+//                    items[position].words.filter = 2
+//                }
+//                context.getString(R.string.know) -> {
+//                    items[position].words.filter = 0
+//                }
+//            }
+//            notifyDataSetChanged()
+//        }
+//    }
 
     private fun changeToggle(holder: WordsAdapter.Holder) {
         if(toggleStatus){
@@ -113,7 +120,7 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
         }
     }
 
-    fun wordsUpdateList(wordItem: ArrayList<Words>){
+    fun wordsUpdateList(wordItem: ArrayList<WordBook.GetAllWordResponseData>){
         this.items.addAll(wordItem)
     }
 

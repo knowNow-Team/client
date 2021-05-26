@@ -14,13 +14,10 @@ import retrofit2.Response
 
 class WordBookViewModel : ViewModel() {
 
-    var postWordBookResponse : MutableLiveData<WordBook.PostWordBookResponse>
-    var getWordBookResponse : MutableLiveData<WordBook.GetWordBookResponse>
-
-    init {
-        postWordBookResponse= MutableLiveData()
-        getWordBookResponse = MutableLiveData()
-    }
+    var postWordBookResponse : MutableLiveData<WordBook.PostWordBookResponse> = MutableLiveData()
+    var postWordResponse : MutableLiveData<WordBook.PostWordResponse> = MutableLiveData()
+    var getWordBookResponse : MutableLiveData<WordBook.GetWordBookResponse> = MutableLiveData()
+    var getAllWordResponse : MutableLiveData<WordBook.GetAllWordResponse> = MutableLiveData()
 
     fun postDataResponse() : MutableLiveData<PostWordBookResponse> {
         return postWordBookResponse
@@ -28,6 +25,10 @@ class WordBookViewModel : ViewModel() {
 
     fun getDataReponse() : MutableLiveData<WordBook.GetWordBookResponse>{
         return getWordBookResponse
+    }
+
+    fun getWordDataResponse() : MutableLiveData<WordBook.GetAllWordResponse>{
+        return getAllWordResponse
     }
 
 
@@ -65,6 +66,44 @@ class WordBookViewModel : ViewModel() {
 
             override fun onFailure(call: Call<WordBook.GetWordBookResponse>, t: Throwable) {
                 Log.d(Constants.TAG, "get wordbook fail")
+            }
+
+        })
+    }
+
+    fun getAllWord(token : String,wordBookIds: List<String>){
+        val instance = RetrofitClient.getWordClient()?.create(WordBookAPI::class.java)
+        val call = instance?.getAllWord(token,wordBookIds)
+
+        call?.enqueue(object : Callback<WordBook.GetAllWordResponse>{
+            override fun onResponse(
+                call: Call<WordBook.GetAllWordResponse>,
+                response: Response<WordBook.GetAllWordResponse>
+            ) {
+                getAllWordResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<WordBook.GetAllWordResponse>, t: Throwable) {
+                Log.d(Constants.TAG, "get wordbook fail")
+            }
+        })
+    }
+
+    fun postWords(token : String, Body : WordBook.PostWordRequestBody){
+        val instance = RetrofitClient.getWordClient()?.create(WordBookAPI::class.java)
+        val call = instance?.postWord(token, Body)
+
+        call?.enqueue(object : Callback<WordBook.PostWordResponse> {
+            override fun onResponse(
+                call: Call<WordBook.PostWordResponse>,
+                response: Response<WordBook.PostWordResponse>
+            ) {
+                //업데이트 시켜주기.
+                postWordResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<WordBook.PostWordResponse>, t: Throwable) {
+                Log.d(Constants.TAG, "post word fail")
             }
 
         })

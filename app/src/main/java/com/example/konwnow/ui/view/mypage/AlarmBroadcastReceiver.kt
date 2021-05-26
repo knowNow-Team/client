@@ -25,7 +25,7 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
 
     }
     lateinit var notificationManager: NotificationManager
-    lateinit var wordsList: ArrayList<Words>
+    lateinit var wordsList: ArrayList<Words.Word>
     private var startHour = 0
     private var startMinute = 0
     private var endHour = 0
@@ -35,7 +35,7 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
     @RequiresApi(Build.VERSION_CODES.KITKAT_WATCH)
     override fun onReceive(context: Context, intent: Intent?) {
 
-        wordsList = intent!!.getBundleExtra("word")!!.getParcelableArrayList<Words>("wordList") as ArrayList<Words>
+        wordsList = intent!!.getBundleExtra("word")!!.getParcelableArrayList<Words.Word>("wordList") as ArrayList<Words.Word>
         startHour = intent!!.getIntExtra("startHour",0)
         startMinute = intent!!.getIntExtra("startMinute",0)
         endHour = intent!!.getIntExtra("endHour",0)
@@ -57,8 +57,8 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
         val contentIntent = Intent(context, ReplyReceiver::class.java).apply{
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
-        contentIntent.putExtra("wordEng",wordsList[count].eng)
-        contentIntent.putExtra("wordKor",wordsList[count].kor)
+        contentIntent.putExtra("wordEng",wordsList[count].word)
+        contentIntent.putExtra("wordKor",wordsList[count].meanings[0])
         val contentPendingIntent = PendingIntent.getBroadcast(
             context,
             ALARM.NOTIFICATION_ID,
@@ -82,7 +82,7 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
             NotificationCompat.Builder(context, ALARM.PRIMARY_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_hit)
                 .setContentTitle("단어 알림")
-                .setContentText(wordsList[count++].kor)
+                .setContentText(wordsList[count++].meanings[0])
                 .setContentIntent(contentPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
