@@ -49,7 +49,7 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.A
     override fun onBindViewHolder(holder: GroupsAdapter.Holder, position: Int) {
         val wordBook = items[position].title
         holder.groupName.text = wordBook
-        if(items[position].allCount == null){
+        if(items[position].allCount == null){ //휴지
             holder.wordsCount.text = ""
         }else{
             holder.wordsCount.text = "${items[position].allCount}개의 단어"
@@ -63,8 +63,8 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.A
                     if(selectedBook.contains(items[0]) ){ // 휴지통이 선택되어 있는 경우
                         Toast.makeText(context,"휴지통은 중복 선택이 불가능합니다.",Toast.LENGTH_SHORT).show()
                         i = 0
-                    }else if((position == 0) and selectedBook.isNotEmpty()){ // 다른게 이미 선택되어있는데 전체,휴지통을 선택하는 경우
-//                        Toast.makeText(context,"${items[position].title}은 중복 선택이 불가능합니다.!!!!!",Toast.LENGTH_SHORT).show()
+                    }else if((position == 0) and selectedBook.isNotEmpty()){ // 다른게 이미 선택되어있는데 휴지통을 선택하는 경우
+                        Toast.makeText(context,"${items[position].title}은 중복 선택이 불가능합니다.",Toast.LENGTH_SHORT).show()
                         i = 0
                     } else{
                         holder.groupImage.setImageResource(R.drawable.ic_selected_group)
@@ -80,7 +80,6 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.A
             this.applyGroupsInterface?.applyGroupsCliked(selectedBook)
         }
     }
-
 
     fun groupsUpdateList(groupsItem: ArrayList<WordBook.WordBooks>){
         this.items.addAll(groupsItem)

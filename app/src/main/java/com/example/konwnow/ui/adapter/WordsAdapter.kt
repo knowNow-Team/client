@@ -1,6 +1,5 @@
 package com.example.konwnow.ui.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
-import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.view.home.WordDialog
 
 
@@ -82,7 +80,7 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
     private fun showDetail(holder: WordsAdapter.Holder, position: Int) {
         holder.itemView.setOnClickListener {
             val dlg = WordDialog(context)
-            dlg.start(items[position].wordsDoc[0].word!!)
+            dlg.start(items[position])
         }
     }
     //체크된 태그
@@ -121,7 +119,9 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
     }
 
     fun wordsUpdateList(wordItem: ArrayList<WordBook.GetAllWordResponseData>){
+        items.clear()
         this.items.addAll(wordItem)
+        notifyDataSetChanged()
     }
 
     fun toggleUpdate(status : Boolean){

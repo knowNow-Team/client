@@ -12,12 +12,14 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.data.remote.dto.Words
+import com.example.konwnow.ui.adapter.GroupsAdapter
 import com.example.konwnow.ui.adapter.WordsAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.group.GroupActivity
@@ -51,36 +53,35 @@ class HomeFragment : Fragment() {
 
         setSwitch()
         setButton()
-
-
         return v
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 1004 && data != null){
+            wordsList.clear()
             val datas = data!!.getStringArrayListExtra("selected")
             val firstTitle = data!!.getStringExtra("first")
             wordBookIDlist = datas!!.toList()
 
             if(datas!!.get(0) == WORDBOOK.TRASH_BOOK_ID){
                 groupButton.text = firstTitle
-                requestTrashWord()
+                setRecycler(0)
             }else{
                 if(wordBookIDlist!!.size == 1){
                     groupButton.text = firstTitle
                 }else{
                     groupButton.text = "${firstTitle} 외 ${(wordBookIDlist?.size)?.minus(1)}"
                 }
-                requestAllWord()
+                setRecycler(1)
             }
-            setRecycler()
         }
     }
 
-    private fun setRecycler() {
+    private fun setRecycler(type : Int) {
+        //0 : 휴지통, 1: 일반.
+        wordsList.clear()
         wordsAdapter = WordsAdapter()
-        wordsAdapter.wordsUpdateList(wordsList)
 
         val swipeHelperCallBack = SwipeHelperCallBack().apply {
             setClamp(200f)
@@ -96,21 +97,30 @@ class HomeFragment : Fragment() {
                 false
             }
         }
-    }
 
+        when(type){
+            0 ->{ requestTrashWord()}
+            1 ->{ requestAllWord() }
+        }
+    }
 
     private fun requestAllWord() {
         workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
         workBookViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Log.d(Constants.TAG, "단어 가져오기 성공!")
-                var allWord = ArrayList<Words.Word>()
-                allWord.clear()
+                for(datas in it.data){
+                    if(!datas.words.isRemoved){
+                        wordsList.addAll(it.data)
+                    }
+                }
                 //TODO: filter 확인
 
             } else {
                 Log.d(Constants.TAG, "단어장 get response null!")
             }
+            wordsAdapter.wordsUpdateList(wordsList)
+            wordsAdapter.notifyDataSetChanged()
         })
         workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordBookIDlist.joinToString(","))
     }
@@ -128,6 +138,8 @@ class HomeFragment : Fragment() {
             } else {
                 Log.d(Constants.TAG, "휴지통 get response null!")
             }
+            wordsAdapter.wordsUpdateList(wordsList)
+            wordsAdapter.notifyDataSetChanged()
         })
         workBookViewModel.getTrashWord(MainActivity.getUserData().loginToken)
     }

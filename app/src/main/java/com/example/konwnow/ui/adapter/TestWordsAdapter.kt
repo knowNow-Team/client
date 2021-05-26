@@ -63,7 +63,7 @@ class TestWordsAdapter : RecyclerView.Adapter<TestWordsAdapter.Holder>(){
 
         holder.itemView.setOnClickListener {
             val dlg = WordDialog(context)
-            dlg.start(items[position].wordId.word)
+            //dlg.start(items[position])
         }
     }
 
