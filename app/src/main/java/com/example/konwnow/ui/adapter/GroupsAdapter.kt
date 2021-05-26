@@ -68,7 +68,7 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.A
                     }
                 }else -> { // 선택 해제하기
                     holder.groupImage.setImageResource(R.drawable.ic_group)
-                    selectedBook.removeAt(selectedBook.indexOf(items[position].wordBookID))
+                    selectedBook.removeAt(selectedBook.indexOf(items[position]))
                     Log.d("${position}값이 삭되었다!",selectedBook.toString())
                 }
             }

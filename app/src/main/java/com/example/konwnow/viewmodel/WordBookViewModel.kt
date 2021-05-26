@@ -71,7 +71,7 @@ class WordBookViewModel : ViewModel() {
         })
     }
 
-    fun getAllWord(token : String,wordBookIds: List<String>){
+    fun getAllWord(token : String,wordBookIds: String){
         val instance = RetrofitClient.getWordClient()?.create(WordBookAPI::class.java)
         val call = instance?.getAllWord(token,wordBookIds)
 

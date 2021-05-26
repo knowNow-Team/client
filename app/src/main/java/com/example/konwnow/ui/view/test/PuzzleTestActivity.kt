@@ -118,7 +118,7 @@ class PuzzleTestActivity : AppCompatActivity() {
             }
             puzzleAdapter.notifyDataSetChanged()
         })
-        workBookViewModel.getAllWord(MainActivity.getUserData().loginToken, wordbookIdList)
+        workBookViewModel.getAllWord(MainActivity.getUserData().loginToken, wordbookIdList.joinToString(","))
     }
 
     fun printInent(i: Intent) {

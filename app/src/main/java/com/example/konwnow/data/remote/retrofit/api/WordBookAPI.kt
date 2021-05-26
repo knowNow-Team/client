@@ -22,7 +22,7 @@ interface WordBookAPI {
     @GET(API.GET_WORDS)
     fun getAllWord(
         @Header("Authorization") token: String,
-        @Query("wordbookIds") wordbook: List<String>,
+        @Query("wordbookIds") wordbook: String,
         ): Call<WordBook.GetAllWordResponse>
 
     @POST(API.POST_WORDS)

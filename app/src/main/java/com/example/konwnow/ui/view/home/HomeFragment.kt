@@ -19,6 +19,7 @@ import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.WordsAdapter
+import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.group.GroupActivity
 import com.example.konwnow.utils.Constants
 import com.example.konwnow.viewmodel.WordBookViewModel
@@ -35,7 +36,7 @@ class HomeFragment : Fragment() {
     private var wordsList = arrayListOf<WordBook.GetAllWordResponseData>()
     private lateinit var workBookViewModel: WordBookViewModel
 
-
+    private lateinit var wordBookIDlist : List<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,22 +50,24 @@ class HomeFragment : Fragment() {
 
         setSwitch()
         setButton()
-        setRecycler()
+
 
         return v
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 1004){
-            val datas = data?.getStringArrayListExtra("selected")
-            val firstTitle = data?.getStringExtra("first")
+        if(requestCode == 1004 && data != null){
+            val datas = data!!.getStringArrayListExtra("selected")
+            wordBookIDlist = datas!!.toList()
+            val firstTitle = data!!.getStringExtra("first")
 
-            if(datas?.size == 1){
+            if(wordBookIDlist!!.size == 1){
                 groupButton.text = firstTitle
             }else{
-                groupButton.text = "${firstTitle} 외 ${(datas?.size)?.minus(1)}"
+                groupButton.text = "${firstTitle} 외 ${(wordBookIDlist?.size)?.minus(1)}"
             }
+            setRecycler()
         }
     }
 
@@ -90,29 +93,11 @@ class HomeFragment : Fragment() {
     }
 
 
-
-    private fun requestWords() {
-        wordsList.clear()
-
-//        wordsList.add(Words("Complex", "복잡한", 0))
-//        wordsList.add(Words("movie", "영화관", 1))
-//        wordsList.add(Words("Fragment", "조각", 2))
-//        wordsList.add(Words("Complex", "복잡한", 0))
-//        wordsList.add(Words("movie", "영화관", 0))
-//        wordsList.add(Words("Fragment", "조각", 1))
-//        wordsList.add(Words("Complex", "복잡한", 2))
-//        wordsList.add(Words("movie", "영화관", 0))
-//        wordsList.add(Words("Fragment", "조각", 1))
-    }
-
     private fun requestAllWord() {
-        workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(
-            WordBookViewModel::class.java
-        )
+        workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
         workBookViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Log.d(Constants.TAG, "단어 가져오기 성공!")
-                Log.d(Constants.TAG, "response Body : ${it}")
                 var allWord = ArrayList<Words.Word>()
                 allWord.clear()
                 //TODO: filter 확인
@@ -121,10 +106,10 @@ class HomeFragment : Fragment() {
                 Log.d(Constants.TAG, "단어장 get response null!")
             }
         })
-        //TODO: 선택된 wordbookID List 만들어야됨
-//        workBookViewModel.getAllWord(MainActivity.getUserData().loginToken, wordbookIdList)
+        workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordBookIDlist.joinToString(","))
 
     }
+
 
     private fun setSwitch() {
         switch.setOnCheckedChangeListener { _, isChecked ->
