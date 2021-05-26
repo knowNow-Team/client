@@ -38,7 +38,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
         setContentView(R.layout.activity_group)
         viewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
 
-
+        Log.d(Constants.TAG,MainActivity.getUserData().email)
         btnBack = findViewById(R.id.ib_back)
         btnBack!!.setOnClickListener{
             finish()

@@ -12,14 +12,13 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.data.remote.dto.Words
-import com.example.konwnow.ui.adapter.GroupsAdapter
 import com.example.konwnow.ui.adapter.WordsAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.group.GroupActivity
@@ -38,8 +37,8 @@ class HomeFragment : Fragment() {
     private lateinit var wordsAdapter: WordsAdapter
     private var wordsList = arrayListOf<WordBook.GetAllWordResponseData>()
     private lateinit var workBookViewModel: WordBookViewModel
+    private var wordBookID =""
 
-    private lateinit var wordBookIDlist : List<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,13 +46,39 @@ class HomeFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_home, container, false)
 
+        groupButton = v.findViewById(R.id.tv_group_text)
         switch = v.findViewById(R.id.switch_hide)
         rvWords = v.findViewById(R.id.rv_home_words) as RecyclerView
         switch.isChecked = true
 
+
         setSwitch()
         setButton()
         return v
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getWordBookData()
+    }
+
+    private fun getWordBookData() {
+        val firstTitle = App.sharedPrefs.getTitle()
+        wordBookID= App.sharedPrefs.getWordBookId().toString()
+        val size = App.sharedPrefs.getCount()
+        if(firstTitle == null){
+            groupButton.text = "단어장 선택"
+        }else if(firstTitle == WORDBOOK.TRASH_BOOK_ID){
+            groupButton.text = firstTitle
+            setRecycler(0)
+        }else{
+            if(size == 1){
+                groupButton.text = firstTitle
+            }else{
+                groupButton.text = "${firstTitle} 외 ${(size)?.minus(1)}"
+            }
+            setRecycler(1)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -62,19 +87,13 @@ class HomeFragment : Fragment() {
             wordsList.clear()
             val datas = data!!.getStringArrayListExtra("selected")
             val firstTitle = data!!.getStringExtra("first")
-            wordBookIDlist = datas!!.toList()
+            val wordBookIDlist = datas!!.toList()
 
-            if(datas!!.get(0) == WORDBOOK.TRASH_BOOK_ID){
-                groupButton.text = firstTitle
-                setRecycler(0)
-            }else{
-                if(wordBookIDlist!!.size == 1){
-                    groupButton.text = firstTitle
-                }else{
-                    groupButton.text = "${firstTitle} 외 ${(wordBookIDlist?.size)?.minus(1)}"
-                }
-                setRecycler(1)
-            }
+            App.sharedPrefs.saveWordBookId(wordBookIDlist.joinToString(","))
+            App.sharedPrefs.saveCount(wordBookIDlist.size)
+            App.sharedPrefs.saveTitle(firstTitle.toString())
+
+            getWordBookData()
         }
     }
 
@@ -122,7 +141,7 @@ class HomeFragment : Fragment() {
             wordsAdapter.wordsUpdateList(wordsList)
             wordsAdapter.notifyDataSetChanged()
         })
-        workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordBookIDlist.joinToString(","))
+        workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordBookID)
     }
 
 
@@ -158,7 +177,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setButton() {
-        groupButton = v.findViewById(R.id.tv_group_text)
         groupButton.setOnClickListener {
             activity?.let {
                 val intent = Intent(context, GroupActivity::class.java)
