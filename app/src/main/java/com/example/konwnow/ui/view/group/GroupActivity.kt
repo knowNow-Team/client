@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.adapter.GroupsAdapter
@@ -54,14 +55,12 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
 
         btnApply = findViewById(R.id.btn_apply_groups)
         btnApply!!.setOnClickListener {
-            val intent = Intent()
-
             for(id in selectedBook){
                 wordBookID.add(id.wordBookID)
             }
-            intent.putStringArrayListExtra("selected",wordBookID)
-            intent.putExtra("first",selectedBook[0].title)
-            setResult(1004,intent)
+            App.sharedPrefs.saveWordBookId(wordBookID.joinToString(","))
+            App.sharedPrefs.saveCount(wordBookID.size)
+            App.sharedPrefs.saveTitle(selectedBook[0].title)
             finish()
         }
     }

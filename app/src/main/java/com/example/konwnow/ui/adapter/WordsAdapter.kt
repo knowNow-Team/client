@@ -14,10 +14,9 @@ import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.view.home.WordDialog
 
 
-class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
+class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>) : RecyclerView.Adapter<WordsAdapter.Holder>(){
 
     private lateinit var context : Context
-    private var items = ArrayList<WordBook.GetAllWordResponseData>()
     private var toggleStatus = true
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
@@ -34,6 +33,9 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
     }
 
     override fun getItemCount(): Int {
+        if(items.isEmpty()){
+            return 0
+        }
         return items.size
     }
 
@@ -119,9 +121,7 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
     }
 
     fun wordsUpdateList(wordItem: ArrayList<WordBook.GetAllWordResponseData>){
-        items.clear()
         this.items.addAll(wordItem)
-        notifyDataSetChanged()
     }
 
     fun toggleUpdate(status : Boolean){

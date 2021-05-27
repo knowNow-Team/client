@@ -53,7 +53,7 @@ class AddInfoActivity : AppCompatActivity(), View.OnClickListener {
                 val refreshToken = it.data!!.userAuth.refreshToken
                 val email = it.data!!.userEmail
                 val userID = it.data!!.id
-                var user = UserEntity(idToken, loginToken, refreshToken, nickname, userID, email)
+                var user = UserEntity(1, idToken, loginToken, refreshToken, nickname, userID, email)
                 insertData(user)
 
                 val intent = Intent(this, MainActivity::class.java)

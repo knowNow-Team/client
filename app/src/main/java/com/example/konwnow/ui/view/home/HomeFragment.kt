@@ -18,12 +18,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
-import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.WordsAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.group.GroupActivity
 import com.example.konwnow.utils.Constants
-import com.example.konwnow.utils.WORDBOOK
 import com.example.konwnow.viewmodel.WordBookViewModel
 
 
@@ -37,8 +35,10 @@ class HomeFragment : Fragment() {
     private lateinit var wordsAdapter: WordsAdapter
     private var wordsList = arrayListOf<WordBook.GetAllWordResponseData>()
     private lateinit var workBookViewModel: WordBookViewModel
-    private var wordBookID =""
 
+    private var wordBookID =""
+    private var firstTitle =""
+    private var size =0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,61 +46,54 @@ class HomeFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_home, container, false)
 
+        detailButton = v.findViewById(R.id.ib_detail_setting)
         groupButton = v.findViewById(R.id.tv_group_text)
         switch = v.findViewById(R.id.switch_hide)
         rvWords = v.findViewById(R.id.rv_home_words) as RecyclerView
-        switch.isChecked = true
 
-
-        setSwitch()
-        setButton()
         return v
     }
 
+
     override fun onResume() {
         super.onResume()
+        wordsList.clear()
         getWordBookData()
+        resetView()
     }
 
+    private fun resetView() {
+        setRecycler()
+        setSwitch()
+        setButton()
+        switch.isChecked = true
+    }
+
+
     private fun getWordBookData() {
-        val firstTitle = App.sharedPrefs.getTitle()
-        wordBookID= App.sharedPrefs.getWordBookId().toString()
-        val size = App.sharedPrefs.getCount()
+        firstTitle = App.sharedPrefs.getTitle()!!
+        wordBookID= App.sharedPrefs.getWordBookId()!!
+        size = App.sharedPrefs.getCount()!!
+
+        Log.d(Constants.TAG,"저장된 단어장 데이터 : ${firstTitle} , ${wordBookID}, ${size}")
+    }
+
+    private fun setRecycler() {
+        //0 : 휴지통, 1: 일반
         if(firstTitle == null){
             groupButton.text = "단어장 선택"
-        }else if(firstTitle == WORDBOOK.TRASH_BOOK_ID){
+        }else if(firstTitle == "휴지통"){
             groupButton.text = firstTitle
-            setRecycler(0)
+            requestTrashWord()
+            detailButton.visibility = View.INVISIBLE
         }else{
             if(size == 1){
                 groupButton.text = firstTitle
             }else{
                 groupButton.text = "${firstTitle} 외 ${(size)?.minus(1)}"
             }
-            setRecycler(1)
+            requestAllWord()
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 1004 && data != null){
-            wordsList.clear()
-            val datas = data!!.getStringArrayListExtra("selected")
-            val firstTitle = data!!.getStringExtra("first")
-            val wordBookIDlist = datas!!.toList()
-
-            App.sharedPrefs.saveWordBookId(wordBookIDlist.joinToString(","))
-            App.sharedPrefs.saveCount(wordBookIDlist.size)
-            App.sharedPrefs.saveTitle(firstTitle.toString())
-
-            getWordBookData()
-        }
-    }
-
-    private fun setRecycler(type : Int) {
-        //0 : 휴지통, 1: 일반.
-        wordsList.clear()
-        wordsAdapter = WordsAdapter()
 
         val swipeHelperCallBack = SwipeHelperCallBack().apply {
             setClamp(200f)
@@ -108,6 +101,7 @@ class HomeFragment : Fragment() {
         val itemTouchHelper = ItemTouchHelper(swipeHelperCallBack)
         itemTouchHelper.attachToRecyclerView(rvWords)
 
+        wordsAdapter = WordsAdapter(wordsList)
         rvWords.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = wordsAdapter
@@ -116,11 +110,6 @@ class HomeFragment : Fragment() {
                 false
             }
         }
-
-        when(type){
-            0 ->{ requestTrashWord()}
-            1 ->{ requestAllWord() }
-        }
     }
 
     private fun requestAllWord() {
@@ -128,17 +117,16 @@ class HomeFragment : Fragment() {
         workBookViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Log.d(Constants.TAG, "단어 가져오기 성공!")
+                wordsList.clear()
                 for(datas in it.data){
                     if(!datas.words.isRemoved){
-                        wordsList.addAll(it.data)
+                        wordsList.add(datas)
                     }
                 }
                 //TODO: filter 확인
-
             } else {
                 Log.d(Constants.TAG, "단어장 get response null!")
             }
-            wordsAdapter.wordsUpdateList(wordsList)
             wordsAdapter.notifyDataSetChanged()
         })
         workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordBookID)
@@ -150,14 +138,10 @@ class HomeFragment : Fragment() {
         workBookViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Log.d(Constants.TAG, "휴지통 가져오기 성공!")
-                var allWord = ArrayList<Words.Word>()
-                allWord.clear()
                 //TODO: filter 확인
-
             } else {
                 Log.d(Constants.TAG, "휴지통 get response null!")
             }
-            wordsAdapter.wordsUpdateList(wordsList)
             wordsAdapter.notifyDataSetChanged()
         })
         workBookViewModel.getTrashWord(MainActivity.getUserData().loginToken)
@@ -180,11 +164,10 @@ class HomeFragment : Fragment() {
         groupButton.setOnClickListener {
             activity?.let {
                 val intent = Intent(context, GroupActivity::class.java)
-                startActivityForResult(intent,1004)
+                startActivity(intent)
             }
         }
 
-        detailButton = v.findViewById(R.id.ib_detail_setting)
         detailButton.setOnClickListener {
             activity?.let {
                 val intent = Intent(context, DetailSettingActivity::class.java)
