@@ -1,5 +1,6 @@
 package com.example.konwnow.ui.view.home
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Point
@@ -7,16 +8,27 @@ import android.os.Build
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.App
 import com.example.konwnow.R
+import com.example.konwnow.data.remote.dto.WordBook
+import com.example.konwnow.ui.adapter.WordClassAdapter
+
 
 class WordDialog(context: Context) {
     private val dlg = Dialog(context)   //부모 액티비티의 context 가 들어감
     private lateinit var btnCancel: ImageButton
     private lateinit var tvEng: TextView
+    private lateinit var tvKor : TextView
+    private lateinit var tvPhonics : TextView
 
-    fun start(content: String) {
+    private lateinit var rvWordClass : RecyclerView
+
+    @SuppressLint("WrongConstant")
+    fun start(content: WordBook.GetAllWordResponseData) {
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE)   //타이틀바 제거
         dlg.setContentView(R.layout.dialog_detail_word)     //다이얼로그에 사용할 xml 파일을 불러옴
         dlg.setCancelable(false)    //다이얼로그의 바깥 화면을 눌렀을 때 다이얼로그가 닫히지 않도록 함
@@ -24,7 +36,31 @@ class WordDialog(context: Context) {
         (App.instance).dialogResize(dlg, 0.9f, 0.5f)
 
         tvEng = dlg.findViewById(R.id.tv_dlg_eng)
-        tvEng.text = content
+        tvKor =dlg.findViewById(R.id.tv_meaning)
+        tvPhonics = dlg.findViewById(R.id.tv_phonics)
+
+        rvWordClass = dlg.findViewById(R.id.rv_word_class)
+        val wordClassAdapter = WordClassAdapter()
+        val layoutManager = LinearLayoutManager(App.instance, LinearLayout.HORIZONTAL, false)
+        rvWordClass.layoutManager = layoutManager
+        rvWordClass.adapter = wordClassAdapter
+        wordClassAdapter.notifyDataSetChanged()
+
+        for(data in content.wordsDoc){
+            tvEng.text = data.word
+            val korText = StringBuilder()
+            var i =0
+            for(mean in data.meanings){
+                korText.append("${i + 1}. $mean \n")
+                i++
+            }
+            tvKor.text = korText
+            tvPhonics.text = data.phonics
+
+            for(wordclass in data.wordClasses){
+                wordClassAdapter.wordUpdateList(wordclass)
+            }
+        }
 
         btnCancel = dlg.findViewById(R.id.btn_cancle)
         btnCancel.setOnClickListener {

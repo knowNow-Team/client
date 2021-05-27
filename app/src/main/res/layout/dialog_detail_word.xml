@@ -26,7 +26,7 @@
                 android:text="Computer" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tv_phonics"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -57,38 +57,35 @@
         android:paddingLeft="0dp"
         android:paddingRight="0dp" />
 
-    <TextView
-        android:id="@+id/button"
-        style="@style/FontCaption"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_word_class"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/btn_tag"
-        android:text="명사" />
+        android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tv_meaning"
         style="@style/FontBody2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="1. 뜻이다. " />
 
-    <TextView
-        android:id="@+id/textView5"
-        style="@style/FontBody1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="예문" />
+<!--    <TextView-->
+<!--        android:id="@+id/textView5"-->
+<!--        style="@style/FontBody1"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:text="예문" />-->
 
-    <TextView
-        style="@style/FontBody2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="1. 예문이다."
-        android:layout_marginBottom="40dp"/>
+<!--    <TextView-->
+<!--        style="@style/FontBody2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:text="1. 예문이다."-->
+<!--        android:layout_marginBottom="40dp"/>-->
 
 
 </LinearLayout>

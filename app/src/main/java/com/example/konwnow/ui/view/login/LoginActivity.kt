@@ -101,7 +101,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 val nickname = it.data.user.nickName
                 val userID = it.data.user.id
                 val email = it.data.user.userEmail
-                var user = UserEntity(google_id_token, loginToken, refreshToken, nickname, userID, email)
+                var user = UserEntity(1, google_id_token, loginToken, refreshToken, nickname, userID, email)
                 when(type){
                     LOGIN.LOGIN_FLAG.OTHER_LOGIN-> {
                         updateData(user)

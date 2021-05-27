@@ -1,6 +1,5 @@
 package com.example.konwnow.ui.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -12,14 +11,12 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
-import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.view.home.WordDialog
 
 
-class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
+class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>) : RecyclerView.Adapter<WordsAdapter.Holder>(){
 
     private lateinit var context : Context
-    private var items = ArrayList<WordBook.GetAllWordResponseData>()
     private var toggleStatus = true
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
@@ -36,6 +33,9 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
     }
 
     override fun getItemCount(): Int {
+        if(items.isEmpty()){
+            return 0
+        }
         return items.size
     }
 
@@ -82,7 +82,7 @@ class WordsAdapter() : RecyclerView.Adapter<WordsAdapter.Holder>(){
     private fun showDetail(holder: WordsAdapter.Holder, position: Int) {
         holder.itemView.setOnClickListener {
             val dlg = WordDialog(context)
-            dlg.start(items[position].wordsDoc[0].word!!)
+            dlg.start(items[position])
         }
     }
     //체크된 태그

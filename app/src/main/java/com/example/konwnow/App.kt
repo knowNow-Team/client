@@ -1,6 +1,7 @@
 package com.example.konwnow
 
 import android.app.Application
+import com.example.konwnow.data.local.SharedPreference
 
 
 /**
@@ -13,11 +14,14 @@ class App: Application() {
 
     companion object {
         lateinit var instance : App
+        lateinit var sharedPrefs: SharedPreference
 
     }
 
     override fun onCreate() {
         super.onCreate()
         instance = this
+
+        sharedPrefs = SharedPreference(applicationContext)
     }
 }

@@ -39,6 +39,8 @@ enum class RESPONSE_STATE{
 
 object WORDBOOK{
     const val WORDBOOK : String = "v1/wordbooks"
+    const val TRASH_BOOK_ID : String = "trashbook"
+    const val GET_TRASH_WORD : String ="v1/wordbooks/trashwordbooks"
 }
 
 
