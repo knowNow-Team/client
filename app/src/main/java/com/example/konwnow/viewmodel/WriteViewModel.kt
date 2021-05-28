@@ -39,7 +39,7 @@ class WriteViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<Words.getWordResponseBody>, t: Throwable) {
-                Log.d("viewmodel", "fail")
+                Log.d("viewmodel", t.message.toString())
             }
 
         })

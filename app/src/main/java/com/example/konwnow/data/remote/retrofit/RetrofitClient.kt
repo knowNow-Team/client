@@ -45,7 +45,7 @@ class RetrofitClient {
                 }
             })
 
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS)
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
             //loggingInterceptor 추가
             client.addInterceptor(loggingInterceptor)

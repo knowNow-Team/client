@@ -4,6 +4,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import org.json.JSONArray
+import org.json.JSONObject
 
 //@Parcelize
 //class Words(var eng: String, var kor: String,var levelStatus: Int) : Parcelable
@@ -32,7 +34,17 @@ class Words {
 
     data class getWordResponseBody(
         val statusCode : Int,
-        val data : Users.DataList?,
-        val error : Users.ErrorList?
+        val data : List<getWordResponseData>?,
+        val error : ErrorList?
+    )
+
+    data class getWordResponseData(
+        val position: List<JSONObject>,
+        val text: String
+    )
+
+    data class ErrorList (
+        val errorCode: String,
+        val userMessage: String
     )
 }

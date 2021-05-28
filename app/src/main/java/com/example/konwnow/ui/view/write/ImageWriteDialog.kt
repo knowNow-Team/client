@@ -1,10 +1,11 @@
 package com.example.konwnow.ui.view.write
 
 import android.Manifest
+import android.R.attr
 import android.app.Activity.RESULT_OK
+import android.content.ContentResolver
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Camera
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -21,10 +22,9 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import java.io.File
 import java.io.IOException
-import java.lang.Exception
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ImageWriteDialog : BottomSheetDialogFragment() {
@@ -33,7 +33,11 @@ class ImageWriteDialog : BottomSheetDialogFragment() {
     private lateinit var listener : ImageWriteDialogListener
     private lateinit var selectedImageUri: Uri
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         tedPermission()
         selectedImageUri = Uri.parse("")
         return inflater.inflate(R.layout.dialog_image_write, container, false)
@@ -70,7 +74,8 @@ class ImageWriteDialog : BottomSheetDialogFragment() {
 
     private fun goToAlbum() {
         val intent = Intent(Intent.ACTION_PICK)
-        intent.type = MediaStore.Images.Media.CONTENT_TYPE
+//        intent.type = MediaStore.Images.Media.CONTENT_TYPE
+        intent.type = "image/*"
         startActivityForResult(intent, PICK_FROM_ALBUM)
     }
 
@@ -81,7 +86,7 @@ class ImageWriteDialog : BottomSheetDialogFragment() {
                 val photoFile: File? = try {
                         createImageFile()
                     } catch (ex: IOException) {
-                        Log.d("파일","에러")
+                        Log.d("파일", "에러")
                         listener.onSuccess(Uri.parse(""))
                         null
                     }
@@ -95,7 +100,7 @@ class ImageWriteDialog : BottomSheetDialogFragment() {
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                 }
-            }catch(ex1: Exception){
+            }catch (ex1: Exception){
                 Log.d("에러", ex1.toString())
                 listener.onSuccess(Uri.parse(""))
             }
@@ -106,7 +111,6 @@ class ImageWriteDialog : BottomSheetDialogFragment() {
     // 카메라로 촬영한 이미지를 파일로 저장
     @Throws(IOException::class)
     private fun createImageFile(): File {
-        Log.d("실행","여긴가")
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File? = context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -126,6 +130,7 @@ class ImageWriteDialog : BottomSheetDialogFragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_FROM_ALBUM && resultCode == RESULT_OK && data != null && data.getData() != null) {
             selectedImageUri = data.getData()!!
+            Log.d("데이터", data.toString())
         }
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null && data!!.getData() != null) {
@@ -144,6 +149,6 @@ class ImageWriteDialog : BottomSheetDialogFragment() {
     }
 
     interface ImageWriteDialogListener {
-        fun onSuccess(content : Uri)
+        fun onSuccess(content: Uri)
     }
 }
