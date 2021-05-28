@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-
+//TODO:: 버튼 중첩으로 생기는 뷰~
 class SetAlarmTimeActivity : AppCompatActivity() {
     private lateinit var startTimePicker: TimePicker
     private lateinit var endTimePicker: TimePicker

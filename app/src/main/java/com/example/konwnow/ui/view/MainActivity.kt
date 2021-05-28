@@ -16,6 +16,7 @@ import com.example.konwnow.ui.view.mypage.MypageFragment
 import com.example.konwnow.ui.view.ranking.RankingFragment
 import com.example.konwnow.ui.view.test.TestFragment
 import com.example.konwnow.ui.view.write.WriteActivity
+import com.example.konwnow.utils.Constants
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView

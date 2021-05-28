@@ -152,7 +152,8 @@ class DictationTestActivity : AppCompatActivity() {
 //            puzzleAdapter.wordsUpdateList(wordsList)
             dictationAdapter.notifyDataSetChanged()
         })
-        workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordbookIdList)
+
+        workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordbookIdList.joinToString(","))
     }
 
     private fun setToolbar() {
