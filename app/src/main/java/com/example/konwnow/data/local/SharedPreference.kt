@@ -25,5 +25,11 @@ class SharedPreference(context: Context) {
     fun getWordBookId() : String? = sharedPreference!!.getString("id",null)
     fun getTitle() : String? = sharedPreference!!.getString("title",null)
     fun getCount() : Int? = sharedPreference!!.getInt("count",0)
+    fun checkValid() : Boolean? {
+        if(sharedPreference!!.getString("id",null) == null || sharedPreference!!.getString("title",null) == null){
+            return false
+        }
+        return true
+    }
 
 }

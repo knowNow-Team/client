@@ -1,21 +1,17 @@
 package com.example.konwnow.ui.view.write
 
-import android.database.Cursor
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.os.ParcelFileDescriptor
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -28,10 +24,8 @@ import com.example.konwnow.utils.Constants.TAG
 import com.example.konwnow.viewmodel.WriteViewModel
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody
 import java.io.File
-import java.io.FileDescriptor
-import java.io.IOException
 
 
 class ImageWriteFragment: Fragment() {
@@ -41,7 +35,7 @@ class ImageWriteFragment: Fragment() {
     private lateinit var wordAdapter: WordListAdapter
     private lateinit var imageWriteIv: ImageView
     private lateinit var viewModel: WriteViewModel
-    var myUri = ""
+    var myUri=Uri.parse("")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,28 +48,18 @@ class ImageWriteFragment: Fragment() {
         return v
     }
 
-
-    private fun getBitmapFromUri(uri: Uri): Bitmap? {
-        var parcelFileDescriptor: ParcelFileDescriptor? = null
-        return try {
-            parcelFileDescriptor = activity!!.contentResolver.openFileDescriptor(uri, "r")
-            val fileDescriptor: FileDescriptor = parcelFileDescriptor!!.fileDescriptor
-            val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
-            parcelFileDescriptor.close()
-            image
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to load image.", e)
-            null
-        } finally {
-            try {
-                parcelFileDescriptor?.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-                Log.e(TAG, "Error closing ParcelFile Descriptor")
-            }
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    override fun onResume() {
+        super.onResume()
+        if(myUri.toString() != ""){
+            Log.d(TAG, "실행")
+            requestWords()
         }
+        Log.d(TAG, "실행 안됨")
+
     }
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun requestWords() {
         viewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WriteViewModel::class.java)
         viewModel.getWordDataObserver().observe(viewLifecycleOwner, Observer {
@@ -90,26 +74,14 @@ class ImageWriteFragment: Fragment() {
             }
         })
 
-        val bitmap = getBitmapFromUri(myUri.toUri())
+        Log.d(TAG, "tlqkf:" + myUri)
 
-        val cursor: Cursor = context!!.getContentResolver().query(
-            Uri.parse(myUri.toString()),
-            null,
-            null,
-            null,
-            null
-        )!!
-        cursor.moveToFirst()
-        var mediaPath = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA))
-        //커서 사용해서 경로 확인
-
-        Log.d("이미지",mediaPath)
-
-        val file = File(mediaPath)
-
-        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
-        viewModel.getWordFromImage(body)
+        val file = File(myUri.path)
+//        val requestFile = file.asRequestBody("file/*".toMediaTypeOrNull())
+//        val requestFile = RequestBody.create("mulipart/form-data".toMediaTypeOrNull(),file)
+        var filepart = MultipartBody.Part.createFormData("imageFile", file.getName(), RequestBody.create(
+            "multipart/form-data/*".toMediaTypeOrNull(), file));
+        viewModel.getWordFromImage(filepart)
     }
 
     private fun setWordList() {
@@ -127,7 +99,6 @@ class ImageWriteFragment: Fragment() {
         val dialog = ImageWriteDialog()
         dialog.setSuccessListener { uri ->
             setImage(uri)
-            requestWords()
         }
         imageWriteIv.setOnClickListener {
             dialog.show(fragmentManager!!, dialog.tag)
@@ -136,7 +107,7 @@ class ImageWriteFragment: Fragment() {
         imageWriteIv.setOnLongClickListener {
             if(!myUri.equals("")){
                 val imageDialog = ImageDialog(context!!)
-                imageDialog.start(myUri.toUri())
+                imageDialog.start(myUri)
             }
             true
         }
@@ -145,9 +116,8 @@ class ImageWriteFragment: Fragment() {
 
     private fun setImage(uri: Uri) {
         Log.d("Uri", uri.toString())
-        //TODO: OCR요청
-        myUri = uri.toString()
-        if(myUri == ""){
+        myUri = uri
+        if(myUri.toString() == ""){
             imageWriteIv.background = ResourcesCompat.getDrawable(
                 resources,
                 R.drawable.img_addimage,

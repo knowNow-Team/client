@@ -12,7 +12,7 @@ object API{
     const val CREATE_TEST : String = "v1/tests"
     const val GET_WORDS : String = "v1/wordbooks/words"
     const val POST_WORDS : String = "v1/wordbooks/{wordbook}/words"
-    const val WORD_FROM_IMAGE : String = "detect/text"
+    const val WORD_FROM_IMAGE : String = "/image/text"
 
 }
 
@@ -41,6 +41,12 @@ object WORDBOOK{
     const val WORDBOOK : String = "v1/wordbooks"
     const val TRASH_BOOK_ID : String = "trashbook"
     const val GET_TRASH_WORD : String ="v1/wordbooks/trashwordbooks"
+}
+
+object CAMERA{
+//    const val CAMERA_REQUEST= 234
+    const val PICK_FROM_ALBUM = 1
+    const val REQUEST_IMAGE_CAPTURE = 2
 }
 
 

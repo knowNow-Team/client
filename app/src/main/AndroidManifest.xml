@@ -12,7 +12,6 @@
         android:name="android.hardware.camera"
         android:required="true" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
     <uses-sdk tools:overrideLibrary="com.broooapps.graphview"/>
 
     <application

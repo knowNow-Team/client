@@ -71,10 +71,13 @@ class HomeFragment : Fragment() {
 
 
     private fun getWordBookData() {
-        firstTitle = App.sharedPrefs.getTitle()!!
-        wordBookID= App.sharedPrefs.getWordBookId()!!
-        size = App.sharedPrefs.getCount()!!
-
+        if(App.sharedPrefs.checkValid()!!){
+            firstTitle = App.sharedPrefs.getTitle()!!
+            wordBookID= App.sharedPrefs.getWordBookId()!!
+            size = App.sharedPrefs.getCount()!!
+        }else{
+            firstTitle="단어장을 선택해주세요"
+        }
         Log.d(Constants.TAG,"저장된 단어장 데이터 : ${firstTitle} , ${wordBookID}, ${size}")
     }
 
@@ -87,7 +90,7 @@ class HomeFragment : Fragment() {
             requestTrashWord()
             detailButton.visibility = View.INVISIBLE
         }else{
-            if(size == 1){
+            if(size == 1 || size == 0){
                 groupButton.text = firstTitle
             }else{
                 groupButton.text = "${firstTitle} 외 ${(size)?.minus(1)}"
