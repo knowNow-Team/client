@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
     private lateinit var detailButton : ImageButton
     private lateinit var rvWords: RecyclerView
     private lateinit var wordsAdapter: WordsAdapter
-    private var wordsList = arrayListOf<WordBook.GetAllWordResponseData>()
+    var wordsList = arrayListOf<WordBook.GetAllWordResponseData>()
     private lateinit var workBookViewModel: WordBookViewModel
 
     private var wordBookID =""
@@ -82,10 +82,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setRecycler() {
-        //0 : 휴지통, 1: 일반
-        if(firstTitle == null){
-            groupButton.text = "단어장 선택"
-        }else if(firstTitle == "휴지통"){
+        if(firstTitle == "휴지통"){
             groupButton.text = firstTitle
             requestTrashWord()
             detailButton.visibility = View.INVISIBLE
@@ -123,14 +120,14 @@ class HomeFragment : Fragment() {
                 wordsList.clear()
                 for(datas in it.data){
                     if(!datas.words.isRemoved){
-                        wordsList.add(datas)
+                        this.wordsList.add(datas)
                     }
                 }
+                rvWords.adapter?.notifyDataSetChanged()
                 //TODO: filter 확인
             } else {
                 Log.d(Constants.TAG, "단어장 get response null!")
             }
-            wordsAdapter.notifyDataSetChanged()
         })
         workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordBookID)
     }
