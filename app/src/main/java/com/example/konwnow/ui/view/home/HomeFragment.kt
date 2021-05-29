@@ -87,6 +87,7 @@ class HomeFragment : Fragment() {
             requestTrashWord()
             detailButton.visibility = View.INVISIBLE
         }else{
+            detailButton.visibility = View.VISIBLE
             if(size == 1 || size == 0){
                 groupButton.text = firstTitle
             }else{
