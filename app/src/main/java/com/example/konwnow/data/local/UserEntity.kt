@@ -11,4 +11,5 @@ data class UserEntity(
     val refreshToken : String,
     val nickname : String,
     val userID : Int,
-    val email : String)
+    val email : String,
+    val level : Int)

@@ -4,10 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 class Users{
 
-    //회원가입
     data class SignUpBody(val nickname : String)
 
-    data class SingUpResponseBody(
+    data class UserResponseBody(
         val statusCode : Int,
         val data : DataList?,
         val error : ErrorList?
@@ -19,53 +18,34 @@ class Users{
     )
 
     data class DataList(
-        @SerializedName("@id") val  _id : Int,
-        val id : Int,
-        val userEmail : String,
+        @SerializedName("correctPercentage")
+        val correctPercentage: Int,
+        @SerializedName("examCount")
+        val examCount: Int,
+        @SerializedName("id")
+        val id: Int,
+        @SerializedName("nickName")
         val nickName: String,
-        val role:String,
-        val created : String,
-        val updated : String?,
-        val userAuth : UserAuth
+        @SerializedName("userAuth")
+        val userAuth: UserAuth,
+        @SerializedName("userEmail")
+        val userEmail: String,
+        @SerializedName("userLevel")
+        val userLevel: Int,
+        @SerializedName("wordCount")
+        val wordCount: Int
     )
 
     data class UserAuth(
-        @SerializedName("@id") val  _id : Int,
-        val id : Int,
-        val user : Int,
-        val loginToken : String,
-        val refreshToken: String
-    )
-
-    //구글 로그인
-    data class LoginResponseBody (
-        val statusCode : Int,
-        val data : LoginDataList?,
-        val error : ErrorList?
-    )
-
-    data class LoginDataList(
-        @SerializedName("@id") val  _id : Int,
-        val id : Int,
-        val user : UserList,
+        @SerializedName("loginToken")
         val loginToken: String,
+        @SerializedName("refreshToken")
         val refreshToken: String
-    )
-
-    data class UserList(
-        @SerializedName("@id") val  _id : Int,
-        val id : Int,
-        val user : Int,
-        val userEmail: String,
-        val nickName: String,
-        val role: String,
-        val created: String,
-        val updated: String?,
-        val userAuth : Int
     )
 
     data class ReLoginBody(
         val jwtToken : String,
         val refreshToken : String
     )
+
 }

@@ -1,7 +1,6 @@
 package com.example.konwnow.data.remote.retrofit.api
 
 import com.example.konwnow.data.remote.dto.Users
-import com.example.konwnow.utils.API
 import com.example.konwnow.utils.LOGIN
 import retrofit2.Call
 import retrofit2.http.*
@@ -12,23 +11,23 @@ interface LoginAPi {
     fun postSignUp(
         @Header("google-id-token") token: String,
         @Body userRequestBody : Users.SignUpBody
-    ): Call<Users.SingUpResponseBody>
+    ): Call<Users.UserResponseBody>
 
     @POST(LOGIN.LOGIN)
     fun postGoogleLogin(
         @Header("google-id-token") token: String
-    ): Call<Users.LoginResponseBody>
+    ): Call<Users.UserResponseBody>
 
     @POST(LOGIN.RE_LOGIN)
     fun requestNewRefreshToken(
         @Body userRequestBody : Users.ReLoginBody
-    ): Call<Users.LoginResponseBody>
+    ): Call<Users.UserResponseBody>
 
     @GET("v1/users/{userId}")
     fun getUser(
         @Header("jwt-access-token") loginToken : String,
         @Path("userId") userId : Int
-    ): Call<Users.SingUpResponseBody>
+    ): Call<Users.UserResponseBody>
 
 
 }

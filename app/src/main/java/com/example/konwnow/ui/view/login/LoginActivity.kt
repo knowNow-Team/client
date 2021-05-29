@@ -93,19 +93,21 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun callLogin(google_id_token: String, type: LOGIN.LOGIN_FLAG) {
+        Log.d(Constants.TAG,"call login")
         viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(LoginViewModel::class.java)
-        viewModel.getLoginDataObserver().observe(this, Observer<Users.LoginResponseBody>{
+        viewModel.getLoginDataObserver().observe(this, Observer<Users.UserResponseBody>{
             if(it != null){
-                val loginToken = it.data!!.loginToken
-                val refreshToken = it.data!!.refreshToken
-                val nickname = it.data.user.nickName
-                val userID = it.data.user.id
-                val email = it.data.user.userEmail
-                var user = UserEntity(1, google_id_token, loginToken, refreshToken, nickname, userID, email)
+                Log.d(Constants.TAG,"data not null")
+                val loginToken = it.data!!.userAuth.loginToken
+                val refreshToken = it.data!!.userAuth.refreshToken
+                val nickname = it.data.nickName
+                val userID = it.data.id
+                val email = it.data.userEmail
+                val level = it.data.userLevel
+                var user = UserEntity(1, google_id_token, loginToken, refreshToken, nickname, userID, email, level)
                 when(type){
                     LOGIN.LOGIN_FLAG.OTHER_LOGIN-> {
                         updateData(user)
-                        //TODO :: ROOM 업데이트 안됨 ,, 왜>?!
                     }
                     LOGIN.LOGIN_FLAG.NULL_LOGIN -> {
                         insertData(user)
@@ -114,7 +116,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 Log.d("google login body: ",it.toString())
 
                 val intent = Intent(this, MainActivity::class.java)
-                Toast.makeText(this,"${it.data!!.user.nickName}님 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"${nickname}님 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
                 startActivity(intent)
                 Log.d(Constants.TAG,"Login success")
             }else{
