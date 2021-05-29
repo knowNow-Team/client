@@ -7,11 +7,12 @@ import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.Words
+import com.example.konwnow.ui.view.write.WriteActivity
 
 class WordListAdapter(var wordlist: ArrayList<Words.Word>) :
         RecyclerView.Adapter<WordListAdapter.Holder>() {
     private var items = wordlist
-    var checkedWords = mutableSetOf<Words.Word>()
+//    var checkedWords = mutableSetOf<Words.Word>()
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val cbFolder = itemView?.findViewById<CheckBox>(R.id.cb_folder_name)
@@ -26,9 +27,9 @@ class WordListAdapter(var wordlist: ArrayList<Words.Word>) :
         holder.cbFolder!!.text = items[position].word
         holder.cbFolder!!.setOnClickListener {
             if(holder.cbFolder!!.isChecked){
-                checkedWords.add(items[position])
+                WriteActivity.addList(items[position].id)
             }else{
-                checkedWords.remove(items[position])
+                WriteActivity.popList(items[position].id)
             }
         }
     }

@@ -24,7 +24,7 @@ class WordBook {
         val message: String
     )
 
-    data class PostWordResponse(
+    data class PutWordResponse(
         @SerializedName("data")
         val data: Data,
         @SerializedName("message")
@@ -32,12 +32,13 @@ class WordBook {
     )
 
 
-    data class PostWordRequestBody(
+    data class PutWordRequestBody(
         @SerializedName("userId")
         val userId: Int,
         @SerializedName("wordNames")
         val wordNames: List<String>
     )
+
 
     data class GetAllWordResponse(
         @SerializedName("data")

@@ -15,12 +15,16 @@ import retrofit2.Response
 class WordBookViewModel : ViewModel() {
 
     var postWordBookResponse : MutableLiveData<WordBook.PostWordBookResponse> = MutableLiveData()
-    var postWordResponse : MutableLiveData<WordBook.PostWordResponse> = MutableLiveData()
+    var putWordResponse : MutableLiveData<WordBook.PutWordResponse> = MutableLiveData()
     var getWordBookResponse : MutableLiveData<WordBook.GetWordBookResponse> = MutableLiveData()
     var getAllWordResponse : MutableLiveData<WordBook.GetAllWordResponse> = MutableLiveData()
 
     fun postDataResponse() : MutableLiveData<PostWordBookResponse> {
         return postWordBookResponse
+    }
+
+    fun putWordsResponse() : MutableLiveData<WordBook.PutWordResponse> {
+        return putWordResponse
     }
 
     fun getDataReponse() : MutableLiveData<WordBook.GetWordBookResponse>{
@@ -67,7 +71,6 @@ class WordBookViewModel : ViewModel() {
             override fun onFailure(call: Call<WordBook.GetWordBookResponse>, t: Throwable) {
                 Log.d(Constants.TAG, "get wordbook fail")
             }
-
         })
     }
 
@@ -89,20 +92,20 @@ class WordBookViewModel : ViewModel() {
         })
     }
 
-    fun postWords(token : String, Body : WordBook.PostWordRequestBody){
+    fun putWords(token : String, wordBookIds: String,Body : WordBook.PutWordRequestBody){
         val instance = RetrofitClient.getWordClient()?.create(WordBookAPI::class.java)
-        val call = instance?.postWord(token, Body)
+        val call = instance?.putWords(token, wordBookIds, Body)
 
-        call?.enqueue(object : Callback<WordBook.PostWordResponse> {
+        call?.enqueue(object : Callback<WordBook.PutWordResponse> {
             override fun onResponse(
-                call: Call<WordBook.PostWordResponse>,
-                response: Response<WordBook.PostWordResponse>
+                call: Call<WordBook.PutWordResponse>,
+                response: Response<WordBook.PutWordResponse>
             ) {
                 //업데이트 시켜주기.
-                postWordResponse.postValue(response.body())
+                putWordResponse.postValue(response.body())
             }
 
-            override fun onFailure(call: Call<WordBook.PostWordResponse>, t: Throwable) {
+            override fun onFailure(call: Call<WordBook.PutWordResponse>, t: Throwable) {
                 Log.d(Constants.TAG, "post word fail")
             }
 

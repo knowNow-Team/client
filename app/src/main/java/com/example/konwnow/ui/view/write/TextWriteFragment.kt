@@ -29,8 +29,6 @@ class TextWriteFragment: Fragment() {
     private lateinit var wordAdapter: WordListAdapter
     private lateinit var searchBtn: Button
     private lateinit var sentenceEdt: EditText
-//    private lateinit var SetenceViewModel: WriteViewModel
-//    private lateinit var WordViewModel: WordViewModel
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

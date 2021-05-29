@@ -25,11 +25,12 @@ interface WordBookAPI {
         @Query("wordbookIds") wordbook: String,
         ): Call<WordBook.GetAllWordResponse>
 
-    @POST(API.POST_WORDS)
-    fun postWord(
+    @PUT(API.PUT_WORDS)
+    fun putWords(
         @Header("Authorization") token : String,
-        @Body request: WordBook.PostWordRequestBody
-    ): Call<WordBook.PostWordResponse>
+        @Path("wordbookId") wordbookId: String,
+        @Body request: WordBook.PutWordRequestBody
+    ): Call<WordBook.PutWordResponse>
 
     @GET(WORDBOOK.GET_TRASH_WORD)
     fun getTrashWord(
