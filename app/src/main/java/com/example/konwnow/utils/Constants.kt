@@ -13,6 +13,8 @@ object API{
     const val GET_WORDS : String = "v1/wordbooks/words"
     const val POST_WORDS : String = "v1/wordbooks/{wordbook}/words"
     const val WORD_FROM_IMAGE : String = "/image/text"
+    const val WORD_FROM_SENTENCE : String = "/sentence/text"
+    const val WORD_SCRAP : String = "v1/words/scrap"
 
 }
 

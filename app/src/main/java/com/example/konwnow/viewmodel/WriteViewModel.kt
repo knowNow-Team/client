@@ -16,29 +16,55 @@ import retrofit2.Response
 
 class WriteViewModel : ViewModel() {
 
-    var wordsList : MutableLiveData<Words.getWordResponseBody> = MutableLiveData()
+    var imageWordsList : MutableLiveData<Words.GetWordFromImageResponseBody> = MutableLiveData()
+    var sentenceWordsList : MutableLiveData<Words.GetWordFromSentenceResponseBody> = MutableLiveData()
 
 
-    fun getWordDataObserver() : MutableLiveData<Words.getWordResponseBody>{
-        return wordsList
+    fun getImageWordsListObserver() : MutableLiveData<Words.GetWordFromImageResponseBody>{
+        return imageWordsList
+    }
+
+    fun getSentenceWordsListObserver() : MutableLiveData<Words.GetWordFromSentenceResponseBody>{
+        return sentenceWordsList
     }
 
 
     fun getWordFromImage(image: MultipartBody.Part){
         val instance = RetrofitClient.getUserClient()?.create(WriteAPI::class.java)
         val call = instance?.getWordFromImage(image)
-        call?.enqueue(object : Callback<Words.getWordResponseBody> {
+        call?.enqueue(object : Callback<Words.GetWordFromImageResponseBody> {
             override fun onResponse(
-                call: Call<Words.getWordResponseBody>,
-                WordResponse: Response<Words.getWordResponseBody>
+                call: Call<Words.GetWordFromImageResponseBody>,
+                WordResponse: Response<Words.GetWordFromImageResponseBody>
             ) {
                 Log.d("viewmodel", "success")
 
                 //업데이트 시켜주기.
-                wordsList.postValue(WordResponse.body())
+                imageWordsList.postValue(WordResponse.body())
             }
 
-            override fun onFailure(call: Call<Words.getWordResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<Words.GetWordFromImageResponseBody>, t: Throwable) {
+                Log.d("viewmodel", t.message.toString())
+            }
+
+        })
+    }
+
+    fun getWordFromSentence(sentence: String){
+        val instance = RetrofitClient.getUserClient()?.create(WriteAPI::class.java)
+        val call = instance?.getWordFromSentence(Words.SentenceRequestBody(sentence))
+        call?.enqueue(object : Callback<Words.GetWordFromSentenceResponseBody> {
+            override fun onResponse(
+                call: Call<Words.GetWordFromSentenceResponseBody>,
+                WordResponse: Response<Words.GetWordFromSentenceResponseBody>
+            ) {
+                Log.d("리스폰스", WordResponse.toString())
+
+                //업데이트 시켜주기.
+                sentenceWordsList.postValue(WordResponse.body())
+            }
+
+            override fun onFailure(call: Call<Words.GetWordFromSentenceResponseBody>, t: Throwable) {
                 Log.d("viewmodel", t.message.toString())
             }
 

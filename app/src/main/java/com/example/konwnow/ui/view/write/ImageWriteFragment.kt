@@ -18,9 +18,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
+import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.WordListAdapter
+import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.Constants
 import com.example.konwnow.utils.Constants.TAG
+import com.example.konwnow.viewmodel.WordViewModel
 import com.example.konwnow.viewmodel.WriteViewModel
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -30,7 +33,8 @@ import java.io.File
 
 class ImageWriteFragment: Fragment() {
     private lateinit var v: View
-    var wordList = arrayListOf<String>()
+    var textList = arrayListOf<String>()
+    private var wordList = arrayListOf<Words.Word>()
     private lateinit var wordListRv: RecyclerView
     private lateinit var wordAdapter: WordListAdapter
     private lateinit var imageWriteIv: ImageView
@@ -48,48 +52,62 @@ class ImageWriteFragment: Fragment() {
         return v
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onResume() {
         super.onResume()
         if(myUri.toString() != ""){
             Log.d(TAG, "실행")
-            requestWords()
+            getWordFromImage()
         }
         Log.d(TAG, "실행 안됨")
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
-    private fun requestWords() {
+    private fun getWordFromImage() {
         viewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WriteViewModel::class.java)
-        viewModel.getWordDataObserver().observe(viewLifecycleOwner, Observer {
+        viewModel.getImageWordsListObserver().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Log.d(Constants.TAG, "단어장 가져오기 성공!")
-                wordList.clear()
+                textList.clear()
                 for (item in it.data!!) {
-                    wordList.add(item.text)
+                    textList.add(item.text)
                 }
+                requestWords()
             } else {
                 Log.d(Constants.TAG, "data get response null!")
             }
         })
-
-        Log.d(TAG, "tlqkf:" + myUri)
-
         val file = File(myUri.path)
-//        val requestFile = file.asRequestBody("file/*".toMediaTypeOrNull())
-//        val requestFile = RequestBody.create("mulipart/form-data".toMediaTypeOrNull(),file)
         var filepart = MultipartBody.Part.createFormData("imageFile", file.getName(), RequestBody.create(
             "multipart/form-data/*".toMediaTypeOrNull(), file));
         viewModel.getWordFromImage(filepart)
     }
+
+    private fun requestWords() {
+        var WordViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(
+            WordViewModel::class.java)
+        WordViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                wordList.clear()
+                for (item in it.data!!) {
+                    wordList.add(Words.Word(item.createdAt,item.id,item.meanings,item.phonics
+                        ,item.pronounceVoicePath,item.updatedAt,item.v,item.word,item.wordClasses))
+                }
+                Log.d(Constants.TAG,"텍스트: " +wordList.toString())
+                wordAdapter.notifyDataSetChanged()
+            } else {
+                Log.d(Constants.TAG, "data get response null!")
+            }
+        })
+        WordViewModel.postScrapWord(MainActivity.getUserData().loginToken,textList.toList())
+    }
+
 
     private fun setWordList() {
         //폴더 리스트 데이터
         wordListRv = v.findViewById(R.id.rv_word_list) as RecyclerView
         wordListRv.setHasFixedSize(true)
         wordListRv.layoutManager = LinearLayoutManager(context)
-        wordAdapter = WordListAdapter()
+        wordAdapter = WordListAdapter(wordList)
 //        wordAdapter.wordUpdateList(wordList)
         wordListRv.adapter = wordAdapter
     }

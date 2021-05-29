@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.Words
 
-class WordListAdapter() :
+class WordListAdapter(var wordlist: ArrayList<Words.Word>) :
         RecyclerView.Adapter<WordListAdapter.Holder>() {
-    private var items = ArrayList<Words.Word>()
+    private var items = wordlist
     var checkedWords = mutableSetOf<Words.Word>()
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {

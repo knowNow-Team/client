@@ -32,14 +32,51 @@ class Words {
         val wordClasses: List<String>
     ): Parcelable
 
-    data class getWordResponseBody(
+    data class GetWordFromImageResponseBody(
+        @SerializedName("statusCode")
         val statusCode : Int,
-        val data : List<getWordResponseData>?,
+        @SerializedName("data")
+        val data : List<GetWordFromImageResponseData>?,
+        @SerializedName("error")
         val error : ErrorList?
     )
 
-    data class getWordResponseData(
+    data class GetWordFromSentenceResponseBody(
+        @SerializedName("statusCode")
+        val statusCode : Int,
+        @SerializedName("data")
+        val data : List<String>?,
+        @SerializedName("error")
+        val error : ErrorList?
+    )
+
+    data class GetWordInfoResponseBody(
+        @SerializedName("message")
+        val message : String,
+        @SerializedName("data")
+        val data : List<Word>?,
+    )
+
+    data class SentenceRequestBody(
+        @SerializedName("sentence")
+        val sentence: String
+    )
+
+    data class WordRequestBody(
+        @SerializedName("wordNames")
+        val wordNames: List<String>
+    )
+
+
+    data class GetWordFromImageResponseData(
+        @SerializedName("position")
         val position: List<JSONObject>,
+        @SerializedName("text")
+        val text: String
+    )
+
+    data class GetWordFromSentenceResponseData(
+        @SerializedName("text")
         val text: String
     )
 

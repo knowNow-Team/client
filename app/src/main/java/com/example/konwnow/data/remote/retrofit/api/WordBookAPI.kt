@@ -11,7 +11,7 @@ interface WordBookAPI {
     @POST(WORDBOOK.WORDBOOK)
     fun postWordBook(
         @Header("Authorization") token : String,
-        @Body responseBody: WordBook.CreatedWordBookBody
+        @Body requestBody: WordBook.CreatedWordBookBody
     ): Call<WordBook.PostWordBookResponse>
 
     @GET(WORDBOOK.WORDBOOK)
