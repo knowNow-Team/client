@@ -56,6 +56,7 @@ class ImageWriteFragment: Fragment() {
         super.onResume()
         if(myUri.toString() != ""){
             Log.d(TAG, "실행")
+            WriteActivity.clearList()
             getWordFromImage()
         }
         Log.d(TAG, "실행 안됨")
@@ -91,6 +92,7 @@ class ImageWriteFragment: Fragment() {
                 for (item in it.data!!) {
                     wordList.add(Words.Word(item.createdAt,item.id,item.meanings,item.phonics
                         ,item.pronounceVoicePath,item.updatedAt,item.v,item.word,item.wordClasses))
+
                 }
                 Log.d(Constants.TAG,"텍스트: " +wordList.toString())
                 wordAdapter.notifyDataSetChanged()

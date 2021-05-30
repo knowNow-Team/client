@@ -1,13 +1,19 @@
 package com.example.konwnow.ui.view.write
 
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +27,7 @@ import com.example.konwnow.utils.Constants
 import com.example.konwnow.viewmodel.WordViewModel
 import com.example.konwnow.viewmodel.WriteViewModel
 
+
 class TextWriteFragment: Fragment() {
     private lateinit var v: View
     var wordList = arrayListOf<Words.Word>()
@@ -31,7 +38,11 @@ class TextWriteFragment: Fragment() {
     private lateinit var sentenceEdt: EditText
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         v = inflater.inflate(R.layout.fragment_text_write, container, false)
         setEditText()
         setWordList()
@@ -39,13 +50,33 @@ class TextWriteFragment: Fragment() {
         return v
     }
 
+
     private fun setEditText() {
         sentenceEdt = v.findViewById(R.id.edt_sentence)
+        sentenceEdt.setOnFocusChangeListener { v, hasFocus ->
+            if(!hasFocus){
+                CloseKeyboard()
+            }
+        }
     }
+
+    fun CloseKeyboard()
+    {
+        var view = activity!!.currentFocus
+
+        if(view != null)
+        {
+            val inputMethodManager = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
 
     private fun setButton() {
         searchBtn = v.findViewById(R.id.btn_search)
         searchBtn.setOnClickListener {
+//            CloseKeyboard()
+            WriteActivity.clearList()
             sentenceSeparate()
         }
     }
@@ -61,33 +92,48 @@ class TextWriteFragment: Fragment() {
     }
 
     private fun requestWords() {
-        var WordViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordViewModel::class.java)
+        var WordViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(
+            WordViewModel::class.java
+        )
         WordViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 wordList.clear()
                 for (item in it.data!!) {
-                    wordList.add(Words.Word(item.createdAt,item.id,item.meanings,item.phonics
-                        ,item.pronounceVoicePath,item.updatedAt,item.v,item.word,item.wordClasses))
+                    wordList.add(
+                        Words.Word(
+                            item.createdAt,
+                            item.id,
+                            item.meanings,
+                            item.phonics,
+                            item.pronounceVoicePath,
+                            item.updatedAt,
+                            item.v,
+                            item.word,
+                            item.wordClasses
+                        )
+                    )
                 }
-                Log.d(Constants.TAG,"텍스트: " +wordList.toString())
+                Log.d(Constants.TAG, "텍스트: " + wordList.toString())
                 wordAdapter.notifyDataSetChanged()
             } else {
                 Log.d(Constants.TAG, "data get response null!")
             }
         })
-        WordViewModel.postScrapWord(MainActivity.getUserData().loginToken,textList.toList())
+        WordViewModel.postScrapWord(MainActivity.getUserData().loginToken, textList.toList())
     }
 
 
     private fun sentenceSeparate() {
-        var SetenceViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WriteViewModel::class.java)
+        var SetenceViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(
+            WriteViewModel::class.java
+        )
         SetenceViewModel.getSentenceWordsListObserver().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 textList.clear()
                 for (item in it.data!!) {
                     textList.add(item)
                 }
-                Log.d(Constants.TAG,"텍스트: " +textList.toString())
+                Log.d(Constants.TAG, "텍스트: " + textList.toString())
                 requestWords()
             } else {
                 Log.d(Constants.TAG, "data get response null!")

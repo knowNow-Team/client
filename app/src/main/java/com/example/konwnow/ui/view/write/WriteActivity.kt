@@ -30,6 +30,9 @@ class WriteActivity: AppCompatActivity() {
             selectedWords.remove(item)
             Log.d("삭제",selectedWords.toString())
         }
+        fun clearList(){
+            selectedWords.clear()
+        }
     }
     private lateinit var btnBack : ImageButton
     private lateinit var btnSubmit : Button
