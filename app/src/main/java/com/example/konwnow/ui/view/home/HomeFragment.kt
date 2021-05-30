@@ -80,7 +80,7 @@ class HomeFragment : Fragment() {
         }else{
             firstTitle="단어장을 선택해주세요 ▼"
         }
-        Log.d(Constants.TAG,"저장된 단어장 데이터 : ${firstTitle} , ${wordBookID}, ${size}")
+        Log.d(Constants.TAG,"저장된 단어장 데이터 : $firstTitle , ${wordBookID}, $size")
     }
 
     private fun setRecycler() {

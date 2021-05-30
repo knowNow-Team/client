@@ -79,7 +79,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
         groupsList.clear()
         groupsList.add(WordBook.WordBooks("휴지통", null, WORDBOOK.TRASH_BOOK_ID))
 
-        groupsAdapter = GroupsAdapter(this)
+        groupsAdapter = GroupsAdapter(this,groupsList)
         rvGroups = findViewById(R.id.rv_groups)
         rvGroups.layoutManager = GridLayoutManager(this, 3)
 
@@ -97,7 +97,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
             } else {
                 Log.d(Constants.TAG, "단어장 get response null!")
             }
-            groupsAdapter.groupsUpdateList(groupsList)
+//            groupsAdapter.groupsUpdateList(groupsList)
             rvGroups.adapter = groupsAdapter
             groupsAdapter.notifyDataSetChanged()
         })

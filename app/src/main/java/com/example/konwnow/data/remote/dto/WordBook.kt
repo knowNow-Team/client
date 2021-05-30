@@ -72,6 +72,7 @@ class WordBook {
         val message: String
     )
 
+
     data class WordBookData(
         @SerializedName("allCount")
         val allCount: Int,

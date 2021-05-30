@@ -4,10 +4,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -24,11 +21,11 @@ import com.example.konwnow.viewmodel.WordBookViewModel
 class SetAlarmActivity : AppCompatActivity() {
     private lateinit var folderAdapter: FolderAdapter
     var folderList = arrayListOf<WordBook.WordBookData>()
-    var selectedFolderList = arrayListOf<WordBook.WordBookData>()
+    var selectedFolderList = arrayListOf<String>()
     private lateinit var notKnowCb: CheckBox
     private lateinit var confuseCb: CheckBox
     private lateinit var knowCb: CheckBox
-    var checkedTag = arrayListOf<Int>()
+    var checkedTag = arrayListOf<String>()
     private lateinit var viewModel: WordBookViewModel
 
 
@@ -62,7 +59,7 @@ class SetAlarmActivity : AppCompatActivity() {
         if(requestCode==2){
             if(resultCode== RESULT_CANCELED){
                 setResult(RESULT_CANCELED)
-                finish()
+//                finish()
             }else if(resultCode== RESULT_OK){
                 setResult(RESULT_OK)
                 finish()
@@ -77,7 +74,7 @@ class SetAlarmActivity : AppCompatActivity() {
         folderRV.layoutManager = LinearLayoutManager(this)
         folderAdapter = FolderAdapter(folderList){ i: Int, b: Boolean ->
             if(b){
-                selectedFolderList.add(folderList[i])
+                selectedFolderList.add(folderList[i].id)
             }else{
                 selectedFolderList.remove(folderList[i])
             }
@@ -109,13 +106,14 @@ class SetAlarmActivity : AppCompatActivity() {
         val btnNext = findViewById<Button>(R.id.btn_next)
         btnNext.setOnClickListener {
             //선택된 태그 체크
-            getCheckedTag()
-            val mIntent = Intent(this,SetAlarmTimeActivity::class.java)
-            var bundle = Bundle()
-//            bundle.putParcelableArrayList("folderList", selectedFolderList)
-            mIntent.putExtra("folder", bundle)
-            mIntent.putExtra("TagList",checkedTag)
-            startActivityForResult(mIntent,2)
+            if(getCheckedTag()){
+                val mIntent = Intent(this,SetAlarmTimeActivity::class.java)
+//                var bundle = Bundle()
+//                bundle.putParcelableArrayList("folderList", selectedFolderList)
+                mIntent.putExtra("folder", selectedFolderList)
+                mIntent.putExtra("TagList",checkedTag)
+                startActivityForResult(mIntent,2)
+            }
         }
     }
 
@@ -138,19 +136,24 @@ class SetAlarmActivity : AppCompatActivity() {
         knowCb = findViewById(R.id.know)
     }
 
-    private fun getCheckedTag(){
+    private fun getCheckedTag(): Boolean{
         checkedTag.clear()
         if(notKnowCb.isChecked){
-            checkedTag.add(0)
+            checkedTag.add(getString(R.string.doNotKnow))
         }
         if(confuseCb.isChecked){
-            checkedTag.add(1)
+            checkedTag.add(getString(R.string.confused))
         }
         if(knowCb.isChecked){
-            checkedTag.add(2)
+            checkedTag.add(getString(R.string.know))
         }
-        for(i: Int in checkedTag){
-            Log.d("선택된 태그",i.toString())
+        if(checkedTag.isEmpty()){
+            toast("필터를 선택해주세요.")
+            return false
         }
+        return true
     }
+
+    private fun toast(message: String){ Toast.makeText(this, message, Toast.LENGTH_SHORT).show() }
+
 }

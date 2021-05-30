@@ -17,11 +17,11 @@ import com.example.konwnow.ui.view.group.MakeGroupInterface
 import com.example.konwnow.ui.view.home.HomeFragment
 
 
-class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.Adapter<GroupsAdapter.Holder>(){
+class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface,var items: ArrayList<WordBook.WordBooks>) : RecyclerView.Adapter<GroupsAdapter.Holder>(){
 
     private lateinit var view: View
     private lateinit var context : Context
-    private var items = ArrayList<WordBook.WordBooks>()
+//    private var items = ArrayList<WordBook.WordBooks>()
     private val selectedBook = ArrayList<WordBook.WordBooks>()
 
     private var applyGroupsInterface : ApplyGroupsInterface? = null

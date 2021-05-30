@@ -13,9 +13,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.data.remote.dto.Words
+import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.ALARM
 import com.example.konwnow.utils.Constants
 import com.example.konwnow.viewmodel.WordBookViewModel
@@ -37,14 +39,14 @@ class SetAlarmTimeActivity : AppCompatActivity() {
     private var endMinute = 0
     private var startTime:Long = 0
     private var endTime:Long = 0
-    var folderList = arrayListOf<WordBook>()
-    var checkedTag = arrayListOf<Int>()
+    private var folderList = arrayListOf<String>()
+    private var checkedTag = arrayListOf<String>()
+    var allWord = ArrayList<Words.Word>()
     private lateinit var workBookViewModel: WordBookViewModel
 
-
-    val max = 45
+    var max = 45
     val min = 0
-    val total = max - min
+    var total = max - min
     var alarmNum = 0
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -54,7 +56,6 @@ class SetAlarmTimeActivity : AppCompatActivity() {
         setData()
         setToolbar()
         setTimePicker()
-        setSeekBar()
         setButton()
     }
 
@@ -73,16 +74,18 @@ class SetAlarmTimeActivity : AppCompatActivity() {
 
     private fun setData() {
         //folderList = intent!!.getBundleExtra("folder")!!.getParcelableArrayList<WordBook>("folderList") as ArrayList<WordBook>
-        checkedTag = intent!!.getIntegerArrayListExtra("TagList") as ArrayList<Int>
+        checkedTag = intent!!.getIntegerArrayListExtra("TagList") as ArrayList<String>
+        folderList = intent!!.getIntegerArrayListExtra("folder") as ArrayList<String>
 
         for(item in folderList){
-            //Log.d("폴더",item.name)
+            Log.d("폴더",item)
         }
 
         for(item in checkedTag){
             Log.d("태그",item.toString())
         }
         requestAllWord()
+
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT_WATCH)
@@ -92,6 +95,16 @@ class SetAlarmTimeActivity : AppCompatActivity() {
             if(!checkTimeZone()){
                 Toast.makeText(this, getString(R.string.wrongAlarmTime), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
+            }
+
+            if(alarmNum==0){
+                Toast.makeText(this, "알람 횟수를 다시 설정해주세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val quizIndexSet = getRandom(allWord.size, alarmNum)
+            wordsList.clear()
+            for (i in quizIndexSet) {
+                wordsList.add(allWord[i])
             }
             val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
@@ -110,7 +123,6 @@ class SetAlarmTimeActivity : AppCompatActivity() {
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
 
-
             val repeatInterval: Long = (endTime-startTime) / alarmNum
 
 
@@ -127,6 +139,7 @@ class SetAlarmTimeActivity : AppCompatActivity() {
                 pendingIntent
             )
             setResult(RESULT_OK)
+            App.sharedPrefs.saveAlarm(true)
             finish()
             Toast.makeText(this, getString(R.string.setAlarm), Toast.LENGTH_SHORT).show()
         }
@@ -167,8 +180,7 @@ class SetAlarmTimeActivity : AppCompatActivity() {
         workBookViewModel.getWordDataResponse().observe(this, Observer {
             if (it != null) {
                 Log.d(Constants.TAG, "단어 가져오기 성공!")
-                Log.d(Constants.TAG, "response Body : ${it}")
-                var allWord = ArrayList<Words.Word>()
+                Log.d(Constants.TAG, "response Body : $it")
                 allWord.clear()
                 for (item in it.data) {
                     if (!item.words.isRemoved && item.words.filter in checkedTag) {
@@ -185,6 +197,7 @@ class SetAlarmTimeActivity : AppCompatActivity() {
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("해당필터가 없습니다.").setMessage("필터를 확인해주세요")
                     builder.setNeutralButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                        setResult(RESULT_CANCELED)
                         finish()
                     }
                     val alertDialog = builder.create()
@@ -193,20 +206,28 @@ class SetAlarmTimeActivity : AppCompatActivity() {
                     }
                     alertDialog.show()
                 }else{
-                    val AlarmIndexSet = getRandom(allWord.size, alarmNum)
-                    for (i in AlarmIndexSet) {
-                        wordsList.add(allWord[i])
-                    }
-                    Log.d(Constants.TAG, "wordList: ${wordsList}")
+                    max = allWord.size
+                    total = max - min
+                    setSeekBar()
                 }
             } else {
                 Log.d(Constants.TAG, "단어장 get response null!")
             }
         })
-//        TODO:wordbook List Intent로 전달받자
-//        workBookViewModel.getAllWord(MainActivity.getUserData().loginToken, wordbookIdList)
+        workBookViewModel.getAllWord(MainActivity.getUserData().loginToken, convertFolderList())
     }
 
+    private fun convertFolderList():String{
+        var temp =""
+        for(i in folderList.indices){
+            if(i == 0){
+                temp = folderList[0]
+            }else{
+                temp += ",${folderList[i]}"
+            }
+        }
+        return temp
+    }
 
 
     private fun setSeekBar() {
@@ -214,6 +235,7 @@ class SetAlarmTimeActivity : AppCompatActivity() {
         sbAlarmNum.positionListener = { pos ->
             sbAlarmNum.bubbleText = "${min + (total  * pos).toInt()}"
             alarmNum = min + (total  * pos).toInt()
+            Log.d("알람 개수",alarmNum.toString())
         }
         sbAlarmNum.position = 0.3f
         sbAlarmNum.startText ="$min"

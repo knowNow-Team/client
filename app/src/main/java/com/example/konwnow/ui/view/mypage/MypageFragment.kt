@@ -43,7 +43,6 @@ class MypageFragment: Fragment() {
 
     lateinit var googleSignInClient : GoogleSignInClient
     private lateinit var switchAlarm: SwitchMaterial
-    private var alarmFlag = false
 
     private lateinit var db : UserDatabase
 
@@ -68,20 +67,21 @@ class MypageFragment: Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==1){
             if(resultCode== RESULT_CANCELED){
-                alarmFlag = false
+                App.sharedPrefs.saveAlarm(false)
                 switchAlarm.isChecked = false
             }else if(resultCode== RESULT_OK){
                 Log.d("코드1","성공")
             }
         }else if(requestCode == 2) {
             if(resultCode== RESULT_CANCELED){
-                alarmFlag = false
+                App.sharedPrefs.saveAlarm(false)
                 switchAlarm.isChecked = false
             }else if(resultCode== RESULT_OK){
                 Log.d("코드2","성공")
             }
         }
     }
+
 
     private fun setButton() {
         tvFriend = v.findViewById(R.id.tv_friend)
@@ -98,10 +98,10 @@ class MypageFragment: Fragment() {
             mIntent = Intent(activity, FriendActivity::class.java)
             startActivity(mIntent)
         }
-        tvSetAlarm.setOnClickListener{
-            mIntent = Intent(activity, SetAlarmActivity::class.java)
-            startActivityForResult(mIntent,1)
-        }
+//        tvSetAlarm.setOnClickListener{
+//            mIntent = Intent(activity, SetAlarmActivity::class.java)
+//            startActivityForResult(mIntent,1)
+//        }
         tvManual.setOnClickListener{
             val dlg = ManualDialog(context!!)
             dlg.start()
@@ -140,19 +140,20 @@ class MypageFragment: Fragment() {
     private fun setSwitch(){
         var mIntent : Intent
         switchAlarm = v.findViewById(R.id.switch_alarm)
+        switchAlarm.isChecked = App.sharedPrefs.getAlarm()
         switchAlarm.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                alarmFlag = isChecked
+                App.sharedPrefs.saveAlarm(true)
                 mIntent = Intent(activity, SetAlarmActivity::class.java)
                 startActivityForResult(mIntent,1)
             } else {
-                alarmFlag = isChecked
                 alarmOff()
             }
         }
     }
 
     private fun alarmOff(){
+        App.sharedPrefs.saveAlarm(false)
         var am = context!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         var intent = Intent(context, AlarmBroadcastReceiver::class.java)
         var PendingIntent = PendingIntent.getBroadcast(context, ALARM.NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)

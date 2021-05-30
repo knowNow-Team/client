@@ -22,9 +22,22 @@ class SharedPreference(context: Context) {
         editor.putInt("count",count).apply()
     }
 
+    fun saveAlarm(flag : Boolean){
+        editor.putBoolean("alarm",flag).apply()
+    }
+
+    fun saveFirst(flag:Boolean){
+        editor.putBoolean("first",flag).apply()
+    }
+
+
+    fun getFirst() : Boolean = sharedPreference!!.getBoolean("first",true)
+
+
     fun getWordBookId() : String? = sharedPreference!!.getString("id",null)
     fun getTitle() : String? = sharedPreference!!.getString("title",null)
     fun getCount() : Int? = sharedPreference!!.getInt("count",0)
+    fun getAlarm() : Boolean = sharedPreference!!.getBoolean("alarm",false)
     fun checkValid() : Boolean? {
         if(sharedPreference!!.getString("id",null) == null || sharedPreference!!.getString("title",null) == null){
             return false
