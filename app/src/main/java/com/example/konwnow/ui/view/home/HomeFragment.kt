@@ -78,7 +78,7 @@ class HomeFragment : Fragment() {
             wordBookID= App.sharedPrefs.getWordBookId()!!
             size = App.sharedPrefs.getCount()!!
         }else{
-            firstTitle="단어장을 선택해주세요 ▼"
+            firstTitle="단어장을 선택해주세요"
         }
         Log.d(Constants.TAG,"저장된 단어장 데이터 : $firstTitle , ${wordBookID}, $size")
     }
