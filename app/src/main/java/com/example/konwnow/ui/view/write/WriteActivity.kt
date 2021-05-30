@@ -1,9 +1,11 @@
 package com.example.konwnow.ui.view.write
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -56,6 +58,17 @@ class WriteActivity: AppCompatActivity() {
         setDefault()
         requestGroups()
     }
+    fun CloseKeyboard() {
+        Log.d("포커스","아웃")
+        var view = currentFocus
+
+        if(view != null){
+            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
+
 
     private fun setFolders() {
         val adapter = ArrayAdapter(
@@ -131,6 +144,25 @@ class WriteActivity: AppCompatActivity() {
         PageAdapter.addFragment(TextWriteFragment(), "직접등록")
         PageAdapter.addFragment(ImageWriteFragment(), "사진")
         vpWrite.adapter = PageAdapter
+        vpWrite.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                Log.d("페이지","스크롤")
+            }
+
+            override fun onPageSelected(position: Int) {
+                Log.d("페이지","선택")
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+                Log.d("페이지","변경")
+                CloseKeyboard()
+            }
+
+        })
         tabNav.setupWithViewPager(vpWrite)
     }
 

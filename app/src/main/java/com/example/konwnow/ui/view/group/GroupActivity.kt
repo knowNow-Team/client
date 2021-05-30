@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
@@ -55,13 +56,17 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
 
         btnApply = findViewById(R.id.btn_apply_groups)
         btnApply!!.setOnClickListener {
-            for(id in selectedBook){
-                wordBookID.add(id.wordBookID)
+            if(selectedBook.isEmpty()){
+                toast("단어장을 선택해주세요")
+            }else{
+                for(id in selectedBook){
+                    wordBookID.add(id.wordBookID)
+                }
+                App.sharedPrefs.saveWordBookId(wordBookID.joinToString(","))
+                App.sharedPrefs.saveCount(wordBookID.size)
+                App.sharedPrefs.saveTitle(selectedBook[0].title)
+                finish()
             }
-            App.sharedPrefs.saveWordBookId(wordBookID.joinToString(","))
-            App.sharedPrefs.saveCount(wordBookID.size)
-            App.sharedPrefs.saveTitle(selectedBook[0].title)
-            finish()
         }
     }
 
@@ -119,4 +124,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
         selectedBook.addAll(selectedList)
         Log.d(Constants.TAG, selectedBook.toString())
     }
+
+    private fun toast(message: String){ Toast.makeText(this, message, Toast.LENGTH_SHORT).show() }
+
 }

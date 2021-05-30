@@ -53,19 +53,13 @@ class TextWriteFragment: Fragment() {
 
     private fun setEditText() {
         sentenceEdt = v.findViewById(R.id.edt_sentence)
-        sentenceEdt.setOnFocusChangeListener { v, hasFocus ->
-            if(!hasFocus){
-                CloseKeyboard()
-            }
-        }
     }
 
-    fun CloseKeyboard()
-    {
+    fun CloseKeyboard() {
+        Log.d("포커스","아웃")
         var view = activity!!.currentFocus
 
-        if(view != null)
-        {
+        if(view != null){
             val inputMethodManager = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
         }
@@ -75,7 +69,7 @@ class TextWriteFragment: Fragment() {
     private fun setButton() {
         searchBtn = v.findViewById(R.id.btn_search)
         searchBtn.setOnClickListener {
-//            CloseKeyboard()
+            CloseKeyboard()
             WriteActivity.clearList()
             sentenceSeparate()
         }
