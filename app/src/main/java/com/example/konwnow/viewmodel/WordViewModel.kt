@@ -17,9 +17,14 @@ import retrofit2.Response
 class WordViewModel : ViewModel() {
 
     var getAllWordResponse : MutableLiveData<Words.GetWordInfoResponseBody> = MutableLiveData()
+    var putWordFilterResponse : MutableLiveData<Words.PutFilterResponse> = MutableLiveData()
 
     fun getWordDataResponse() : MutableLiveData<Words.GetWordInfoResponseBody>{
         return getAllWordResponse
+    }
+
+    fun putWordFilterObserver() : MutableLiveData<Words.PutFilterResponse>{
+        return putWordFilterResponse
     }
 
 
@@ -39,6 +44,25 @@ class WordViewModel : ViewModel() {
             override fun onFailure(call: Call<Words.GetWordInfoResponseBody>, t: Throwable) {
                 Log.d(Constants.TAG, "post scrap fail")
             }
+        })
+    }
+
+    fun putFilter(token : String, wordBookId : String, wordId : String, filter : String){
+        val instances =  RetrofitClient.getWordClient()?.create(WordAPI::class.java)
+        val call = instances?.putWordFilter(token, wordBookId, wordId,filter)
+
+        call?.enqueue(object  : Callback<Words.PutFilterResponse>{
+            override fun onResponse(
+                call: Call<Words.PutFilterResponse>,
+                response: Response<Words.PutFilterResponse>
+            ) {
+                putWordFilterResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Words.PutFilterResponse>, t: Throwable) {
+                Log.d(Constants.TAG, "put filter fail")
+            }
+
         })
     }
 }

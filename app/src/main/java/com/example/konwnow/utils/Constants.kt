@@ -45,6 +45,13 @@ object WORDBOOK{
     const val GET_TRASH_WORD : String ="v1/wordbooks/trashwordbooks"
 }
 
+object HOMEWORD{
+    const val PUT_FILTER : String = "v1/wordbooks/{wordbookId}/{wordId}"
+    const val doNotKnow : String ="doNotKnow"
+    const val confused : String = "confused"
+    const val memorized : String = "memorized"
+}
+
 object CAMERA{
 //    const val CAMERA_REQUEST= 234
     const val PICK_FROM_ALBUM = 1

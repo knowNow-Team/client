@@ -23,9 +23,10 @@ import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.group.GroupActivity
 import com.example.konwnow.utils.Constants
 import com.example.konwnow.viewmodel.WordBookViewModel
+import com.example.konwnow.viewmodel.WordViewModel
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), ChangeLevelinterface {
 
     private lateinit var v: View
     private lateinit var switch: Switch
@@ -36,6 +37,7 @@ class HomeFragment : Fragment() {
     private lateinit var wordsAdapter: WordsAdapter
     var wordsList = arrayListOf<WordBook.GetAllWordResponseData>()
     private lateinit var workBookViewModel: WordBookViewModel
+    private lateinit var wordViewModel: WordViewModel
 
     private var wordBookID =""
     private var firstTitle =""
@@ -106,7 +108,7 @@ class HomeFragment : Fragment() {
         val itemTouchHelper = ItemTouchHelper(swipeHelperCallBack)
         itemTouchHelper.attachToRecyclerView(rvWords)
 
-        wordsAdapter = WordsAdapter(wordsList)
+        wordsAdapter = WordsAdapter(wordsList, this)
         rvWords.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = wordsAdapter
@@ -180,5 +182,20 @@ class HomeFragment : Fragment() {
             }
         }
 
+    }
+
+
+    override fun changeLevelClicked(filter: String, position: Int) {
+        wordViewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordViewModel::class.java)
+        wordViewModel.putWordFilterObserver().observe(viewLifecycleOwner,{
+            if(it != null){
+                Log.d(Constants.TAG, "필터 업데이트 성공!")
+                rvWords.adapter?.notifyDataSetChanged()
+            }else {
+                Log.d(Constants.TAG, "필터 업데이트 실패!")
+            }
+            wordsAdapter.notifyItemChanged(position)
+        })
+        wordViewModel.putFilter(MainActivity.getUserData().loginToken,wordsList[position].id,wordsList[position].words.wordId,filter)
     }
 }

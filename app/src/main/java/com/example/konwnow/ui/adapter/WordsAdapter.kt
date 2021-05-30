@@ -1,5 +1,7 @@
 package com.example.konwnow.ui.adapter
 
+import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -8,16 +10,32 @@ import android.view.View.*
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
+import com.example.konwnow.ui.view.group.MakeGroupInterface
+import com.example.konwnow.ui.view.home.ChangeLevelinterface
+import com.example.konwnow.ui.view.home.HomeFragment
 import com.example.konwnow.ui.view.home.WordDialog
+import com.example.konwnow.utils.Constants
+import com.example.konwnow.utils.HOMEWORD
+import com.example.konwnow.viewmodel.WordBookViewModel
+import com.example.konwnow.viewmodel.WordViewModel
 
 
-class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>) : RecyclerView.Adapter<WordsAdapter.Holder>(){
+class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>,changeLevelinterface: ChangeLevelinterface) : RecyclerView.Adapter<WordsAdapter.Holder>(){
 
     private lateinit var context : Context
     private var toggleStatus = true
+
+    private var changeLevelinterface : ChangeLevelinterface? = null
+
+    init{
+        this.changeLevelinterface = changeLevelinterface
+    }
+
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val tvEng = itemView?.findViewById<TextView>(R.id.tv_words_eng)
@@ -55,15 +73,15 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
 
         var levelText = holder.level!!
         when(items[position].words.filter){
-            context.getString(R.string.doNotKnow)-> {
+            HOMEWORD.doNotKnow-> {
                 levelText.setTextColor(context.getColor(R.color.red))
                 levelText.text = context.getString(R.string.not_know)
             }
-            context.getString(R.string.confused) -> {
+            HOMEWORD.confused -> {
                 levelText.setTextColor(context.getColor(R.color.orange))
                 levelText.text = context.getString(R.string.confuse)
             }
-            context.getString(R.string.know) -> {
+            HOMEWORD.memorized -> {
                 levelText.setTextColor(context.getColor(R.color.colorMain))
                 levelText.text = context.getString(R.string.know)
             }
@@ -71,7 +89,7 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
 
         // 이벤트발생 시 호출되는 함수
         changeToggle(holder)
-//        changeLevel(levelText,position)
+        changeLevel(levelText,position)
         showDetail(holder,position)
         deleteWord(holder,position)
 
@@ -98,25 +116,25 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
     //2: 알아요
 
 
-//    TODO:필터 변경되는거 request 넣어야됨
-//    @RequiresApi(Build.VERSION_CODES.M)
-//    @SuppressLint("ResourceAsColor")
-//    private fun changeLevel(levelText: TextView,position: Int) {
-//        levelText.setOnClickListener {
-//            when(items[position].words.filter){
-//                context.getString(R.string.doNotKnow)-> {
-//                    items[position].words.filter = context.getString(R.string.confused)
-//                }
-//                context.getString(R.string.confused) -> {
-//                    items[position].words.filter = 2
-//                }
-//                context.getString(R.string.know) -> {
-//                    items[position].words.filter = 0
-//                }
-//            }
-//            notifyDataSetChanged()
-//        }
-//    }
+    @RequiresApi(Build.VERSION_CODES.M)
+    @SuppressLint("ResourceAsColor")
+    private fun changeLevel(levelText: TextView,position: Int) {
+        levelText.setOnClickListener {
+            var filter =""
+            when(items[position].words.filter){
+                HOMEWORD.doNotKnow-> {
+                    filter = HOMEWORD.confused
+                }
+                HOMEWORD.confused -> {
+                    filter = HOMEWORD.memorized
+                }
+                HOMEWORD.memorized -> {
+                    filter = HOMEWORD.doNotKnow
+                }
+            }
+            this.changeLevelinterface?.changeLevelClicked(filter,position)
+        }
+    }
 
     private fun changeToggle(holder: WordsAdapter.Holder) {
         if(toggleStatus){
