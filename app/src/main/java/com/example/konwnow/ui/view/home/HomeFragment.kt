@@ -31,9 +31,10 @@ class HomeFragment : Fragment() {
     private lateinit var switch: Switch
     private lateinit var groupButton: TextView
     private lateinit var detailButton : ImageButton
+    private lateinit var tvEdit : TextView
     private lateinit var rvWords: RecyclerView
     private lateinit var wordsAdapter: WordsAdapter
-    private var wordsList = arrayListOf<WordBook.GetAllWordResponseData>()
+    var wordsList = arrayListOf<WordBook.GetAllWordResponseData>()
     private lateinit var workBookViewModel: WordBookViewModel
 
     private var wordBookID =""
@@ -46,6 +47,7 @@ class HomeFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_home, container, false)
 
+        tvEdit = v.findViewById<TextView>(R.id.tv_edit)
         detailButton = v.findViewById(R.id.ib_detail_setting)
         groupButton = v.findViewById(R.id.tv_group_text)
         switch = v.findViewById(R.id.switch_hide)
@@ -76,24 +78,24 @@ class HomeFragment : Fragment() {
             wordBookID= App.sharedPrefs.getWordBookId()!!
             size = App.sharedPrefs.getCount()!!
         }else{
-            firstTitle="단어장을 선택해주세요"
+            firstTitle="단어장을 선택해주세요 ▼"
         }
         Log.d(Constants.TAG,"저장된 단어장 데이터 : ${firstTitle} , ${wordBookID}, ${size}")
     }
 
     private fun setRecycler() {
-        //0 : 휴지통, 1: 일반
-        if(firstTitle == null){
-            groupButton.text = "단어장 선택"
-        }else if(firstTitle == "휴지통"){
-            groupButton.text = firstTitle
+        if(firstTitle == "휴지통"){
+            groupButton.text = "${firstTitle} ▼"
             requestTrashWord()
             detailButton.visibility = View.INVISIBLE
+            tvEdit.visibility = View.VISIBLE
         }else{
+            detailButton.visibility = View.VISIBLE
+            tvEdit.visibility = View.INVISIBLE
             if(size == 1 || size == 0){
-                groupButton.text = firstTitle
+                groupButton.text = "${firstTitle} ▼"
             }else{
-                groupButton.text = "${firstTitle} 외 ${(size)?.minus(1)}"
+                groupButton.text = "${firstTitle} 외 ${(size)?.minus(1)} ▼"
             }
             requestAllWord()
         }
@@ -123,14 +125,14 @@ class HomeFragment : Fragment() {
                 wordsList.clear()
                 for(datas in it.data){
                     if(!datas.words.isRemoved){
-                        wordsList.add(datas)
+                        this.wordsList.add(datas)
                     }
                 }
+                rvWords.adapter?.notifyDataSetChanged()
                 //TODO: filter 확인
             } else {
                 Log.d(Constants.TAG, "단어장 get response null!")
             }
-            wordsAdapter.notifyDataSetChanged()
         })
         workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordBookID)
     }

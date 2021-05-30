@@ -67,7 +67,7 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.A
                         Toast.makeText(context,"${items[position].title}은 중복 선택이 불가능합니다.",Toast.LENGTH_SHORT).show()
                         i = 0
                     } else{
-                        holder.groupImage.setImageResource(R.drawable.ic_selected_group)
+                        holder.groupImage.setImageResource(R.drawable.ic_new_folder)
                         selectedBook.add(items[position])
                         Log.d("${position}값이 추가되었다!",selectedBook.toString())
                     }

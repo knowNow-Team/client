@@ -33,7 +33,7 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
     }
 
     override fun getItemCount(): Int {
-        if(items.isEmpty()){
+        if(items.size == 0){
             return 0
         }
         return items.size
@@ -43,8 +43,15 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: Holder, position: Int) {
         //바인딩
-        holder.tvEng!!.text = items[position].wordsDoc[0].word
-        holder.tvKor!!.text = items[position].wordsDoc[0].meanings[0]
+        val meaning = items[position].wordsDoc[0].meanings
+        when(meaning.size){
+            0 ->{
+                holder.tvKor?.text = ""
+            }else ->{
+            holder.tvKor?.text = meaning[0]
+            }
+        }
+        holder.tvEng?.text = items[position].wordsDoc[0].word
 
         var levelText = holder.level!!
         when(items[position].words.filter){

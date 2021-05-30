@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.local.UserDatabase
+import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.login.LoginActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -52,8 +53,15 @@ class MypageFragment: Fragment() {
         setButton()
         setSwitch()
 
-        getAllUserData()
+        setDate()
         return v
+    }
+
+    private fun setDate() {
+         val tvNickname = v.findViewById<TextView>(R.id.tv_user_nick)
+        val tvLevel= v.findViewById<TextView>(R.id.tv_user_level)
+        tvNickname.text = MainActivity.getUserData().nickname
+        tvLevel.text = "Level ${MainActivity.getUserData().level}"
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -73,22 +81,6 @@ class MypageFragment: Fragment() {
                 Log.d("코드2","성공")
             }
         }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private fun getAllUserData() {
-        db = UserDatabase.getInstance(App.instance)!!
-        val insertTask = object : AsyncTask<Unit, Unit, Unit>(){
-            override fun doInBackground(vararg params: Unit?) {
-                val users = db.userDao().getAll()
-                val tvNickname = v.findViewById<TextView>(R.id.tv_user_nick)
-                tvNickname.text = users.nickname
-            }
-            override fun onPostExecute(result: Unit?) {
-                super.onPostExecute(result)
-            }
-        }
-        insertTask.execute()
     }
 
     private fun setButton() {

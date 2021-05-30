@@ -13,8 +13,8 @@ import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
 
-    var signUpList : MutableLiveData<Users.SingUpResponseBody>
-    var loginList : MutableLiveData<Users.LoginResponseBody>
+    var signUpList : MutableLiveData<Users.UserResponseBody>
+    var loginList : MutableLiveData<Users.UserResponseBody>
 
 
     init {
@@ -22,11 +22,11 @@ class LoginViewModel : ViewModel() {
         loginList = MutableLiveData()
     }
 
-    fun getSignUpDataObserver() : MutableLiveData<Users.SingUpResponseBody>{
+    fun getSignUpDataObserver() : MutableLiveData<Users.UserResponseBody>{
         return signUpList
     }
 
-    fun getLoginDataObserver() : MutableLiveData<Users.LoginResponseBody>{
+    fun getLoginDataObserver() : MutableLiveData<Users.UserResponseBody>{
         return loginList
     }
 
@@ -36,18 +36,18 @@ class LoginViewModel : ViewModel() {
         val postSignUp = Users.SignUpBody(nickname)
         val call = instance?.postSignUp(idtoken, postSignUp)
 
-        call?.enqueue(object : Callback<Users.SingUpResponseBody> {
+        call?.enqueue(object : Callback<Users.UserResponseBody> {
             override fun onResponse(
-                call: Call<Users.SingUpResponseBody>,
-                singUpResponse: Response<Users.SingUpResponseBody>
+                call: Call<Users.UserResponseBody>,
+                userResponse: Response<Users.UserResponseBody>
             ) {
                 Log.d("viewmodel", "success")
 
                 //업데이트 시켜주기.
-                signUpList.postValue(singUpResponse.body())
+                signUpList.postValue(userResponse.body())
             }
 
-            override fun onFailure(call: Call<Users.SingUpResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<Users.UserResponseBody>, t: Throwable) {
                 Log.d("viewmodel", "fail")
             }
 
@@ -58,14 +58,15 @@ class LoginViewModel : ViewModel() {
         val instance = RetrofitClient.getUserClient()?.create(LoginAPi::class.java)
         val call = instance?.postGoogleLogin(idtoken)
 
-        call?.enqueue(object : Callback<Users.LoginResponseBody> {
+        call?.enqueue(object : Callback<Users.UserResponseBody> {
             override fun onResponse(
-                call: Call<Users.LoginResponseBody>, response: Response<Users.LoginResponseBody>
+                call: Call<Users.UserResponseBody>, response: Response<Users.UserResponseBody>
             ) {
+                Log.d("viewmodel", "success")
                 loginList.postValue(response.body())
             }
 
-            override fun onFailure(call: Call<Users.LoginResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<Users.UserResponseBody>, t: Throwable) {
             }
 
         })

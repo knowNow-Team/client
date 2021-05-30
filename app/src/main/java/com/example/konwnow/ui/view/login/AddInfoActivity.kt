@@ -13,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.local.UserDatabase
 import com.example.konwnow.data.local.UserEntity
@@ -46,14 +45,15 @@ class AddInfoActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         val nickname = findViewById<EditText>(R.id.et_nickname).text.toString()
         viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(LoginViewModel::class.java)
-        viewModel.getSignUpDataObserver().observe(this, Observer<Users.SingUpResponseBody>{
+        viewModel.getSignUpDataObserver().observe(this, Observer<Users.UserResponseBody>{
             Log.d(Constants.TAG,"SignUpBody : $it")
             if(it != null) {
                 val loginToken = it.data!!.userAuth.loginToken
                 val refreshToken = it.data!!.userAuth.refreshToken
                 val email = it.data!!.userEmail
                 val userID = it.data!!.id
-                var user = UserEntity(1, idToken, loginToken, refreshToken, nickname, userID, email)
+                val level = it.data!!.userLevel
+                var user = UserEntity(1, idToken, loginToken, refreshToken, nickname, userID, email,level)
                 insertData(user)
 
                 val intent = Intent(this, MainActivity::class.java)
