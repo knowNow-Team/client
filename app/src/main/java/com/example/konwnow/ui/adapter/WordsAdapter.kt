@@ -35,6 +35,7 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
         val tvKor = itemView?.findViewById<TextView>(R.id.tv_words_kor)
         val level = itemView?.findViewById<TextView>(R.id.tv_level)
         val btnDelete = itemView?.findViewById<ImageButton>(R.id.ib_trash)
+        val btnRecovery = itemView?.findViewById<ImageButton>(R.id.ib_recovery)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -53,7 +54,11 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        //바인딩
+        if(App.sharedPrefs.getTitle() == "휴지통"){
+            holder.btnRecovery!!.visibility = View.VISIBLE
+        }else{
+            holder.btnRecovery!!.visibility = View.INVISIBLE
+        }
         val meaning = items[position].wordsDoc[0].meanings
         when(meaning.size){
             0 ->{
@@ -99,6 +104,9 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
             }else{
                 this.homeInterface?.trashClicked(position)
             }
+        }
+        holder.btnRecovery?.setOnClickListener {
+            this.homeInterface?.recoveryWord(position)
         }
     }
 

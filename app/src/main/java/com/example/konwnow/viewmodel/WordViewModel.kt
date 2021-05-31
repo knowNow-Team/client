@@ -20,6 +20,7 @@ class WordViewModel : ViewModel() {
     var putWordFilterResponse : MutableLiveData<Words.PutFilterResponse> = MutableLiveData()
     var moveWordTarshResponse : MutableLiveData<Words.MoveTrashResponse> = MutableLiveData()
     var delteWordResponse : MutableLiveData<Words.DeleteWordResponse> = MutableLiveData()
+    var recoveryWordResponse : MutableLiveData<Words.DeleteWordResponse> = MutableLiveData()
 
     fun getWordDataResponse() : MutableLiveData<Words.GetWordInfoResponseBody>{
         return getAllWordResponse
@@ -35,6 +36,10 @@ class WordViewModel : ViewModel() {
 
     fun deleteWordObserver() : MutableLiveData<Words.DeleteWordResponse>{
         return delteWordResponse
+    }
+
+    fun recoveryWordObserver() : MutableLiveData<Words.DeleteWordResponse>{
+        return recoveryWordResponse
     }
 
 
@@ -109,7 +114,26 @@ class WordViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<Words.DeleteWordResponse>, t: Throwable) {
-                Log.d(Constants.TAG, "move trash fail")
+                Log.d(Constants.TAG, "delete word fail")
+            }
+
+        })
+    }
+
+    fun recoveryWord(token: String, wordId: String){
+        val instances =  RetrofitClient.getWordClient()?.create(WordAPI::class.java)
+        val call = instances?.recoveryWord(token,wordId)
+
+        call?.enqueue(object  : Callback<Words.DeleteWordResponse>{
+            override fun onResponse(
+                call: Call<Words.DeleteWordResponse>,
+                response: Response<Words.DeleteWordResponse>
+            ) {
+               recoveryWordResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Words.DeleteWordResponse>, t: Throwable) {
+                Log.d(Constants.TAG, "recovery word fail")
             }
 
         })

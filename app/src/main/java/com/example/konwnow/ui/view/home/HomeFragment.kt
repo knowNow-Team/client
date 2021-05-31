@@ -33,7 +33,6 @@ class HomeFragment : Fragment(), HomeInterface {
     private lateinit var switch: Switch
     private lateinit var groupButton: TextView
     private lateinit var detailButton : ImageButton
-    private lateinit var tvEdit : TextView
     private lateinit var rvWords: RecyclerView
     private lateinit var wordsAdapter: WordsAdapter
     var wordsList = arrayListOf<WordBook.GetAllWordResponseData>()
@@ -52,7 +51,6 @@ class HomeFragment : Fragment(), HomeInterface {
     ): View? {
         v = inflater.inflate(R.layout.fragment_home, container, false)
 
-        tvEdit = v.findViewById<TextView>(R.id.tv_edit)
         detailButton = v.findViewById(R.id.ib_detail_setting)
         groupButton = v.findViewById(R.id.tv_group_text)
         switch = v.findViewById(R.id.switch_hide)
@@ -103,10 +101,8 @@ class HomeFragment : Fragment(), HomeInterface {
             groupButton.text = "${firstTitle} ▼"
             requestTrashWord()
             detailButton.visibility = View.INVISIBLE
-            tvEdit.visibility = View.VISIBLE
         }else{
             detailButton.visibility = View.VISIBLE
-            tvEdit.visibility = View.INVISIBLE
             if(size == 1 || size == 0){
                 groupButton.text = "${firstTitle} ▼"
             }else{
@@ -250,5 +246,17 @@ class HomeFragment : Fragment(), HomeInterface {
             }
         })
         wordViewModel.deleteWord(MainActivity.getUserData().loginToken, wordsList[position].words.wordId)
+    }
+
+    override fun recoveryWord(position: Int) {
+        wordViewModel.recoveryWordObserver().observe(viewLifecycleOwner, {
+                if(it != null){
+                    Log.d(Constants.TAG, "단어 복구 성공!")
+                    onResume()
+                }else{
+                    Log.d(Constants.TAG, "단어 완전 삭제 실!")
+                }
+            })
+        wordViewModel.recoveryWord(MainActivity.getUserData().loginToken, wordsList[position].words.wordId)
     }
 }

@@ -18,6 +18,16 @@
         >
 
         <ImageButton
+            android:id="@+id/ib_recovery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginRight="47dp"
+            android:background="#00000000"
+            app:srcCompat="@drawable/ic_recovery" />
+
+
+        <ImageButton
             android:id="@+id/ib_trash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

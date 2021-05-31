@@ -9,4 +9,6 @@ interface HomeInterface {
     fun trashClicked(position: Int)
 
     fun realDelete(position: Int)
+
+    fun recoveryWord(position: Int)
 }

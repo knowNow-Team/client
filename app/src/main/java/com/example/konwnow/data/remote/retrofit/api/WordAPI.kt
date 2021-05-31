@@ -38,4 +38,10 @@ interface WordAPI {
         @Path("wordId") wordId : String,
     ): Call<Words.DeleteWordResponse>
 
+    @PUT(HOMEWORD.DELETE_REAL)
+    fun recoveryWord(
+        @Header("Authorization")authorization:String,
+        @Path("wordId") wordId : String,
+    ): Call<Words.DeleteWordResponse>
+
 }

@@ -127,7 +127,7 @@ class SwipeHelperCallBack : ItemTouchHelper.Callback() {
     }
 
     fun setClamp(clamp: Float) {
-        this.clamp = clamp
+        this.clamp = clamp+(clamp/2)
     }
 
     // 다른 View가 swipe 되거나 터치되면 고정 해제
