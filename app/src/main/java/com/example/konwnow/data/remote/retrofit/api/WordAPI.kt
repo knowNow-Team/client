@@ -24,4 +24,12 @@ interface WordAPI {
         @Path("wordId") wordId : String,
         @Body filter : Words.PutFilterBody
     ): Call<Words.PutFilterResponse>
+
+    @DELETE(HOMEWORD.MOVE_TRASH)
+    fun moveWordTrash(
+        @Header("Authorization")authorization:String,
+        @Path("wordbookId") wordbookId : String,
+        @Path("wordId") wordId : String,
+    ): Call<Words.MoveTrashResponse>
+
 }

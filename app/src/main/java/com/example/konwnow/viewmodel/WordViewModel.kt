@@ -18,6 +18,7 @@ class WordViewModel : ViewModel() {
 
     var getAllWordResponse : MutableLiveData<Words.GetWordInfoResponseBody> = MutableLiveData()
     var putWordFilterResponse : MutableLiveData<Words.PutFilterResponse> = MutableLiveData()
+    var moveWordTarshResponse : MutableLiveData<Words.MoveTrashResponse> = MutableLiveData()
 
     fun getWordDataResponse() : MutableLiveData<Words.GetWordInfoResponseBody>{
         return getAllWordResponse
@@ -25,6 +26,10 @@ class WordViewModel : ViewModel() {
 
     fun putWordFilterObserver() : MutableLiveData<Words.PutFilterResponse>{
         return putWordFilterResponse
+    }
+
+    fun moveWordTrashObserver() : MutableLiveData<Words.MoveTrashResponse>{
+        return moveWordTarshResponse
     }
 
 
@@ -49,7 +54,7 @@ class WordViewModel : ViewModel() {
 
     fun putFilter(token : String, wordBookId : String, wordId : String, filter : String){
         val instances =  RetrofitClient.getWordClient()?.create(WordAPI::class.java)
-        val call = instances?.putWordFilter(token, wordBookId, wordId,Words.PutFilterBody(filter))
+        val call = instances?.putWordFilter(token, wordBookId, wordId, Words.PutFilterBody(filter))
 
         call?.enqueue(object  : Callback<Words.PutFilterResponse>{
             override fun onResponse(
@@ -64,5 +69,25 @@ class WordViewModel : ViewModel() {
             }
 
         })
+    }
+
+    fun moveTrash(token : String, wordBookId : String, wordId : String){
+        val instances =  RetrofitClient.getWordClient()?.create(WordAPI::class.java)
+        val call = instances?.moveWordTrash(token, wordBookId, wordId)
+
+        call?.enqueue(object : Callback<Words.MoveTrashResponse>{
+            override fun onResponse(
+                call: Call<Words.MoveTrashResponse>,
+                response: Response<Words.MoveTrashResponse>
+            ) {
+                moveWordTarshResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Words.MoveTrashResponse>, t: Throwable) {
+                Log.d(Constants.TAG, "move trash fail")
+            }
+
+        })
+
     }
 }

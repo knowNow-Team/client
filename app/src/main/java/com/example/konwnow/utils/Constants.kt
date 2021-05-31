@@ -50,6 +50,8 @@ object HOMEWORD{
     const val doNotKnow : String ="doNotKnow"
     const val confused : String = "confused"
     const val memorized : String = "memorized"
+
+    const val MOVE_TRASH : String = "v1/wordbooks/{wordbookId}/words/{wordId}"
 }
 
 object CAMERA{

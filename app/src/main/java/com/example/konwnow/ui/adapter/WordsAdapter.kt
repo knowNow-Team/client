@@ -1,7 +1,6 @@
 package com.example.konwnow.ui.adapter
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -10,30 +9,23 @@ import android.view.View.*
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
-import com.example.konwnow.ui.view.group.MakeGroupInterface
-import com.example.konwnow.ui.view.home.ChangeLevelinterface
-import com.example.konwnow.ui.view.home.HomeFragment
+import com.example.konwnow.ui.view.home.HomeInterface
 import com.example.konwnow.ui.view.home.WordDialog
-import com.example.konwnow.utils.Constants
 import com.example.konwnow.utils.HOMEWORD
-import com.example.konwnow.viewmodel.WordBookViewModel
-import com.example.konwnow.viewmodel.WordViewModel
 
 
-class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>,changeLevelinterface: ChangeLevelinterface) : RecyclerView.Adapter<WordsAdapter.Holder>(){
+class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>, homeInterface: HomeInterface) : RecyclerView.Adapter<WordsAdapter.Holder>(){
 
     private lateinit var context : Context
     private var toggleStatus = true
 
-    private var changeLevelinterface : ChangeLevelinterface? = null
+    private var homeInterface : HomeInterface? = null
 
     init{
-        this.changeLevelinterface = changeLevelinterface
+        this.homeInterface = homeInterface
     }
 
 
@@ -72,6 +64,10 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
         holder.tvEng?.text = items[position].wordsDoc[0].word
 
         var levelText = holder.level!!
+
+        if(items[position].words.isRemoved){
+            levelText.visibility = View.INVISIBLE
+        }
         when(items[position].words.filter){
             HOMEWORD.doNotKnow-> {
                 levelText.setTextColor(context.getColor(R.color.red))
@@ -98,9 +94,7 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
     private fun deleteWord(holder: WordsAdapter.Holder, position: Int) {
         holder.btnDelete?.setOnClickListener {
             Toast.makeText(context, "${position}번 아이템 삭제!", Toast.LENGTH_SHORT).show()
-            items.removeAt(position)
-            notifyItemRemoved(position)
-            notifyDataSetChanged()
+            this.homeInterface?.trashClicked(position)
         }
     }
 
@@ -110,11 +104,6 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
             dlg.start(items[position])
         }
     }
-    //체크된 태그
-    //0: 몰라요
-    //1: 헷갈려요
-    //2: 알아요
-
 
     @RequiresApi(Build.VERSION_CODES.M)
     @SuppressLint("ResourceAsColor")
@@ -132,23 +121,16 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
                     filter = HOMEWORD.doNotKnow
                 }
             }
-            this.changeLevelinterface?.changeLevelClicked(filter,position)
-            notifyItemChanged(position)
-            notifyDataSetChanged()
+            this.homeInterface?.changeLevelClicked(filter,position)
         }
     }
 
     private fun changeToggle(holder: WordsAdapter.Holder) {
         if(toggleStatus){
-            //단어 보여주기 모드
             holder.tvKor!!.visibility = VISIBLE
         }else{
             holder.tvKor!!.visibility = INVISIBLE
         }
-    }
-
-    fun wordsUpdateList(wordItem: ArrayList<WordBook.GetAllWordResponseData>){
-        this.items.addAll(wordItem)
     }
 
     fun toggleUpdate(status : Boolean){

@@ -86,7 +86,7 @@ class Words {
     )
 
 
-    // 필터 put 응답
+    // 필터 put & 휴지통 이동 응답
     data class PutFilterBody(
         @SerializedName("filter")
         val filter:  String
@@ -96,6 +96,13 @@ class Words {
     val `data`: Data,
     @SerializedName("message")
     val message: String
+    )
+
+    data class MoveTrashResponse(
+        @SerializedName("data")
+        val `data`: Data,
+        @SerializedName("message")
+        val message: String
     )
 
     data class Data(
@@ -125,4 +132,7 @@ class Words {
         @SerializedName("wordId")
         val wordId: String
     )
+
+
+
 }

@@ -2,7 +2,9 @@ package com.example.konwnow.ui.view.home
 
 import java.text.FieldPosition
 
-interface ChangeLevelinterface {
+interface HomeInterface {
 
     fun changeLevelClicked(filter : String, position: Int)
+
+    fun trashClicked(position: Int)
 }

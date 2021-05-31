@@ -26,7 +26,7 @@ import com.example.konwnow.viewmodel.WordBookViewModel
 import com.example.konwnow.viewmodel.WordViewModel
 
 
-class HomeFragment : Fragment(), ChangeLevelinterface {
+class HomeFragment : Fragment(), HomeInterface {
 
     private lateinit var v: View
     private lateinit var switch: Switch
@@ -145,7 +145,10 @@ class HomeFragment : Fragment(), ChangeLevelinterface {
         workBookViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Log.d(Constants.TAG, "휴지통 가져오기 성공!")
-                //TODO: filter 확인
+                wordsList.clear()
+                for(datas in it.data){
+                    this.wordsList.add(datas)
+                }
             } else {
                 Log.d(Constants.TAG, "휴지통 get response null!")
             }
@@ -197,5 +200,18 @@ class HomeFragment : Fragment(), ChangeLevelinterface {
 
         })
         wordViewModel.putFilter(MainActivity.getUserData().loginToken,wordsList[position].id,wordsList[position].words.wordId,filter)
+    }
+
+    override fun trashClicked(position: Int) {
+        wordViewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordViewModel::class.java)
+        wordViewModel.moveWordTrashObserver().observe(viewLifecycleOwner,{
+            if(it != null){
+                Log.d(Constants.TAG, "휴지통으로 이동 성공!")
+                onResume()
+            }else{
+                Log.d(Constants.TAG, "휴지통으로 이동 실패!")
+            }
+        })
+        wordViewModel.moveTrash(MainActivity.getUserData().loginToken,wordsList[position].id,wordsList[position].words.wordId)
     }
 }
