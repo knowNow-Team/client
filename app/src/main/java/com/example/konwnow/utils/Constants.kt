@@ -47,12 +47,24 @@ object WORDBOOK{
 
 object HOMEWORD{
     const val PUT_FILTER : String = "v1/wordbooks/{wordbookId}/{wordId}"
-    const val doNotKnow : String ="doNotKnow"
-    const val confused : String = "confused"
-    const val memorized : String = "memorized"
-
+    object FILTER{
+        const val doNotKnow : String ="doNotKnow"
+        const val confused : String = "confused"
+        const val memorized : String = "memorized"
+        const val all : String = "all"
+    }
+    object ORDER {
+        const val ASC : String = "ASC"
+        const val DESC : String = "DESC"
+        const val NEWEST : String ="NEWEST"
+        const val RANDOM : String ="랜덤"
+    }
     const val MOVE_TRASH : String = "v1/wordbooks/{wordbookId}/words/{wordId}"
+
 }
+
+
+
 
 object CAMERA{
 //    const val CAMERA_REQUEST= 234

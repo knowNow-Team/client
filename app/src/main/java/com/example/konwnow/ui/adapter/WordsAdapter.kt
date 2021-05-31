@@ -69,15 +69,15 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
             levelText.visibility = View.INVISIBLE
         }
         when(items[position].words.filter){
-            HOMEWORD.doNotKnow-> {
+            HOMEWORD.FILTER.doNotKnow-> {
                 levelText.setTextColor(context.getColor(R.color.red))
                 levelText.text = context.getString(R.string.not_know)
             }
-            HOMEWORD.confused -> {
+            HOMEWORD.FILTER.confused -> {
                 levelText.setTextColor(context.getColor(R.color.orange))
                 levelText.text = context.getString(R.string.confuse)
             }
-            HOMEWORD.memorized -> {
+            HOMEWORD.FILTER.memorized -> {
                 levelText.setTextColor(context.getColor(R.color.colorMain))
                 levelText.text = context.getString(R.string.know)
             }
@@ -111,14 +111,14 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
         levelText.setOnClickListener {
             var filter =""
             when(items[position].words.filter){
-                HOMEWORD.doNotKnow-> {
-                    filter = HOMEWORD.confused
+                HOMEWORD.FILTER.doNotKnow-> {
+                    filter = HOMEWORD.FILTER.confused
                 }
-                HOMEWORD.confused -> {
-                    filter = HOMEWORD.memorized
+                HOMEWORD.FILTER.confused -> {
+                    filter = HOMEWORD.FILTER.memorized
                 }
-                HOMEWORD.memorized -> {
-                    filter = HOMEWORD.doNotKnow
+                HOMEWORD.FILTER.memorized -> {
+                    filter = HOMEWORD.FILTER.doNotKnow
                 }
             }
             this.homeInterface?.changeLevelClicked(filter,position)
