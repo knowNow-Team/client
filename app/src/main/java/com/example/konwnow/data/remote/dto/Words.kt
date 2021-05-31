@@ -87,6 +87,10 @@ class Words {
 
 
     // 필터 put 응답
+    data class PutFilterBody(
+        @SerializedName("filter")
+        val filter:  String
+    )
     data class PutFilterResponse(
     @SerializedName("data")
     val `data`: Data,

@@ -133,6 +133,8 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
                 }
             }
             this.changeLevelinterface?.changeLevelClicked(filter,position)
+            notifyItemChanged(position)
+            notifyDataSetChanged()
         }
     }
 

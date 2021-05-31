@@ -49,7 +49,7 @@ class WordViewModel : ViewModel() {
 
     fun putFilter(token : String, wordBookId : String, wordId : String, filter : String){
         val instances =  RetrofitClient.getWordClient()?.create(WordAPI::class.java)
-        val call = instances?.putWordFilter(token, wordBookId, wordId,filter)
+        val call = instances?.putWordFilter(token, wordBookId, wordId,Words.PutFilterBody(filter))
 
         call?.enqueue(object  : Callback<Words.PutFilterResponse>{
             override fun onResponse(

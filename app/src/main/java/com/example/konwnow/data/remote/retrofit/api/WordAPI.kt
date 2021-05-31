@@ -22,6 +22,6 @@ interface WordAPI {
         @Header("Authorization")authorization:String,
         @Path("wordbookId") wordbookId : String,
         @Path("wordId") wordId : String,
-        @Body filter : String
+        @Body filter : Words.PutFilterBody
     ): Call<Words.PutFilterResponse>
 }

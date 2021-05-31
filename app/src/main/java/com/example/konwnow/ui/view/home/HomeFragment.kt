@@ -190,11 +190,11 @@ class HomeFragment : Fragment(), ChangeLevelinterface {
         wordViewModel.putWordFilterObserver().observe(viewLifecycleOwner,{
             if(it != null){
                 Log.d(Constants.TAG, "필터 업데이트 성공!")
-                rvWords.adapter?.notifyDataSetChanged()
+                onResume()
             }else {
                 Log.d(Constants.TAG, "필터 업데이트 실패!")
             }
-            wordsAdapter.notifyItemChanged(position)
+
         })
         wordViewModel.putFilter(MainActivity.getUserData().loginToken,wordsList[position].id,wordsList[position].words.wordId,filter)
     }
