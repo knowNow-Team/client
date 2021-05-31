@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.view.home.HomeInterface
@@ -93,8 +94,11 @@ class WordsAdapter(private var items: ArrayList<WordBook.GetAllWordResponseData>
 
     private fun deleteWord(holder: WordsAdapter.Holder, position: Int) {
         holder.btnDelete?.setOnClickListener {
-            Toast.makeText(context, "${position}번 아이템 삭제!", Toast.LENGTH_SHORT).show()
-            this.homeInterface?.trashClicked(position)
+            if(App.sharedPrefs.getTitle() =="휴지통"){
+                this.homeInterface?.realDelete(position)
+            }else{
+                this.homeInterface?.trashClicked(position)
+            }
         }
     }
 

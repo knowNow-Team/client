@@ -19,6 +19,7 @@ class WordViewModel : ViewModel() {
     var getAllWordResponse : MutableLiveData<Words.GetWordInfoResponseBody> = MutableLiveData()
     var putWordFilterResponse : MutableLiveData<Words.PutFilterResponse> = MutableLiveData()
     var moveWordTarshResponse : MutableLiveData<Words.MoveTrashResponse> = MutableLiveData()
+    var delteWordResponse : MutableLiveData<Words.DeleteWordResponse> = MutableLiveData()
 
     fun getWordDataResponse() : MutableLiveData<Words.GetWordInfoResponseBody>{
         return getAllWordResponse
@@ -30,6 +31,10 @@ class WordViewModel : ViewModel() {
 
     fun moveWordTrashObserver() : MutableLiveData<Words.MoveTrashResponse>{
         return moveWordTarshResponse
+    }
+
+    fun deleteWordObserver() : MutableLiveData<Words.DeleteWordResponse>{
+        return delteWordResponse
     }
 
 
@@ -89,5 +94,24 @@ class WordViewModel : ViewModel() {
 
         })
 
+    }
+
+    fun deleteWord(token: String, wordId: String){
+        val instances =  RetrofitClient.getWordClient()?.create(WordAPI::class.java)
+        val call = instances?.delteWord(token,wordId)
+
+        call?.enqueue(object : Callback<Words.DeleteWordResponse>{
+            override fun onResponse(
+                call: Call<Words.DeleteWordResponse>,
+                response: Response<Words.DeleteWordResponse>
+            ) {
+                delteWordResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Words.DeleteWordResponse>, t: Throwable) {
+                Log.d(Constants.TAG, "move trash fail")
+            }
+
+        })
     }
 }

@@ -61,6 +61,11 @@ class HomeFragment : Fragment(), HomeInterface {
         return v
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
+        wordViewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordViewModel::class.java)
+    }
 
     override fun onResume() {
         super.onResume()
@@ -128,7 +133,6 @@ class HomeFragment : Fragment(), HomeInterface {
     }
 
     private fun requsetSettingWord(){
-        workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
         workBookViewModel.getDetailSettingObserver().observe(viewLifecycleOwner,{
             if(it != null){
                 Log.d(Constants.TAG, "단어 가져오기 성공!")
@@ -166,7 +170,6 @@ class HomeFragment : Fragment(), HomeInterface {
 
 
     private fun requestTrashWord() {
-        workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
         workBookViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Log.d(Constants.TAG, "휴지통 가져오기 성공!")
@@ -214,7 +217,6 @@ class HomeFragment : Fragment(), HomeInterface {
 
 
     override fun changeLevelClicked(filter: String, position: Int) {
-        wordViewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordViewModel::class.java)
         wordViewModel.putWordFilterObserver().observe(viewLifecycleOwner,{
             if(it != null){
                 Log.d(Constants.TAG, "필터 업데이트 성공!")
@@ -227,7 +229,6 @@ class HomeFragment : Fragment(), HomeInterface {
     }
 
     override fun trashClicked(position: Int) {
-        wordViewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordViewModel::class.java)
         wordViewModel.moveWordTrashObserver().observe(viewLifecycleOwner,{
             if(it != null){
                 Log.d(Constants.TAG, "휴지통으로 이동 성공!")
@@ -237,5 +238,17 @@ class HomeFragment : Fragment(), HomeInterface {
             }
         })
         wordViewModel.moveTrash(MainActivity.getUserData().loginToken,wordsList[position].id,wordsList[position].words.wordId)
+    }
+
+    override fun realDelete(position: Int) {
+        wordViewModel.deleteWordObserver().observe(viewLifecycleOwner, {
+            if(it != null){
+                Log.d(Constants.TAG, "단어 완전 삭제 성공!")
+                onResume()
+            }else{
+                Log.d(Constants.TAG, "단어 완전 삭제 실!")
+            }
+        })
+        wordViewModel.deleteWord(MainActivity.getUserData().loginToken, wordsList[position].words.wordId)
     }
 }

@@ -105,6 +105,13 @@ class Words {
         val message: String
     )
 
+    data class DeleteWordResponse(
+        @SerializedName("data")
+        val `data`: Data,
+        @SerializedName("message")
+        val message: String
+    )
+
     data class Data(
         @SerializedName("createdAt")
         val createdAt: String,

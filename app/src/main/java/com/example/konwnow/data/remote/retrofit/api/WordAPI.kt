@@ -32,4 +32,10 @@ interface WordAPI {
         @Path("wordId") wordId : String,
     ): Call<Words.MoveTrashResponse>
 
+    @DELETE(HOMEWORD.DELETE_REAL)
+    fun delteWord(
+        @Header("Authorization")authorization:String,
+        @Path("wordId") wordId : String,
+    ): Call<Words.DeleteWordResponse>
+
 }
