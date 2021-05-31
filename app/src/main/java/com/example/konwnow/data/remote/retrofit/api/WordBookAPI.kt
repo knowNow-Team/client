@@ -36,4 +36,12 @@ interface WordBookAPI {
     fun getTrashWord(
         @Header("Authorization") token : String,
     ): Call<WordBook.GetAllWordResponse>
+
+    @GET(WORDBOOK.GET_DETAIL_WORD)
+    fun getDetailSettingWord(
+        @Header("Authorization") token : String,
+        @Query("wordbookIds") wordbookId : String,
+        @Query("filter") filter : String,
+        @Query("order") order : String
+    ):Call<WordBook.GetAllWordResponse>
 }

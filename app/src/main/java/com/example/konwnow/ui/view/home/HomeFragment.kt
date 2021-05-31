@@ -22,6 +22,7 @@ import com.example.konwnow.ui.adapter.WordsAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.group.GroupActivity
 import com.example.konwnow.utils.Constants
+import com.example.konwnow.utils.HOMEWORD
 import com.example.konwnow.viewmodel.WordBookViewModel
 import com.example.konwnow.viewmodel.WordViewModel
 
@@ -43,6 +44,7 @@ class HomeFragment : Fragment(), HomeInterface {
     private var firstTitle =""
     private var size =0
     private var order =""
+    private var filter =""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,8 +85,12 @@ class HomeFragment : Fragment(), HomeInterface {
         }else{
             firstTitle="단어장을 선택해주세요 ▼"
         }
+        filter = App.sharedPrefs.selectedFilter()
         order = App.sharedPrefs.getOrder()!!
+        if(order == HOMEWORD.ORDER.RANDOM){order = ""}
+
         Log.d(Constants.TAG,"저장된 단어장 데이터 : ${firstTitle} , ${wordBookID}, ${size}")
+        Log.d(Constants.TAG,"저장된 세부설정 데이터 : ${filter}, order: ${order}")
     }
 
     private fun setRecycler() {
@@ -101,7 +107,7 @@ class HomeFragment : Fragment(), HomeInterface {
             }else{
                 groupButton.text = "${firstTitle} 외 ${(size)?.minus(1)} ▼"
             }
-            requestAllWord()
+            requsetSettingWord()
         }
 
         val swipeHelperCallBack = SwipeHelperCallBack().apply {
@@ -121,23 +127,39 @@ class HomeFragment : Fragment(), HomeInterface {
         }
     }
 
+    private fun requsetSettingWord(){
+        workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
+        workBookViewModel.getDetailSettingObserver().observe(viewLifecycleOwner,{
+            if(it != null){
+                Log.d(Constants.TAG, "단어 가져오기 성공!")
+                wordsList.clear()
+                for(datas in it.data){
+                    if(datas.wordsDoc.size != 0 && !datas.words.isRemoved){
+                        this.wordsList.add(datas)}
+                }
+            }else{
+                Log.d(Constants.TAG, "해당 단어 없음")
+            }
+            rvWords.adapter?.notifyDataSetChanged()
+        })
+        workBookViewModel.getDetailSettingWord(MainActivity.getUserData().loginToken,wordBookID,filter,order)
+    }
+
     private fun requestAllWord() {
         workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
         workBookViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Log.d(Constants.TAG, "단어 가져오기 성공!")
                 wordsList.clear()
-                for(datas in it.data){
-                    if(!datas.words.isRemoved){
+                for(datas in it.data) {
+                    if (!datas.words.isRemoved) {
                         this.wordsList.add(datas)
                     }
                 }
-                wordsList.shuffle()
-                rvWords.adapter?.notifyDataSetChanged()
-                //TODO: filter 확인
             } else {
                 Log.d(Constants.TAG, "단어장 get response null!")
             }
+            rvWords.adapter?.notifyDataSetChanged()
         })
         workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordBookID)
     }
@@ -200,7 +222,6 @@ class HomeFragment : Fragment(), HomeInterface {
             }else {
                 Log.d(Constants.TAG, "필터 업데이트 실패!")
             }
-
         })
         wordViewModel.putFilter(MainActivity.getUserData().loginToken,wordsList[position].id,wordsList[position].words.wordId,filter)
     }

@@ -18,6 +18,8 @@ class WordBookViewModel : ViewModel() {
     var putWordResponse : MutableLiveData<WordBook.PutWordResponse> = MutableLiveData()
     var getWordBookResponse : MutableLiveData<WordBook.GetWordBookResponse> = MutableLiveData()
     var getAllWordResponse : MutableLiveData<WordBook.GetAllWordResponse> = MutableLiveData()
+    var getDetailSettingResponse : MutableLiveData<WordBook.GetAllWordResponse> = MutableLiveData()
+
 
     fun postDataResponse() : MutableLiveData<PostWordBookResponse> {
         return postWordBookResponse
@@ -33,6 +35,10 @@ class WordBookViewModel : ViewModel() {
 
     fun getWordDataResponse() : MutableLiveData<WordBook.GetAllWordResponse>{
         return getAllWordResponse
+    }
+
+    fun getDetailSettingObserver() : MutableLiveData<WordBook.GetAllWordResponse>{
+        return getDetailSettingResponse
     }
 
 
@@ -90,6 +96,25 @@ class WordBookViewModel : ViewModel() {
                 Log.d(Constants.TAG, "get wordbook fail")
             }
         })
+    }
+
+    fun getDetailSettingWord(token: String, wordBookIds: String, filter : String, order : String){
+        val instance = RetrofitClient.getWordClient()?.create(WordBookAPI::class.java)
+        val call = instance?.getDetailSettingWord(token,wordBookIds,filter,order)
+
+        call?.enqueue(object : Callback<WordBook.GetAllWordResponse>{
+            override fun onResponse(
+                call: Call<WordBook.GetAllWordResponse>,
+                response: Response<WordBook.GetAllWordResponse>
+            ) {
+                getDetailSettingResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<WordBook.GetAllWordResponse>, t: Throwable) {
+                Log.d(Constants.TAG, "get detail wordbook fail")
+            }
+        })
+
     }
 
     fun putWords(token : String, wordBookIds: String,Body : WordBook.PutWordRequestBody){

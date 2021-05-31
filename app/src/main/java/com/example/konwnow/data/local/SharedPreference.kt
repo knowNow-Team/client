@@ -48,4 +48,18 @@ class SharedPreference(context: Context) {
         return true
     }
 
+    fun selectedFilter() : String {
+        val selectedList = arrayListOf<String>()
+        if(getFilter1()!!) {
+            selectedList.add(HOMEWORD.FILTER.doNotKnow)
+        }
+        if (getFilter2()!!){
+            selectedList.add(HOMEWORD.FILTER.confused)
+        }
+        if(getFilter3()!!){
+            selectedList.add(HOMEWORD.FILTER.memorized)
+        }
+        return selectedList.joinToString(",")
+    }
+
 }
