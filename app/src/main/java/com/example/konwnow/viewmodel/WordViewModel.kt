@@ -3,6 +3,7 @@ package com.example.konwnow.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.konwnow.data.remote.dto.TestLog
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.data.remote.dto.WordBook.PostWordBookResponse
 import com.example.konwnow.data.remote.dto.Words
@@ -16,10 +17,13 @@ import retrofit2.Response
 
 class WordViewModel : ViewModel() {
 
-    var getAllWordResponse : MutableLiveData<Words.GetWordInfoResponseBody> = MutableLiveData()
+//    var getAllWordResponse : MutableLiveData<Words.GetWordInfoResponseBody> = MutableLiveData()
+    var getValidWordResponse : MutableLiveData<ArrayList<Words.Word>> = MutableLiveData()
+    var validWords: ArrayList<Words.Word> = ArrayList()
 
-    fun getWordDataResponse() : MutableLiveData<Words.GetWordInfoResponseBody>{
-        return getAllWordResponse
+
+    fun getWordDataResponse() : MutableLiveData<ArrayList<Words.Word>>{
+        return getValidWordResponse
     }
 
 
@@ -32,8 +36,14 @@ class WordViewModel : ViewModel() {
                 call: Call<Words.GetWordInfoResponseBody>,
                 response: Response<Words.GetWordInfoResponseBody>
             ) {
-                //업데이트 시켜주기.
-                getAllWordResponse.postValue(response.body())
+                for(item in response.body()!!.data){
+                    if(item == null){
+                        Log.d("아이템","널널")
+                    }else{
+                        validWords.add(item)
+                    }
+                }
+                getValidWordResponse.postValue(validWords)
             }
 
             override fun onFailure(call: Call<Words.GetWordInfoResponseBody>, t: Throwable) {

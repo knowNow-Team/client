@@ -222,7 +222,7 @@ class PuzzleTestActivity : AppCompatActivity() {
                 }
                 quizlog.add(
                     Quiz.TotalQuiz(
-                        wordId = "60a3e24bd3faa00058331b2b",
+                        wordId = wordsList[i].id,
                         isCorrect = hit,
                         answer = strTmp
                     )

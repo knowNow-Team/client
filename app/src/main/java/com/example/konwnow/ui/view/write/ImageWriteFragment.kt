@@ -89,12 +89,11 @@ class ImageWriteFragment: Fragment() {
         WordViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 wordList.clear()
-                for (item in it.data!!) {
-                    wordList.add(Words.Word(item.createdAt,item.id,item.meanings,item.phonics
-                        ,item.pronounceVoicePath,item.updatedAt,item.v,item.word,item.wordClasses))
-
-                }
-                Log.d(Constants.TAG,"텍스트: " +wordList.toString())
+//                for (item in it.data!!) {
+//                    wordList.add(Words.Word(item.createdAt,item.id,item.meanings,item.phonics
+//                        ,item.pronounceVoicePath,item.updatedAt,item.v,item.word,item.wordClasses))
+//                }
+                wordList.addAll(it)
                 wordAdapter.notifyDataSetChanged()
             } else {
                 Log.d(Constants.TAG, "data get response null!")

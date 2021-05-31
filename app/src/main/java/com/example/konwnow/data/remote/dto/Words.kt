@@ -2,6 +2,7 @@ package com.example.konwnow.data.remote.dto
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import org.json.JSONArray
@@ -13,22 +14,31 @@ class Words {
     @Parcelize
     data class Word(
         @SerializedName("createdAt")
+        @Expose
         val createdAt: String,
         @SerializedName("_id")
+        @Expose
         val id: String,
         @SerializedName("meanings")
+        @Expose
         val meanings: List<String>,
         @SerializedName("phonics")
+        @Expose
         val phonics: String,
         @SerializedName("pronounceVoicePath")
+        @Expose
         val pronounceVoicePath: String,
         @SerializedName("updatedAt")
+        @Expose
         val updatedAt: String,
         @SerializedName("__v")
+        @Expose
         val v: Int,
         @SerializedName("word")
+        @Expose
         val word: String,
         @SerializedName("wordClasses")
+        @Expose
         val wordClasses: List<String>
     ): Parcelable
 
@@ -54,7 +64,8 @@ class Words {
         @SerializedName("message")
         val message : String,
         @SerializedName("data")
-        val data : List<Word>?,
+        @Expose
+        val data : List<Word>,
     )
 
     data class SentenceRequestBody(

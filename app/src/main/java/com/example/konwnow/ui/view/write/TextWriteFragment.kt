@@ -92,21 +92,22 @@ class TextWriteFragment: Fragment() {
         WordViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 wordList.clear()
-                for (item in it.data!!) {
-                    wordList.add(
-                        Words.Word(
-                            item.createdAt,
-                            item.id,
-                            item.meanings,
-                            item.phonics,
-                            item.pronounceVoicePath,
-                            item.updatedAt,
-                            item.v,
-                            item.word,
-                            item.wordClasses
-                        )
-                    )
-                }
+                wordList.addAll(it)
+//                for (item in it.data!!) {
+//                    wordList.add(
+//                        Words.Word(
+//                            item.createdAt,
+//                            item.id,
+//                            item.meanings,
+//                            item.phonics,
+//                            item.pronounceVoicePath,
+//                            item.updatedAt,
+//                            item.v,
+//                            item.word,
+//                            item.wordClasses
+//                        )
+//                    )
+//                }
                 Log.d(Constants.TAG, "텍스트: " + wordList.toString())
                 wordAdapter.notifyDataSetChanged()
             } else {
