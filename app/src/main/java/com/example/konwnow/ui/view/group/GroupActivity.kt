@@ -20,6 +20,7 @@ import com.example.konwnow.ui.adapter.GroupsAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.home.HomeFragment
 import com.example.konwnow.utils.Constants
+import com.example.konwnow.utils.HOMEWORD
 import com.example.konwnow.utils.WORDBOOK
 import com.example.konwnow.viewmodel.WordBookViewModel
 
@@ -31,6 +32,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
     private var groupsList = arrayListOf<WordBook.WordBooks>()
     private lateinit var groupsAdapter : GroupsAdapter
 
+    private var selectedFilter = HashMap<String, Boolean>()
     private val selectedBook = ArrayList<WordBook.WordBooks>()
     private val wordBookID = ArrayList<String>()
     private lateinit var viewModel: WordBookViewModel
@@ -56,17 +58,19 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
 
         btnApply = findViewById(R.id.btn_apply_groups)
         btnApply!!.setOnClickListener {
-            if(selectedBook.isEmpty()){
-                toast("단어장을 선택해주세요")
-            }else{
-                for(id in selectedBook){
+           
+            for(id in selectedBook){
                     wordBookID.add(id.wordBookID)
-                }
-                App.sharedPrefs.saveWordBookId(wordBookID.joinToString(","))
-                App.sharedPrefs.saveCount(wordBookID.size)
-                App.sharedPrefs.saveTitle(selectedBook[0].title)
-                finish()
             }
+            App.sharedPrefs.saveWordBookId(wordBookID.joinToString(","))
+            App.sharedPrefs.saveCount(wordBookID.size)
+            App.sharedPrefs.saveTitle(selectedBook[0].title)
+            App.sharedPrefs.saveOrder(HOMEWORD.ORDER.RANDOM)
+            selectedFilter.put(HOMEWORD.FILTER.doNotKnow,true)
+            selectedFilter.put(HOMEWORD.FILTER.memorized,true)
+            selectedFilter.put(HOMEWORD.FILTER.confused,true)
+            App.sharedPrefs.savedFilter(selectedFilter)
+            finish()
         }
     }
 

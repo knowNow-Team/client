@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6">
 
         <RadioButton
-            android:id="@+id/radio_pirates"
+            android:id="@+id/radio_desc"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginRight="5dp"
@@ -80,6 +80,7 @@
             android:textColor="@color/text_selector" />
 
         <RadioButton
+            android:id="@+id/radio_acs"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginRight="5dp"
@@ -92,6 +93,7 @@
             android:textColor="@color/text_selector" />
 
         <RadioButton
+            android:id="@+id/radio_newest"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginRight="5dp"
@@ -104,6 +106,7 @@
             android:textColor="@color/text_selector" />
 
         <RadioButton
+            android:id="@+id/radio_random"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginRight="5dp"

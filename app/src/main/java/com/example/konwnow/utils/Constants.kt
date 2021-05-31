@@ -1,5 +1,7 @@
 package com.example.konwnow.utils
 
+import retrofit2.http.DELETE
+
 object Constants {
     const val TAG: String = "로그"
 }
@@ -43,7 +45,30 @@ object WORDBOOK{
     const val WORDBOOK : String = "v1/wordbooks"
     const val TRASH_BOOK_ID : String = "trashbook"
     const val GET_TRASH_WORD : String ="v1/wordbooks/trashwordbooks"
+    const val GET_DETAIL_WORD : String = "v1/wordbooks/optionwords"
 }
+
+object HOMEWORD{
+    const val PUT_FILTER : String = "v1/wordbooks/{wordbookId}/{wordId}"
+    const val MOVE_TRASH : String = "v1/wordbooks/{wordbookId}/words/{wordId}"
+    const val DELETE_REAL : String = "v1/wordbooks/trashwordbooks/{wordId}"
+
+    object FILTER{
+        const val doNotKnow : String ="doNotKnow"
+        const val confused : String = "confused"
+        const val memorized : String = "memorized"
+        const val all : String = "all"
+    }
+    object ORDER {
+        const val ASC : String = "ASC"
+        const val DESC : String = "DESC"
+        const val NEWEST : String ="NEWEST"
+        const val RANDOM : String ="랜덤"
+    }
+}
+
+
+
 
 object CAMERA{
 //    const val CAMERA_REQUEST= 234

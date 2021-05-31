@@ -95,4 +95,62 @@ class Words {
         val errorCode: String,
         val userMessage: String
     )
+
+
+    // 필터 put & 휴지통 이동 응답
+    data class PutFilterBody(
+        @SerializedName("filter")
+        val filter:  String
+    )
+    data class PutFilterResponse(
+    @SerializedName("data")
+    val `data`: Data,
+    @SerializedName("message")
+    val message: String
+    )
+
+    data class MoveTrashResponse(
+        @SerializedName("data")
+        val `data`: Data,
+        @SerializedName("message")
+        val message: String
+    )
+
+    data class DeleteWordResponse(
+        @SerializedName("data")
+        val `data`: Data,
+        @SerializedName("message")
+        val message: String
+    )
+
+    data class Data(
+        @SerializedName("createdAt")
+        val createdAt: String,
+        @SerializedName("_id")
+        val id: String,
+        @SerializedName("owner")
+        val owner: Int,
+        @SerializedName("title")
+        val title: String,
+        @SerializedName("updatedAt")
+        val updatedAt: String,
+        @SerializedName("__v")
+        val v: Int,
+        @SerializedName("words")
+        val words: List<Word>
+    )
+
+    data class Words(
+        @SerializedName("addedAt")
+        val addedAt: String,
+        @SerializedName("filter")
+        val filter: String,
+        @SerializedName("isRemoved")
+        val isRemoved: Boolean,
+        @SerializedName("wordId")
+        val wordId: String
+    )
+
+
+
 }

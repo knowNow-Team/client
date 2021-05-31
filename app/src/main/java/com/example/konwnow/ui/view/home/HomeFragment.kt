@@ -22,24 +22,28 @@ import com.example.konwnow.ui.adapter.WordsAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.group.GroupActivity
 import com.example.konwnow.utils.Constants
+import com.example.konwnow.utils.HOMEWORD
 import com.example.konwnow.viewmodel.WordBookViewModel
+import com.example.konwnow.viewmodel.WordViewModel
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), HomeInterface {
 
     private lateinit var v: View
     private lateinit var switch: Switch
     private lateinit var groupButton: TextView
     private lateinit var detailButton : ImageButton
-    private lateinit var tvEdit : TextView
     private lateinit var rvWords: RecyclerView
     private lateinit var wordsAdapter: WordsAdapter
     var wordsList = arrayListOf<WordBook.GetAllWordResponseData>()
     private lateinit var workBookViewModel: WordBookViewModel
+    private lateinit var wordViewModel: WordViewModel
 
     private var wordBookID =""
     private var firstTitle =""
     private var size =0
+    private var order =""
+    private var filter =""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +51,6 @@ class HomeFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_home, container, false)
 
-        tvEdit = v.findViewById<TextView>(R.id.tv_edit)
         detailButton = v.findViewById(R.id.ib_detail_setting)
         groupButton = v.findViewById(R.id.tv_group_text)
         switch = v.findViewById(R.id.switch_hide)
@@ -56,6 +59,11 @@ class HomeFragment : Fragment() {
         return v
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
+        wordViewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordViewModel::class.java)
+    }
 
     override fun onResume() {
         super.onResume()
@@ -80,7 +88,12 @@ class HomeFragment : Fragment() {
         }else{
             firstTitle="단어장을 선택해주세요"
         }
-        Log.d(Constants.TAG,"저장된 단어장 데이터 : $firstTitle , ${wordBookID}, $size")
+        filter = App.sharedPrefs.selectedFilter()
+        order = App.sharedPrefs.getOrder()!!
+        if(order == HOMEWORD.ORDER.RANDOM){order = ""}
+
+        Log.d(Constants.TAG,"저장된 단어장 데이터 : ${firstTitle} , ${wordBookID}, ${size}")
+        Log.d(Constants.TAG,"저장된 세부설정 데이터 : ${filter}, order: ${order}")
     }
 
     private fun setRecycler() {
@@ -88,16 +101,14 @@ class HomeFragment : Fragment() {
             groupButton.text = "${firstTitle} ▼"
             requestTrashWord()
             detailButton.visibility = View.INVISIBLE
-            tvEdit.visibility = View.VISIBLE
         }else{
             detailButton.visibility = View.VISIBLE
-            tvEdit.visibility = View.INVISIBLE
             if(size == 1 || size == 0){
                 groupButton.text = "${firstTitle} ▼"
             }else{
                 groupButton.text = "${firstTitle} 외 ${(size)?.minus(1)} ▼"
             }
-            requestAllWord()
+            requsetSettingWord()
         }
 
         val swipeHelperCallBack = SwipeHelperCallBack().apply {
@@ -106,7 +117,7 @@ class HomeFragment : Fragment() {
         val itemTouchHelper = ItemTouchHelper(swipeHelperCallBack)
         itemTouchHelper.attachToRecyclerView(rvWords)
 
-        wordsAdapter = WordsAdapter(wordsList)
+        wordsAdapter = WordsAdapter(wordsList, this)
         rvWords.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = wordsAdapter
@@ -117,33 +128,51 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun requsetSettingWord(){
+        workBookViewModel.getDetailSettingObserver().observe(viewLifecycleOwner,{
+            if(it != null){
+                Log.d(Constants.TAG, "단어 가져오기 성공!")
+                wordsList.clear()
+                for(datas in it.data){
+                    if(datas.wordsDoc.size != 0 && !datas.words.isRemoved){
+                        this.wordsList.add(datas)}
+                }
+            }else{
+                Log.d(Constants.TAG, "해당 단어 없음")
+            }
+            rvWords.adapter?.notifyDataSetChanged()
+        })
+        workBookViewModel.getDetailSettingWord(MainActivity.getUserData().loginToken,wordBookID,filter,order)
+    }
+
     private fun requestAllWord() {
         workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
         workBookViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Log.d(Constants.TAG, "단어 가져오기 성공!")
                 wordsList.clear()
-                for(datas in it.data){
-                    if(!datas.words.isRemoved){
+                for(datas in it.data) {
+                    if (!datas.words.isRemoved) {
                         this.wordsList.add(datas)
                     }
                 }
-                rvWords.adapter?.notifyDataSetChanged()
-                //TODO: filter 확인
             } else {
                 Log.d(Constants.TAG, "단어장 get response null!")
             }
+            rvWords.adapter?.notifyDataSetChanged()
         })
         workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordBookID)
     }
 
 
     private fun requestTrashWord() {
-        workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
         workBookViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Log.d(Constants.TAG, "휴지통 가져오기 성공!")
-                //TODO: filter 확인
+                wordsList.clear()
+                for(datas in it.data){
+                    this.wordsList.add(datas)
+                }
             } else {
                 Log.d(Constants.TAG, "휴지통 get response null!")
             }
@@ -180,5 +209,54 @@ class HomeFragment : Fragment() {
             }
         }
 
+    }
+
+
+    override fun changeLevelClicked(filter: String, position: Int) {
+        wordViewModel.putWordFilterObserver().observe(viewLifecycleOwner,{
+            if(it != null){
+                Log.d(Constants.TAG, "필터 업데이트 성공!")
+                onResume()
+            }else {
+                Log.d(Constants.TAG, "필터 업데이트 실패!")
+            }
+        })
+        wordViewModel.putFilter(MainActivity.getUserData().loginToken,wordsList[position].id,wordsList[position].words.wordId,filter)
+    }
+
+    override fun trashClicked(position: Int) {
+        wordViewModel.moveWordTrashObserver().observe(viewLifecycleOwner,{
+            if(it != null){
+                Log.d(Constants.TAG, "휴지통으로 이동 성공!")
+                onResume()
+            }else{
+                Log.d(Constants.TAG, "휴지통으로 이동 실패!")
+            }
+        })
+        wordViewModel.moveTrash(MainActivity.getUserData().loginToken,wordsList[position].id,wordsList[position].words.wordId)
+    }
+
+    override fun realDelete(position: Int) {
+        wordViewModel.deleteWordObserver().observe(viewLifecycleOwner, {
+            if(it != null){
+                Log.d(Constants.TAG, "단어 완전 삭제 성공!")
+                onResume()
+            }else{
+                Log.d(Constants.TAG, "단어 완전 삭제 실!")
+            }
+        })
+        wordViewModel.deleteWord(MainActivity.getUserData().loginToken, wordsList[position].words.wordId)
+    }
+
+    override fun recoveryWord(position: Int) {
+        wordViewModel.recoveryWordObserver().observe(viewLifecycleOwner, {
+                if(it != null){
+                    Log.d(Constants.TAG, "단어 복구 성공!")
+                    onResume()
+                }else{
+                    Log.d(Constants.TAG, "단어 완전 삭제 실!")
+                }
+            })
+        wordViewModel.recoveryWord(MainActivity.getUserData().loginToken, wordsList[position].words.wordId)
     }
 }
