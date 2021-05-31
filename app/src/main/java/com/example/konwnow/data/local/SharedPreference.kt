@@ -50,9 +50,6 @@ class SharedPreference(context: Context) {
     fun getFilter3() : Boolean? = sharedPreference!!.getBoolean(HOMEWORD.FILTER.memorized,false)
     fun getOrder(): String? = sharedPreference!!.getString("order",HOMEWORD.ORDER.RANDOM)
     fun getFirst() : Boolean = sharedPreference!!.getBoolean("first",true)
-    fun getWordBookId() : String? = sharedPreference!!.getString("id",null)
-    fun getTitle() : String? = sharedPreference!!.getString("title",null)
-    fun getCount() : Int? = sharedPreference!!.getInt("count",0)
     fun getAlarm() : Boolean = sharedPreference!!.getBoolean("alarm",false)
 
     fun checkValid() : Boolean? {
