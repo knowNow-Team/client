@@ -204,6 +204,7 @@ class TestFragment: Fragment() {
             if(checkValid()){
                 mIntent.putExtra("selectedFolder", selectedWordBook)
                 mIntent.putExtra("selectedQuizNum", selectedQuizNum)
+                Log.d("퀴즈 수", selectedQuizNum.toString())
                 mIntent.putExtra("selectedTag", checkedTag)
                 startActivity(mIntent)
             }

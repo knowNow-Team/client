@@ -19,7 +19,7 @@ class Users{
 
     data class DataList(
         @SerializedName("correctPercentage")
-        val correctPercentage: Int,
+        val correctPercentage: Double,
         @SerializedName("examCount")
         val examCount: Int,
         @SerializedName("id")
