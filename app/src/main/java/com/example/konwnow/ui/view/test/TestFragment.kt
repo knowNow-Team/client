@@ -25,8 +25,12 @@ class TestFragment: Fragment() {
 
     companion object{
         var selectedWordBook: HashMap<String,String> = HashMap()
+        private  var selectedQuizNum: Int = 0
         fun clearSelectedWordBook(){
             selectedWordBook.clear()
+        }
+        fun clearSelectedQuizNum(){
+            selectedQuizNum = 0
         }
     }
     var folderList = arrayListOf<WordBook.WordBookData>()
@@ -48,7 +52,6 @@ class TestFragment: Fragment() {
     private lateinit var knowCb: CheckBox
     private lateinit var folderAdapter: FolderAdapter
     private var totalQuizNum: Int = 0
-    private  var selectedQuizNum: Int = 0
     private lateinit var viewModel: WordBookViewModel
 
 
@@ -72,6 +75,7 @@ class TestFragment: Fragment() {
         super.onResume()
         folderList.clear()
         clearSelectedWordBook()
+        clearSelectedQuizNum()
         resetView()
     }
 
@@ -86,7 +90,6 @@ class TestFragment: Fragment() {
         setFolderList()
         setStartButton()
         totalQuizNum = 0
-        selectedQuizNum = 0
         setSeekBar()
         setTestLogButton()
         clearSelectedWordBook()
@@ -201,6 +204,7 @@ class TestFragment: Fragment() {
             if(checkValid()){
                 mIntent.putExtra("selectedFolder", selectedWordBook)
                 mIntent.putExtra("selectedQuizNum", selectedQuizNum)
+                Log.d("퀴즈 수", selectedQuizNum.toString())
                 mIntent.putExtra("selectedTag", checkedTag)
                 startActivity(mIntent)
             }

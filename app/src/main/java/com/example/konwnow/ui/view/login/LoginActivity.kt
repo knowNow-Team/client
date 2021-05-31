@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         .requestProfile()
                         .requestIdToken("180417186984-phupqcsr68qvf07j15li9ldb5tc3aqo5.apps.googleusercontent.com")
                         .build()
-                googleSignInClient = GoogleSignIn.getClient(this,gso);
+                googleSignInClient = GoogleSignIn.getClient(this,gso)
                 signIn()
             }
         }

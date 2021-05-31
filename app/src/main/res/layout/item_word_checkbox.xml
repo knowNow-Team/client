@@ -7,16 +7,55 @@
     android:layout_marginBottom="8dp"
     android:layout_marginTop="4dp"
     android:layout_gravity="center|start"
+    android:orientation="horizontal"
+    android:background="@drawable/white_radius_rect"
+    android:elevation="2dp"
     >
-
     <CheckBox
-        android:id="@+id/cb_folder_name"
+        android:id="@+id/cb_word"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:buttonTint="@color/transparent"
+        android:background="@drawable/word_selector"
+        android:gravity="center_vertical"
+        android:layout_gravity="center"
+        android:paddingVertical="5dp"
+        style="@style/FontBody1"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="word"
-        android:buttonTint="@color/colorMain"
-        android:gravity="start|center_vertical"
-        style="@style/FontBody1"/>
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingVertical="5dp"
+        >
+        <TextView
+            android:id="@+id/tv_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="word"
+            style="@style/FontBold2"
+            android:layout_marginBottom="3dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_meaning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="meaning"
+            style="@style/FontBody2"
+            />
+    </LinearLayout>
+
+
+<!--    <CheckBox-->
+<!--        android:id="@+id/cb_folder_name"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="word"-->
+<!--        android:buttonTint="@color/colorMain"-->
+<!--        android:gravity="start|center_vertical"-->
+<!--        style="@style/FontBody1"/>-->
 
 
 </LinearLayout>

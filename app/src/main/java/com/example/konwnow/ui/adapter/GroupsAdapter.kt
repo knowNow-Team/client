@@ -17,11 +17,11 @@ import com.example.konwnow.ui.view.group.MakeGroupInterface
 import com.example.konwnow.ui.view.home.HomeFragment
 
 
-class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.Adapter<GroupsAdapter.Holder>(){
+class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface,var items: ArrayList<WordBook.WordBooks>) : RecyclerView.Adapter<GroupsAdapter.Holder>(){
 
     private lateinit var view: View
     private lateinit var context : Context
-    private var items = ArrayList<WordBook.WordBooks>()
+//    private var items = ArrayList<WordBook.WordBooks>()
     private val selectedBook = ArrayList<WordBook.WordBooks>()
 
     private var applyGroupsInterface : ApplyGroupsInterface? = null
@@ -67,12 +67,12 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface) : RecyclerView.A
                         Toast.makeText(context,"${items[position].title}은 중복 선택이 불가능합니다.",Toast.LENGTH_SHORT).show()
                         i = 0
                     } else{
-                        holder.groupImage.setImageResource(R.drawable.ic_new_folder)
+                        holder.groupImage.setImageResource(R.drawable.img_folder_selected)
                         selectedBook.add(items[position])
                         Log.d("${position}값이 추가되었다!",selectedBook.toString())
                     }
                 }else -> { // 선택 해제하기
-                    holder.groupImage.setImageResource(R.drawable.ic_group)
+                    holder.groupImage.setImageResource(R.drawable.img_folder)
                     selectedBook.removeAt(selectedBook.indexOf(items[position]))
                     Log.d("${position}값이 삭되었다!",selectedBook.toString())
                 }

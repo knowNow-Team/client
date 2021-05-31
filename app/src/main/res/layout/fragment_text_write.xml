@@ -40,11 +40,13 @@
                 android:background="@drawable/edt_dictation"
                 android:layout_weight="35"
                 android:layout_marginRight="3dp"
+                android:imeOptions="actionDone"
                 />
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                >
                 <ImageView
                     android:layout_width="46dp"
                     android:layout_height="46dp"
@@ -53,9 +55,8 @@
                     android:background="@drawable/ic_search"/>
                 <Button
                     android:id="@+id/btn_search"
-                    android:layout_width="wrap_content"
+                    android:layout_width="75dp"
                     android:layout_height="150dp"
-                    android:layout_weight="0.1"
                     android:background="@drawable/btn_submit"
                     />
             </FrameLayout>

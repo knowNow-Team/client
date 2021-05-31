@@ -134,16 +134,12 @@ class DictationTestActivity : AppCompatActivity() {
                     }
                     alertDialog.show()
                 }else{
+                    Log.d("퀴즈 넘버", quizNum.toString())
                     val quizIndexSet = getRandom(allWord.size, quizNum)
                     for (i in quizIndexSet) {
                         wordsList.add(allWord[i])
                     }
                     Log.d(Constants.TAG, "wordList: ${wordsList}")
-                }
-                val quizIndexSet = getRandom(allWord.size,quizNum)
-
-                for(i in quizIndexSet){
-                    wordsList.add(allWord[i])
                 }
                 Log.d(Constants.TAG,"wordList: ${wordsList}")
             }else {

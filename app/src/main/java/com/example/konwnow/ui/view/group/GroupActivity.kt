@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
@@ -57,8 +58,9 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
 
         btnApply = findViewById(R.id.btn_apply_groups)
         btnApply!!.setOnClickListener {
+           
             for(id in selectedBook){
-                wordBookID.add(id.wordBookID)
+                    wordBookID.add(id.wordBookID)
             }
             App.sharedPrefs.saveWordBookId(wordBookID.joinToString(","))
             App.sharedPrefs.saveCount(wordBookID.size)
@@ -81,7 +83,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
         groupsList.clear()
         groupsList.add(WordBook.WordBooks("휴지통", null, WORDBOOK.TRASH_BOOK_ID))
 
-        groupsAdapter = GroupsAdapter(this)
+        groupsAdapter = GroupsAdapter(this,groupsList)
         rvGroups = findViewById(R.id.rv_groups)
         rvGroups.layoutManager = GridLayoutManager(this, 3)
 
@@ -99,7 +101,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
             } else {
                 Log.d(Constants.TAG, "단어장 get response null!")
             }
-            groupsAdapter.groupsUpdateList(groupsList)
+//            groupsAdapter.groupsUpdateList(groupsList)
             rvGroups.adapter = groupsAdapter
             groupsAdapter.notifyDataSetChanged()
         })
@@ -126,4 +128,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
         selectedBook.addAll(selectedList)
         Log.d(Constants.TAG, selectedBook.toString())
     }
+
+    private fun toast(message: String){ Toast.makeText(this, message, Toast.LENGTH_SHORT).show() }
+
 }

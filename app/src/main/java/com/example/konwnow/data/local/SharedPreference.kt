@@ -33,6 +33,14 @@ class SharedPreference(context: Context) {
     fun saveOrder(order: String){
         editor.putString("order",order).apply()
     }
+    
+        fun saveAlarm(flag : Boolean){
+        editor.putBoolean("alarm",flag).apply()
+    }
+
+    fun saveFirst(flag:Boolean){
+        editor.putBoolean("first",flag).apply()
+    }
 
     fun getWordBookId() : String? = sharedPreference!!.getString("id",null)
     fun getTitle() : String? = sharedPreference!!.getString("title",null)
@@ -41,6 +49,12 @@ class SharedPreference(context: Context) {
     fun getFilter2() : Boolean? = sharedPreference!!.getBoolean(HOMEWORD.FILTER.confused,false)
     fun getFilter3() : Boolean? = sharedPreference!!.getBoolean(HOMEWORD.FILTER.memorized,false)
     fun getOrder(): String? = sharedPreference!!.getString("order",HOMEWORD.ORDER.RANDOM)
+    fun getFirst() : Boolean = sharedPreference!!.getBoolean("first",true)
+    fun getWordBookId() : String? = sharedPreference!!.getString("id",null)
+    fun getTitle() : String? = sharedPreference!!.getString("title",null)
+    fun getCount() : Int? = sharedPreference!!.getInt("count",0)
+    fun getAlarm() : Boolean = sharedPreference!!.getBoolean("alarm",false)
+
     fun checkValid() : Boolean? {
         if(sharedPreference!!.getString("id",null) == null || sharedPreference!!.getString("title",null) == null){
             return false
