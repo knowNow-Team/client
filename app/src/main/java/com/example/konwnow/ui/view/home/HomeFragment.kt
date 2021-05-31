@@ -42,7 +42,6 @@ class HomeFragment : Fragment(), HomeInterface {
     private var wordBookID =""
     private var firstTitle =""
     private var size =0
-    private var filter =""
     private var order =""
 
     override fun onCreateView(
@@ -84,10 +83,8 @@ class HomeFragment : Fragment(), HomeInterface {
         }else{
             firstTitle="단어장을 선택해주세요 ▼"
         }
-        filter = App.sharedPrefs.getFilter()!!
         order = App.sharedPrefs.getOrder()!!
         Log.d(Constants.TAG,"저장된 단어장 데이터 : ${firstTitle} , ${wordBookID}, ${size}")
-        Log.d(Constants.TAG,"저장된 세부설 데이터 : $filter , ${order}")
     }
 
     private fun setRecycler() {

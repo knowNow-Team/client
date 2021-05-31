@@ -21,6 +21,7 @@ class DetailSettingActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var doNotKnow : CheckBox
     private lateinit var know : CheckBox
     private lateinit var confuse : CheckBox
+    private var selectedFilter = HashMap<String, Boolean>()
 
     private lateinit var desc : RadioButton
     private lateinit var asc : RadioButton
@@ -46,6 +47,9 @@ class DetailSettingActivity : AppCompatActivity(), View.OnClickListener {
         asc.setOnClickListener(this)
         newest.setOnClickListener(this)
         random.setOnClickListener(this)
+        doNotKnow.setOnClickListener(this)
+        know.setOnClickListener(this)
+        confuse.setOnClickListener(this)
 
         title.text = "세부 설정하기"
 
@@ -56,28 +60,16 @@ class DetailSettingActivity : AppCompatActivity(), View.OnClickListener {
 
 
     private fun setSetting(){
-        when(filter){
-            HOMEWORD.FILTER.all ->{
-                doNotKnow.isChecked = true
-                know.isChecked = true
-                confuse.isChecked = true
-            }
-            HOMEWORD.FILTER.doNotKnow -> {
-                doNotKnow.isChecked = true
-                know.isChecked = false
-                confuse.isChecked = false
-            }
-            HOMEWORD.FILTER.confused -> {
-                doNotKnow.isChecked = false
-                know.isChecked = false
-                confuse.isChecked = true
-            }
-            HOMEWORD.FILTER.memorized -> {
-                doNotKnow.isChecked = false
-                know.isChecked = true
-                confuse.isChecked = false
-            }
+        if(App.sharedPrefs.getFilter1()!!){
+            doNotKnow.isChecked = true
         }
+        if(App.sharedPrefs.getFilter2()!!){
+            confuse.isChecked = true
+        }
+        if(App.sharedPrefs.getFilter3()!!){
+            know.isChecked = true
+        }
+
         when(order){
             HOMEWORD.ORDER.ASC ->{
                 asc.isChecked = true
@@ -95,17 +87,49 @@ class DetailSettingActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun getWordBookData() {
-        filter = App.sharedPrefs.getFilter()!!
         order = App.sharedPrefs.getOrder()!!
-        Log.d(Constants.TAG,"저장된 세부설정 데이터 : $filter} , ${order}")
+        Log.d(Constants.TAG,"저장된 세부설정 데이터 : $filter")
     }
 
     private fun setButton() {
         btnBack.setOnClickListener { finish() }
-        btnApply.setOnClickListener{ finish() }
+        btnApply.setOnClickListener{
+            App.sharedPrefs.savedFilter(selectedFilter)
+            Log.d(Constants.TAG,"checkbox ${selectedFilter["confuse"]}")
+            App.sharedPrefs.saveOrder(order)
+            finish()
+        }
     }
 
     override fun onClick(v: View?) {
+        when(v){
+            desc -> order = HOMEWORD.ORDER.DESC
+            asc -> order =HOMEWORD.ORDER.ASC
+            random ->order =HOMEWORD.ORDER.RANDOM
+            newest -> order =HOMEWORD.ORDER.NEWEST
 
+            doNotKnow -> {
+                when(doNotKnow.isChecked){
+                    true -> selectedFilter.put(HOMEWORD.FILTER.doNotKnow,true)
+                    false ->selectedFilter.put(HOMEWORD.FILTER.doNotKnow,false)
+                }
+
+            }
+
+            know -> {
+                when(know.isChecked){
+                    true ->selectedFilter.put(HOMEWORD.FILTER.memorized,true)
+                    false ->selectedFilter.put(HOMEWORD.FILTER.memorized,false)
+                }
+            }
+
+            confuse -> {
+                when(confuse.isChecked){
+                    true -> selectedFilter.put(HOMEWORD.FILTER.confused,true)
+                    false -> selectedFilter.put(HOMEWORD.FILTER.confused,false)
+                }
+            }
+
+        }
     }
 }
