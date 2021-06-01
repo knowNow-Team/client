@@ -12,11 +12,11 @@ class SharedPreference(context: Context) {
     private val sharedPreference: SharedPreferences? = context.getSharedPreferences("wordBook",MODE_PRIVATE)
     private val editor: SharedPreferences.Editor = sharedPreference!!.edit()
 
-    fun saveWordBookId(id : String){
+    fun saveWordBookId(id : String?){
         editor.putString("id",id).apply()
     }
 
-    fun saveTitle(title : String){
+    fun saveTitle(title : String?){
         editor.putString("title",title).apply()
     }
 

@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.local.UserDatabase
 import com.example.konwnow.data.local.UserEntity
@@ -57,6 +58,8 @@ class AddInfoActivity : AppCompatActivity(), View.OnClickListener {
                 var user = UserEntity(1, idToken, loginToken, refreshToken, nickname, userID, email,level,message)
                 insertData(user)
 
+                App.sharedPrefs.saveWordBookId(null)
+                App.sharedPrefs.saveTitle(null)
                 val intent = Intent(this, MainActivity::class.java)
                 Toast.makeText(this, "${email}님 KnowNow회원이 되었습니다~*^^*", Toast.LENGTH_SHORT).show()
                 startActivity(intent)

@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.local.UserDatabase
 import com.example.konwnow.data.local.UserEntity
@@ -108,9 +109,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 var user = UserEntity(1, google_id_token, loginToken, refreshToken, nickname, userID, email, level, message)
                 when(type){
                     LOGIN.LOGIN_FLAG.OTHER_LOGIN-> {
+                        App.sharedPrefs.saveWordBookId(null)
+                        App.sharedPrefs.saveTitle(null)
                         updateData(user)
                     }
                     LOGIN.LOGIN_FLAG.NULL_LOGIN -> {
+                        App.sharedPrefs.saveWordBookId(null)
+                        App.sharedPrefs.saveTitle(null)
                         insertData(user)
                     }
                 }
