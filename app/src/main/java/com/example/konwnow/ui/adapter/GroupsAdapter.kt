@@ -86,9 +86,9 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface,var items: ArrayL
     }
 
    fun makeClicked(name: String) {
-       items.add(items.count(), WordBook.WordBooks(name,0,""))
+       //items.add(items.count(), WordBook.WordBooks(name,0,""))
        Log.d("adapter maked Clicked",name)
-       notifyItemInserted(items.count())
+       //notifyItemInserted(items.count())
     }
 
 }

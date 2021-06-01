@@ -134,7 +134,7 @@ class HomeFragment : Fragment(), HomeInterface {
                 Log.d(Constants.TAG, "단어 가져오기 성공!")
                 wordsList.clear()
                 for(datas in it.data){
-                    if(datas.wordsDoc.size != 0 && !datas.words.isRemoved){
+                    if(datas.wordsDoc.isNotEmpty() && !datas.words.isRemoved){
                         this.wordsList.add(datas)}
                 }
             }else{
