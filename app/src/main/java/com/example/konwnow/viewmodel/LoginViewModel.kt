@@ -13,14 +13,11 @@ import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
 
-    var signUpList : MutableLiveData<Users.UserResponseBody>
-    var loginList : MutableLiveData<Users.UserResponseBody>
+    var signUpList : MutableLiveData<Users.UserResponseBody> = MutableLiveData()
+    var loginList : MutableLiveData<Users.UserResponseBody> = MutableLiveData()
+    var putMessgeResponse : MutableLiveData<Users.UserResponseBody> = MutableLiveData()
+    var putNicknameResponse : MutableLiveData<Users.UserResponseBody> = MutableLiveData()
 
-
-    init {
-        signUpList = MutableLiveData()
-        loginList = MutableLiveData()
-    }
 
     fun getSignUpDataObserver() : MutableLiveData<Users.UserResponseBody>{
         return signUpList
@@ -28,6 +25,14 @@ class LoginViewModel : ViewModel() {
 
     fun getLoginDataObserver() : MutableLiveData<Users.UserResponseBody>{
         return loginList
+    }
+
+    fun putMessageObserver() : MutableLiveData<Users.UserResponseBody>{
+        return putMessgeResponse
+    }
+
+    fun putNicknameObserver() : MutableLiveData<Users.UserResponseBody>{
+        return putNicknameResponse
     }
 
 
@@ -64,6 +69,42 @@ class LoginViewModel : ViewModel() {
             ) {
                 Log.d("viewmodel", "success")
                 loginList.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Users.UserResponseBody>, t: Throwable) {
+            }
+
+        })
+    }
+
+    fun putuserMessage(token : String, userId : Int, meassge : String){
+        val instance = RetrofitClient.getUserClient()?.create(LoginAPi::class.java)
+        val call = instance?.putUserMessage(token,userId,Users.PutMessageBody(meassge))
+
+        call?.enqueue(object : Callback<Users.UserResponseBody> {
+            override fun onResponse(
+                call: Call<Users.UserResponseBody>,
+                response: Response<Users.UserResponseBody>
+            ) {
+                putMessgeResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Users.UserResponseBody>, t: Throwable) {
+            }
+
+        })
+    }
+
+    fun putuserNickname(token : String, userId : Int, nickname: String){
+        val instance = RetrofitClient.getUserClient()?.create(LoginAPi::class.java)
+        val call = instance?.putUserNickname(token,userId,Users.SignUpBody(nickname))
+
+        call?.enqueue(object : Callback<Users.UserResponseBody>{
+            override fun onResponse(
+                call: Call<Users.UserResponseBody>,
+                response: Response<Users.UserResponseBody>
+            ) {
+               putNicknameResponse.postValue(response.body())
             }
 
             override fun onFailure(call: Call<Users.UserResponseBody>, t: Throwable) {

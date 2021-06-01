@@ -40,6 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="3dp"
                 android:text="Lv. 3"
                 android:textAlignment="center"
                 android:textColor="@color/colorMain" />
@@ -50,8 +51,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="8dp"
                 android:text="닉네임"
                 android:textAlignment="center" />
+
 
             <Button
                 android:id="@+id/btn_update_profile"
@@ -59,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/btn_submit"
                 android:text="프로필 수정"
                 android:textColor="@color/white" />

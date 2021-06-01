@@ -14,9 +14,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.local.UserDatabase
@@ -47,20 +49,39 @@ class MypageFragment: Fragment() {
     private lateinit var db : UserDatabase
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         v =  inflater.inflate(R.layout.fragment_mypage, container, false)
-        setButton()
-        setSwitch()
 
-        setDate()
         return v
     }
 
+    override fun onResume() {
+        super.onResume()
+        setButton()
+        setSwitch()
+        setDate()
+    }
+
     private fun setDate() {
-         val tvNickname = v.findViewById<TextView>(R.id.tv_user_nick)
+        val levelImage = v.findViewById<ImageView>(R.id.iv_user_image)
+        val tvNickname = v.findViewById<TextView>(R.id.tv_user_nick)
         val tvLevel= v.findViewById<TextView>(R.id.tv_user_level)
         tvNickname.text = MainActivity.getUserData().nickname
         tvLevel.text = "Level ${MainActivity.getUserData().level}"
+
+        var imgResource = R.drawable.ic_bronze
+        when(MainActivity.getUserData().level){
+            0 -> imgResource = R.drawable.level_0
+            1 -> imgResource = R.drawable.level_1
+            2 -> imgResource = R.drawable.level_2
+            3 -> imgResource = R.drawable.level_3
+            4 -> imgResource = R.drawable.level_4
+            5 -> imgResource = R.drawable.level_5
+        }
+
+        Glide.with(App.instance)
+            .load(imgResource)
+            .circleCrop()
+            .into(levelImage)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

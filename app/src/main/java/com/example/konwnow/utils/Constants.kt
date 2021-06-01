@@ -29,7 +29,8 @@ object LOGIN{
     const val CREATE_USERS : String = "v1/users"
     const val LOGIN : String = "v1/google/login"
     const val RE_LOGIN : String = "v1/login"
-    const val GET_USER : String = "v1/users/{userId}"
+    const val PUT_NICKNAME : String = "v1/users/{userId}"
+    const val PUT_USER_MESSAGE : String = "v1/users/{userId}/profile"
 
     enum class LOGIN_FLAG{
         NORMAL_LOGIN,

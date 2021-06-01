@@ -29,5 +29,19 @@ interface LoginAPi {
         @Path("userId") userId : Int
     ): Call<Users.UserResponseBody>
 
+    @PUT(LOGIN.PUT_USER_MESSAGE)
+    fun putUserMessage(
+        @Header("jwt-access-token") loginToken : String,
+        @Path("userId") userId : Int,
+        @Body putMessageBody : Users.PutMessageBody
+    ):Call<Users.UserResponseBody>
+
+    @PUT(LOGIN.PUT_NICKNAME)
+    fun putUserNickname(
+        @Header("jwt-access-token") loginToken : String,
+        @Path("userId") userId : Int,
+        @Body putMessageBody : Users.SignUpBody
+    ):Call<Users.UserResponseBody>
+
 
 }
