@@ -11,8 +11,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_rawRes="@raw/ranking_lottie"
         app:lottie_autoPlay="true"
+        app:lottie_loop="true"
         android:background="@color/white"
-        android:elevation="10dp"
         />
 
     <FrameLayout

@@ -2,6 +2,7 @@ package com.example.konwnow.ui.view.write
 
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -24,6 +26,7 @@ import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.adapter.WordListAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.Constants
+import com.example.konwnow.utils.LottieDialog
 import com.example.konwnow.viewmodel.WordViewModel
 import com.example.konwnow.viewmodel.WriteViewModel
 
@@ -36,6 +39,7 @@ class TextWriteFragment: Fragment() {
     private lateinit var wordAdapter: WordListAdapter
     private lateinit var searchBtn: Button
     private lateinit var sentenceEdt: EditText
+    lateinit var dlg: LottieDialog
 
 
     override fun onCreateView(
@@ -56,7 +60,6 @@ class TextWriteFragment: Fragment() {
     }
 
     fun CloseKeyboard() {
-        Log.d("포커스","아웃")
         var view = activity!!.currentFocus
 
         if(view != null){
@@ -93,26 +96,11 @@ class TextWriteFragment: Fragment() {
             if (it != null) {
                 wordList.clear()
                 wordList.addAll(it)
-//                for (item in it.data!!) {
-//                    wordList.add(
-//                        Words.Word(
-//                            item.createdAt,
-//                            item.id,
-//                            item.meanings,
-//                            item.phonics,
-//                            item.pronounceVoicePath,
-//                            item.updatedAt,
-//                            item.v,
-//                            item.word,
-//                            item.wordClasses
-//                        )
-//                    )
-//                }
-                Log.d(Constants.TAG, "텍스트: " + wordList.toString())
                 wordAdapter.notifyDataSetChanged()
             } else {
                 Log.d(Constants.TAG, "data get response null!")
             }
+            finishDialog()
         })
         WordViewModel.postScrapWord(MainActivity.getUserData().loginToken, textList.toList())
     }
@@ -122,13 +110,15 @@ class TextWriteFragment: Fragment() {
         var SetenceViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(
             WriteViewModel::class.java
         )
+        showDialog()
+
+
         SetenceViewModel.getSentenceWordsListObserver().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 textList.clear()
                 for (item in it.data!!) {
                     textList.add(item)
                 }
-                Log.d(Constants.TAG, "텍스트: " + textList.toString())
                 requestWords()
             } else {
                 Log.d(Constants.TAG, "data get response null!")
@@ -140,6 +130,15 @@ class TextWriteFragment: Fragment() {
         }else{
             toast("문장을 입력해주세요.")
         }
+    }
+
+    private fun showDialog() {
+        dlg = LottieDialog(context!!)
+        dlg.start(R.raw.loading_cat)
+    }
+
+    private fun finishDialog(){
+        dlg.dismiss()
     }
 
     private fun toast(message: String){ Toast.makeText(context, message, Toast.LENGTH_SHORT).show() }

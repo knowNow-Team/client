@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -23,6 +24,7 @@ import com.example.konwnow.ui.adapter.WordListAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.Constants
 import com.example.konwnow.utils.Constants.TAG
+import com.example.konwnow.utils.LottieDialog
 import com.example.konwnow.viewmodel.WordViewModel
 import com.example.konwnow.viewmodel.WriteViewModel
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -40,6 +42,7 @@ class ImageWriteFragment: Fragment() {
     private lateinit var imageWriteIv: ImageView
     private lateinit var viewModel: WriteViewModel
     var myUri=Uri.parse("")
+    lateinit var dlg: LottieDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,19 +58,26 @@ class ImageWriteFragment: Fragment() {
     override fun onResume() {
         super.onResume()
         if(myUri.toString() != ""){
-            Log.d(TAG, "실행")
             WriteActivity.clearList()
             getWordFromImage()
+            showDialog()
         }
-        Log.d(TAG, "실행 안됨")
+    }
 
+    private fun showDialog() {
+        dlg = LottieDialog(context!!)
+        dlg.start(R.raw.loading_cat)
+    }
+
+    private fun finishDialog(){
+        dlg.loadingComplete()
     }
 
     private fun getWordFromImage() {
         viewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WriteViewModel::class.java)
         viewModel.getImageWordsListObserver().observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                Log.d(Constants.TAG, "단어장 가져오기 성공!")
+                Log.d(Constants.TAG, "이미지로 단어 가져오기 성공!")
                 textList.clear()
                 for (item in it.data!!) {
                     textList.add(item.text)
@@ -89,15 +99,12 @@ class ImageWriteFragment: Fragment() {
         WordViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 wordList.clear()
-//                for (item in it.data!!) {
-//                    wordList.add(Words.Word(item.createdAt,item.id,item.meanings,item.phonics
-//                        ,item.pronounceVoicePath,item.updatedAt,item.v,item.word,item.wordClasses))
-//                }
                 wordList.addAll(it)
                 wordAdapter.notifyDataSetChanged()
             } else {
                 Log.d(Constants.TAG, "data get response null!")
             }
+            finishDialog()
         })
         WordViewModel.postScrapWord(MainActivity.getUserData().loginToken,textList.toList())
     }

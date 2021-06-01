@@ -29,7 +29,6 @@ class WordViewModel : ViewModel() {
     var validWords: ArrayList<Words.Word> = ArrayList()
 
 
-
     fun getWordDataResponse() : MutableLiveData<ArrayList<Words.Word>>{
         return getValidWordResponse
     }
