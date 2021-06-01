@@ -45,31 +45,28 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             >
+
             <RadioButton
                 android:id="@+id/rb_word_puzzle"
                 android:layout_width="170dp"
-                android:layout_height="170dp"
+                android:layout_height="80dp"
                 android:layout_margin="15dp"
-                android:text="@string/word_puzzle"
-                android:button="@android:color/transparent"
                 android:background="@drawable/btn_test_mode"
+                android:button="@android:color/transparent"
                 android:gravity="center"
-                android:textColor="@color/text_selector"
-                >
-            </RadioButton>
+                android:text="@string/word_puzzle"
+                android:textColor="@color/text_selector"></RadioButton>
 
             <RadioButton
                 android:id="@+id/rb_test_dictation"
                 android:layout_width="170dp"
-                android:layout_height="170dp"
+                android:layout_height="80dp"
                 android:layout_margin="15dp"
-                android:button="@android:color/transparent"
                 android:background="@drawable/btn_test_mode"
-                android:text="@string/word_dictation"
+                android:button="@android:color/transparent"
                 android:gravity="center"
-                android:textColor="@color/text_selector"
-                >
-            </RadioButton>
+                android:text="@string/word_dictation"
+                android:textColor="@color/text_selector"></RadioButton>
         </RadioGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
