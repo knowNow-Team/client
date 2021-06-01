@@ -138,7 +138,7 @@ class TextWriteFragment: Fragment() {
     }
 
     private fun finishDialog(){
-        dlg.dismiss()
+        dlg.loadingComplete()
     }
 
     private fun toast(message: String){ Toast.makeText(context, message, Toast.LENGTH_SHORT).show() }
