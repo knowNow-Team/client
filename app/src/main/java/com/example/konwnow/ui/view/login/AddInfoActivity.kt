@@ -53,7 +53,8 @@ class AddInfoActivity : AppCompatActivity(), View.OnClickListener {
                 val email = it.data!!.userEmail
                 val userID = it.data!!.id
                 val level = it.data!!.userLevel
-                var user = UserEntity(1, idToken, loginToken, refreshToken, nickname, userID, email,level)
+                val message = it.data!!.profileMessage ?: "상태 메세지가 없습니다."
+                var user = UserEntity(1, idToken, loginToken, refreshToken, nickname, userID, email,level,message)
                 insertData(user)
 
                 val intent = Intent(this, MainActivity::class.java)

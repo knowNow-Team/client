@@ -33,7 +33,9 @@ class Users{
         @SerializedName("userLevel")
         val userLevel: Int,
         @SerializedName("wordCount")
-        val wordCount: Int
+        val wordCount: Int,
+        @SerializedName("profileMessage")
+        val profileMessage : String?
     )
 
     data class UserAuth(
