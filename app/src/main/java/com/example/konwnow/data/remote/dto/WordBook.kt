@@ -123,5 +123,8 @@ class WordBook {
         val count: Int
     )
 
+    data class PutWordBookTitle(
+        val title : String
+    )
 
 }

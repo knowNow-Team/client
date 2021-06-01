@@ -49,6 +49,7 @@ object WORDBOOK{
     const val TRASH_BOOK_ID : String = "trashbook"
     const val GET_TRASH_WORD : String ="v1/wordbooks/trashwordbooks"
     const val GET_DETAIL_WORD : String = "v1/wordbooks/optionwords"
+    const val DELETE_WORDBOOK : String = "v1/wordbooks/{wordbookId}"
 }
 
 object TEST{

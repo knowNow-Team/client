@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.data.remote.dto.WordBook.PostWordBookResponse
+import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.data.remote.retrofit.RetrofitClient
 import com.example.konwnow.data.remote.retrofit.api.WordBookAPI
 import com.example.konwnow.utils.Constants
@@ -19,7 +20,8 @@ class WordBookViewModel : ViewModel() {
     var getWordBookResponse : MutableLiveData<WordBook.GetWordBookResponse> = MutableLiveData()
     var getAllWordResponse : MutableLiveData<WordBook.GetAllWordResponse> = MutableLiveData()
     var getDetailSettingResponse : MutableLiveData<WordBook.GetAllWordResponse> = MutableLiveData()
-
+    var deleteWordResponse : MutableLiveData<Words.DeleteWordResponse> = MutableLiveData()
+    var putWordBookTitleResponse : MutableLiveData<Words.DeleteWordResponse> = MutableLiveData()
 
     fun postDataResponse() : MutableLiveData<PostWordBookResponse> {
         return postWordBookResponse
@@ -39,6 +41,14 @@ class WordBookViewModel : ViewModel() {
 
     fun getDetailSettingObserver() : MutableLiveData<WordBook.GetAllWordResponse>{
         return getDetailSettingResponse
+    }
+
+    fun deleteWordBookobserver() : MutableLiveData<Words.DeleteWordResponse>{
+        return deleteWordResponse
+    }
+
+    fun putWordBookTitleObserver() : MutableLiveData<Words.DeleteWordResponse>{
+        return putWordBookTitleResponse
     }
 
 
@@ -152,6 +162,43 @@ class WordBookViewModel : ViewModel() {
             override fun onFailure(call: Call<WordBook.GetAllWordResponse>, t: Throwable) {
                 Log.d(Constants.TAG, "get wordbook fail")
             }
+        })
+    }
+
+    fun deleteWordBook(token: String, wordBookIds: String){
+        val instance = RetrofitClient.getWordClient()?.create(WordBookAPI::class.java)
+        val call = instance?.deleteWordBook(token, wordBookIds)
+
+        call?.enqueue(object  : Callback<Words.DeleteWordResponse>{
+            override fun onResponse(
+                call: Call<Words.DeleteWordResponse>,
+                response: Response<Words.DeleteWordResponse>
+            ) {
+                deleteWordResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Words.DeleteWordResponse>, t: Throwable) {
+            }
+
+        })
+    }
+
+    fun putWordBookTitle(token: String, wordBookIds: String, title : String){
+        val instance = RetrofitClient.getWordClient()?.create(WordBookAPI::class.java)
+        val call = instance?.putWordBookTitle(token, wordBookIds, WordBook.PutWordBookTitle(title))
+
+        call?.enqueue(object  : Callback<Words.DeleteWordResponse>{
+            override fun onResponse(
+                call: Call<Words.DeleteWordResponse>,
+                response: Response<Words.DeleteWordResponse>
+            ) {
+                putWordBookTitleResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Words.DeleteWordResponse>, t: Throwable) {
+
+            }
+
         })
     }
 }
