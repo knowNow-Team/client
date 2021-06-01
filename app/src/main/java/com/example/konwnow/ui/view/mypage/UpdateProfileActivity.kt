@@ -35,9 +35,9 @@ class UpdateProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_update_profile)
 
         userViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(LoginViewModel::class.java)
-
         nickname = findViewById(R.id.et_update_nickname)
         message = findViewById(R.id.et_update_emotion)
+
         val title  = findViewById<TextView>(R.id.tv_title)
         title.text = "프로필 수정"
     }
@@ -71,12 +71,32 @@ class UpdateProfileActivity : AppCompatActivity() {
                 0 -> finish()
                 1 -> changeNickname()
                 2 ->changeMessage()
+                3 -> {
+                    changeMessage()
+                    changeNickname()
+                }
             }
         }
     }
 
     private fun changeNickname() {
-        TODO("Not yet implemented")
+        val loginToken = MainActivity.getUserData().loginToken
+        val google_id_token = MainActivity.getUserData().idToken
+        val refreshToken = MainActivity.getUserData().refreshToken
+        val comment = MainActivity.getUserData().message
+        val userID = MainActivity.getUserData().userID
+        val level = MainActivity.getUserData().level
+        val email = MainActivity.getUserData().email
+        userViewModel.putNicknameObserver().observe(this, {
+            if(it != null ){
+                var user = UserEntity(1, google_id_token, loginToken, refreshToken, nickname.text.toString(), userID, email, level, comment)
+                updateData(user)
+                finish()
+            }else{
+
+            }
+        })
+        userViewModel.putuserNickname(loginToken,userID,nickname.text.toString())
     }
 
     private fun changeMessage() {
@@ -107,6 +127,7 @@ class UpdateProfileActivity : AppCompatActivity() {
             when(true){
                 originedNick != nickname.text.toString() -> return 1
                 originedMessage != message.text.toString() -> return 2
+                originedNick != nickname.text.toString() && originedMessage != message.text.toString() ->3
             }
         }
         return 0
