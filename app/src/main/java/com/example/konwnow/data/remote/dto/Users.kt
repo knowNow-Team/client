@@ -50,4 +50,8 @@ class Users{
         val refreshToken : String
     )
 
+    data class PutMessageBody(
+        val message : String
+    )
+
 }

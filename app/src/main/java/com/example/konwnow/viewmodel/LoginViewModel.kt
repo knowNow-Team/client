@@ -15,6 +15,7 @@ class LoginViewModel : ViewModel() {
 
     var signUpList : MutableLiveData<Users.UserResponseBody>
     var loginList : MutableLiveData<Users.UserResponseBody>
+    var putMessgeResponse : MutableLiveData<Users.UserResponseBody> = MutableLiveData()
 
 
     init {
@@ -28,6 +29,10 @@ class LoginViewModel : ViewModel() {
 
     fun getLoginDataObserver() : MutableLiveData<Users.UserResponseBody>{
         return loginList
+    }
+
+    fun putMessageObserver() : MutableLiveData<Users.UserResponseBody>{
+        return putMessgeResponse
     }
 
 
@@ -64,6 +69,24 @@ class LoginViewModel : ViewModel() {
             ) {
                 Log.d("viewmodel", "success")
                 loginList.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Users.UserResponseBody>, t: Throwable) {
+            }
+
+        })
+    }
+
+    fun putuserMessage(token : String, userId : Int, meassge : String){
+        val instance = RetrofitClient.getUserClient()?.create(LoginAPi::class.java)
+        val call = instance?.putUserMessage(token,userId,Users.PutMessageBody(meassge))
+
+        call?.enqueue(object : Callback<Users.UserResponseBody> {
+            override fun onResponse(
+                call: Call<Users.UserResponseBody>,
+                response: Response<Users.UserResponseBody>
+            ) {
+                putMessgeResponse.postValue(response.body())
             }
 
             override fun onFailure(call: Call<Users.UserResponseBody>, t: Throwable) {
