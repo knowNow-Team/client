@@ -154,6 +154,7 @@ class PuzzleTestActivity : AppCompatActivity() {
         dlg.setTitle(R.string.close)
         dlg.setMessage(R.string.closeSub)
         dlg.setPositiveButton("네", DialogInterface.OnClickListener { dialog, which ->
+            setResult(Constants.RESULT_CANCEL)
             finish()
         })
         dlg.setNegativeButton("아니요") { dialog, which ->
@@ -234,6 +235,7 @@ class PuzzleTestActivity : AppCompatActivity() {
 
             //post
             postTestLog()
+            setResult(Constants.RESULT_OK)
             finish()
         } else {
                 quizVP.currentItem = quizVP.currentItem + 1

@@ -1,5 +1,6 @@
 package com.example.konwnow.ui.view.test
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,11 +13,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.adapter.FolderAdapter
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.Constants
+import com.example.konwnow.utils.LottieDialog
+import com.example.konwnow.utils.TEST
 import com.example.konwnow.viewmodel.WordBookViewModel
 import com.google.gson.annotations.SerializedName
 
@@ -53,10 +57,20 @@ class TestFragment: Fragment() {
     private lateinit var folderAdapter: FolderAdapter
     private var totalQuizNum: Int = 0
     private lateinit var viewModel: WordBookViewModel
+    lateinit var dlg: LottieDialog
 
 
     private val testModeRg: RadioGroup by lazy {
         view?.findViewById(R.id.rg_test_mode) as RadioGroup
+    }
+
+    private fun showDialog() {
+        dlg = LottieDialog(context!!)
+        dlg.start(R.raw.checkmark)
+    }
+
+    private fun finishDialog(){
+        dlg.loadingComplete()
     }
 
 
@@ -69,6 +83,18 @@ class TestFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
 //        resetView()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == TEST.TEST_START){
+            if(resultCode== Constants.RESULT_OK){
+                showDialog()
+                finishDialog()
+            }else if(resultCode== Activity.RESULT_CANCELED){
+                Log.d("리절트","캔슬")
+            }
+        }
     }
 
     override fun onResume() {
@@ -206,7 +232,7 @@ class TestFragment: Fragment() {
                 mIntent.putExtra("selectedQuizNum", selectedQuizNum)
                 Log.d("퀴즈 수", selectedQuizNum.toString())
                 mIntent.putExtra("selectedTag", checkedTag)
-                startActivity(mIntent)
+                startActivityForResult(mIntent, TEST.TEST_START)
             }
 
         }
@@ -235,7 +261,7 @@ class TestFragment: Fragment() {
         testLogButton.setOnClickListener {
             //activity 전환 to TestLog
             val testLogIntent = Intent(activity, TestLogActivity::class.java)
-            startActivity(testLogIntent)
+            startActivityForResult(testLogIntent,TEST.TEST_LOG)
         }
     }
 

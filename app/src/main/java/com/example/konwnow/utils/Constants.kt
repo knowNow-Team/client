@@ -4,6 +4,8 @@ import retrofit2.http.DELETE
 
 object Constants {
     const val TAG: String = "로그"
+    const val RESULT_OK: Int = 200
+    const val RESULT_CANCEL: Int = 400
 }
 
 object API{
@@ -46,6 +48,11 @@ object WORDBOOK{
     const val TRASH_BOOK_ID : String = "trashbook"
     const val GET_TRASH_WORD : String ="v1/wordbooks/trashwordbooks"
     const val GET_DETAIL_WORD : String = "v1/wordbooks/optionwords"
+}
+
+object TEST{
+    const val TEST_START : Int = 123
+    const val TEST_LOG : Int = 321
 }
 
 object HOMEWORD{
