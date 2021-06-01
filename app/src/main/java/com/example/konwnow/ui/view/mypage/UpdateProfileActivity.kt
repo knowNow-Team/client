@@ -14,6 +14,7 @@ import com.example.konwnow.R
 import com.example.konwnow.data.local.UserDatabase
 import com.example.konwnow.data.local.UserEntity
 import com.example.konwnow.ui.view.MainActivity
+import com.example.konwnow.utils.Constants
 import com.example.konwnow.viewmodel.LoginViewModel
 import com.example.konwnow.viewmodel.WordBookViewModel
 
@@ -39,19 +40,20 @@ class UpdateProfileActivity : AppCompatActivity() {
         message = findViewById(R.id.et_update_emotion)
         val title  = findViewById<TextView>(R.id.tv_title)
         title.text = "프로필 수정"
+    }
 
+
+    override fun onResume() {
+        super.onResume()
         setButton()
         setText()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-    }
 
     private fun setText() {
         originedNick = MainActivity.getUserData().nickname
         originedMessage = MainActivity.getUserData().message
+        Log.d(Constants.TAG, originedMessage)
 
         nickname.setText(originedNick)
         message.setText(originedMessage)
@@ -78,15 +80,15 @@ class UpdateProfileActivity : AppCompatActivity() {
     }
 
     private fun changeMessage() {
+        val loginToken = MainActivity.getUserData().loginToken
+        val google_id_token = MainActivity.getUserData().idToken
+        val refreshToken = MainActivity.getUserData().refreshToken
+        val nickname = MainActivity.getUserData().nickname
+        val userID = MainActivity.getUserData().userID
+        val level = MainActivity.getUserData().level
+        val email = MainActivity.getUserData().email
         userViewModel.putMessageObserver().observe(this, {
             if(it != null ){
-                val loginToken = MainActivity.getUserData().loginToken
-                val google_id_token = MainActivity.getUserData().idToken
-                val refreshToken = MainActivity.getUserData().refreshToken
-                val nickname = MainActivity.getUserData().nickname
-                val userID = MainActivity.getUserData().userID
-                val level = MainActivity.getUserData().level
-                val email = MainActivity.getUserData().email
                 var user = UserEntity(1, google_id_token, loginToken, refreshToken, nickname, userID, email, level, message.text.toString())
                 updateData(user)
                 finish()
@@ -94,6 +96,7 @@ class UpdateProfileActivity : AppCompatActivity() {
 
             }
         })
+        userViewModel.putuserMessage(loginToken,userID,message.text.toString())
     }
 
 
