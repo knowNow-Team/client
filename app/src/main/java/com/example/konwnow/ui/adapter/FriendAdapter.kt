@@ -42,9 +42,9 @@ class FriendAdapter : RecyclerView.Adapter<FriendAdapter.Holder>(){
             .circleCrop()
             .into(holder.profile)
 
-        holder.level.text = "Level${items[position].level}"
-        holder.nickname.text = items[position].nickname
-        holder.talk.text = items[position].talk
+//        holder.level.text = "Level${items[position].level}"
+//        holder.nickname.text = items[position].nickname
+//        holder.talk.text = items[position].talk
     }
 
     fun freindUpdateList(freindsItem: ArrayList<Friend>){

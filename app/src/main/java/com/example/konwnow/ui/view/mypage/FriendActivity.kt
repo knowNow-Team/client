@@ -26,20 +26,18 @@ class FriendActivity : AppCompatActivity() {
         setRecycler()
     }
 
-    private fun setRecycler() {
+    override fun onResume() {
+        super.onResume()
         friendsItem.clear()
+        setToolbar()
+        search()
+        setRecycler()
+    }
 
+    private fun setRecycler() {
         friendsAdapter = FriendAdapter()
         val rvFriend = findViewById<RecyclerView>(R.id.rv_friend)
         rvFriend.layoutManager = LinearLayoutManager(this)
-
-        friendsItem.add(Friend(4,"버블이","버블이는 너무 귀엽다."))
-        friendsItem.add(Friend(4,"단추","단추도 너무 귀엽다."))
-        friendsItem.add(Friend(3,"버블이","그래도 버블이가 더 귀엽다."))
-        friendsItem.add(Friend(2,"버블이","버블이는 너무 귀엽다."))
-        friendsItem.add(Friend(1,"버블이","강아지는 너 너무 귀엽다."))
-        friendsItem.add(Friend(1,"버블이","강아지는 너 너무 귀엽다."))
-        friendsItem.add(Friend(1,"버블이","강아지는 너 너무 귀엽다."))
 
         friendsAdapter.freindUpdateList(friendsItem)
         rvFriend.adapter = friendsAdapter
