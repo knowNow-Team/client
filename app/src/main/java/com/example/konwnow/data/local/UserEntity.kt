@@ -12,4 +12,5 @@ data class UserEntity(
     val nickname : String,
     val userID : Int,
     val email : String,
-    val level : Int)
+    val level : Int,
+    val message : String)

@@ -76,13 +76,11 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
 
     override fun onResume() {
         super.onResume()
+        groupsList.clear()
         setRecycler()
     }
 
     private fun setRecycler() {
-        groupsList.clear()
-        groupsList.add(WordBook.WordBooks("휴지통", null, WORDBOOK.TRASH_BOOK_ID))
-
         groupsAdapter = GroupsAdapter(this,groupsList)
         rvGroups = findViewById(R.id.rv_groups)
         rvGroups.layoutManager = GridLayoutManager(this, 3)
@@ -93,6 +91,8 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
     private fun requestGroups() {
         viewModel.getDataReponse().observe(this, Observer {
             if (it != null) {
+                groupsList.clear()
+                groupsList.add(WordBook.WordBooks("휴지통", null, WORDBOOK.TRASH_BOOK_ID))
                 Log.d(Constants.TAG, "단어장 가져오기 성공!")
                 Log.d(Constants.TAG, "response Body : ${it}")
                 for (datas in it.data) {
@@ -101,7 +101,6 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
             } else {
                 Log.d(Constants.TAG, "단어장 get response null!")
             }
-//            groupsAdapter.groupsUpdateList(groupsList)
             rvGroups.adapter = groupsAdapter
             groupsAdapter.notifyDataSetChanged()
         })
@@ -114,7 +113,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
             if (it != null) {
                 Log.d(Constants.TAG, "단어장 만들기 성공!")
                 Log.d(Constants.TAG, "response Body : ${it}")
-                groupsAdapter.makeClicked(name)
+                onResume()
             } else {
                 Log.d(Constants.TAG, "단어장 post response null!")
             }
@@ -128,7 +127,5 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
         selectedBook.addAll(selectedList)
         Log.d(Constants.TAG, selectedBook.toString())
     }
-
-    private fun toast(message: String){ Toast.makeText(this, message, Toast.LENGTH_SHORT).show() }
 
 }

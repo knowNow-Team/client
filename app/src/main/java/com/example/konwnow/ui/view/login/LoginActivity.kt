@@ -104,7 +104,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 val userID = it.data.id
                 val email = it.data.userEmail
                 val level = it.data.userLevel
-                var user = UserEntity(1, google_id_token, loginToken, refreshToken, nickname, userID, email, level)
+                val message = it.data.profileMessage ?: "상태 메세지가 없습니다."
+                var user = UserEntity(1, google_id_token, loginToken, refreshToken, nickname, userID, email, level, message)
                 when(type){
                     LOGIN.LOGIN_FLAG.OTHER_LOGIN-> {
                         updateData(user)
