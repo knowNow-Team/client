@@ -67,6 +67,7 @@
     <string name="ranking_most_test">시험을 가장 많이 본 사람</string>
     <string name="ranking_most_add">단어를 가장 많이 추가한 사람</string>
     <string name="ranking_highest_score">정답률이 가장 좋은 사람</string>
+    <string name="rankingDate">기간 %s~</string>
     <string name="ranking_1st">1. %s</string>
     <string name="ranking_2nd">2. %s</string>
     <string name="ranking_3rd">3. %s</string>

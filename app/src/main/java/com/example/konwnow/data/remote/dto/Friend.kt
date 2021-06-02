@@ -46,6 +46,8 @@ class Friend{
         @SerializedName("userId")
         val userId: Int,
         @SerializedName("wordCount")
-        val wordCount: Int
+        val wordCount: Int,
+        @SerializedName("level")
+        val level: Int
     )
 }

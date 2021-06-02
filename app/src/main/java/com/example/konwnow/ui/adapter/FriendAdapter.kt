@@ -42,8 +42,7 @@ class FriendAdapter : RecyclerView.Adapter<FriendAdapter.Holder>(){
             .circleCrop()
             .into(holder.profile)
 
-        //TODO: level 대신
-        holder.level.text = "Level${items[position].userId}"
+        holder.level.text = "Level${items[position].level}"
         holder.nickname.text = items[position].nickName
         holder.talk.text = items[position].state
     }

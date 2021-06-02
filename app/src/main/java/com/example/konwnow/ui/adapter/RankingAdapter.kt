@@ -12,7 +12,8 @@ import com.bumptech.glide.Glide
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.Friend
 import android.util.Log
-import android.widget.ImageButton
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class RankingAdapter() : RecyclerView.Adapter<RankingAdapter.Holder>() {
@@ -22,6 +23,7 @@ class RankingAdapter() : RecyclerView.Adapter<RankingAdapter.Holder>() {
 
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
+        val tvDate = itemView?.findViewById<TextView>(R.id.tv_date)
         val tvRankingTitle = itemView?.findViewById<TextView>(R.id.tv_ranking_title)
         val tv1stLevel = itemView?.findViewById<TextView>(R.id.tv_1st_level)
         val tv1stNick = itemView?.findViewById<TextView>(R.id.tv_1st_nick)
@@ -43,8 +45,8 @@ class RankingAdapter() : RecyclerView.Adapter<RankingAdapter.Holder>() {
 
 
     override fun onBindViewHolder(holder: Holder, position: Int){
+        holder.tvDate!!.text = String.format(myContext.getString(R.string.rankingDate),getStartDate())
         if(position == 0){
-
             holder.itemView.setBackgroundColor(ContextCompat.getColor(myContext,R.color.colorDeepPrimaryDark))
             holder.tvRankingTitle!!.text = myContext.getString(R.string.ranking_highest_score)
         }else if(position == 2){
@@ -55,25 +57,36 @@ class RankingAdapter() : RecyclerView.Adapter<RankingAdapter.Holder>() {
             holder.tvRankingTitle!!.text = myContext.getString(R.string.ranking_most_test)
         }
 
-        //TODO: userID = level 임시로 쓰는 거
-        holder.tv1stLevel!!.text = String.format(myContext.getString(R.string.user_level),userList[0].userId)
+        holder.tv1stLevel!!.text = String.format(myContext.getString(R.string.user_level),userList[0].level)
         holder.tv1stNick!!.text = String.format(myContext.getString(R.string.ranking_1st), userList[0].nickName)
-        Glide.with(myContext).load(setLevelImage(position)).thumbnail(0.1f).into(holder.iv1stThumb!!)
-        holder.tv2ndLevel!!.text = String.format(myContext.getString(R.string.user_level),userList[1].userId)
+        Glide.with(myContext).load(setLevelImage(0)).thumbnail(0.1f).into(holder.iv1stThumb!!)
+        holder.tv2ndLevel!!.text = String.format(myContext.getString(R.string.user_level),userList[1].level)
         holder.tv2ndNick!!.text = String.format(myContext.getString(R.string.ranking_2nd), userList[1].nickName)
-        Glide.with(myContext).load(setLevelImage(position)).into(holder.iv2ndThumb!!)
-        holder.tv3rdLevel!!.text = String.format(myContext.getString(R.string.user_level),userList[2].userId)
+        Glide.with(myContext).load(setLevelImage(1)).into(holder.iv2ndThumb!!)
+        holder.tv3rdLevel!!.text = String.format(myContext.getString(R.string.user_level),userList[2].level)
         holder.tv3rdNick!!.text = String.format(myContext.getString(R.string.ranking_3rd), userList[2].nickName)
-        Glide.with(myContext).load(setLevelImage(position)).into(holder.iv3rdThumb!!)
+        Glide.with(myContext).load(setLevelImage(2)).into(holder.iv3rdThumb!!)
     }
+
+    private fun getStartDate(): String? {
+        var calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_MONTH,(2-calendar.get(Calendar.DAY_OF_WEEK)))
+        return parseDate(calendar.time)
+    }
+
+    private fun parseDate(createdAt: Date): String {
+        val newFormat = SimpleDateFormat("yyyy.MM.dd", Locale.KOREA) // 바꿀 데이터 형식
+
+        return newFormat.format(createdAt)
+    }
+
 
     override fun getItemCount(): Int {
         return userList.size
     }
 
     fun setLevelImage(position: Int): Int{
-        //TODO: userList[position].level 에 따라
-        when(0){
+        when(userList[position].level){
             0 -> return R.drawable.level_0
             1 -> return R.drawable.level_1
             2 -> return R.drawable.level_2
