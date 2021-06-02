@@ -76,6 +76,10 @@ object HOMEWORD{
     }
 }
 
+object FRIEND{
+    const val GET_FRIEND : String = "v1/friends"
+    const val GET_RANK : String = "v1/friends/rank"
+}
 
 
 

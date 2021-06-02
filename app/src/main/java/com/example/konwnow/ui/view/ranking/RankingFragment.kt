@@ -1,16 +1,23 @@
 package com.example.konwnow.ui.view.ranking
 
 import FadeOutTransformation
+import HorizontalFlipTransformation
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
 import com.example.konwnow.R
-import com.example.konwnow.data.remote.dto.Users
+import com.example.konwnow.data.remote.dto.Friend
 import com.example.konwnow.ui.adapter.RankingAdapter
+import com.example.konwnow.utils.Constants
+import com.example.konwnow.viewmodel.FriendViewModel
 import me.relex.circleindicator.CircleIndicator3
 
 
@@ -23,7 +30,7 @@ class RankingFragment: Fragment() {
     private lateinit var rankingVp: ViewPager2
     private lateinit var rankingAdapter: RankingAdapter
     private lateinit var rankingLv: LottieAnimationView
-    private var userList = arrayListOf<Users>()
+    private var rankMap = mutableMapOf<String,List<Friend.FriendData>>()
     private var mIndicator: CircleIndicator3? = null
     private val num_page = 3
 
@@ -36,8 +43,8 @@ class RankingFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        requestRanking(0)
         setViewPager()
+        requestRanking()
         setLottie()
     }
 
@@ -53,12 +60,11 @@ class RankingFragment: Fragment() {
     private fun setViewPager(){
         rankingVp = v.findViewById(R.id.vp_ranking) as ViewPager2
         rankingAdapter = RankingAdapter()
-        rankingAdapter.rankingUpdateList(userList)
         rankingVp.adapter = rankingAdapter
+
 
         //뷰페이저 애니메이션
         rankingVp.setPageTransformer(FadeOutTransformation())
-
         //뷰페이저 인디케이터
         mIndicator = v.findViewById(R.id.indicator);
         mIndicator!!.setViewPager(rankingVp);
@@ -67,33 +73,41 @@ class RankingFragment: Fragment() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 if(position == 0){
-                    requestRanking(0)
+                    //correctRank
+                    rankingAdapter.rankingUpdateList(rankMap["correctRank"])
                 }else if(position == 1){
-                    requestRanking(1)
+                    //examRank
+                    rankingAdapter.rankingUpdateList(rankMap["examRank"])
                 }else{
-                    requestRanking(2)
+                    //wordRank
+                    rankingAdapter.rankingUpdateList(rankMap["wordRank"])
                 }
-                rankingAdapter.rankingUpdateList(userList)
             }
         })
     }
 
-    private fun requestRanking(flag: Int) {
-        userList.clear()
+    private fun requestRanking() {
+        var friendViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(
+            FriendViewModel::class.java
+        )
+        friendViewModel.getRankListObserver().observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                Log.d("응답",it.data.correctRank.toString())
 
-//        if(flag == 0){
-//            userList.add(Users("가나다", "nick1", 0))
-//            userList.add(Users("서동현", "nick2", 1))
-//            userList.add(Users("빈지노", "nick3", 2))
-//        }else if(flag == 1){
-//            userList.add(Users("아이유", "nick4", 3))
-//            userList.add(Users("박재범", "nick5", 4))
-//            userList.add(Users("정기석", "nick6", 5))
-//        }else{
-//            userList.add(Users("윤진영", "nick7", 6))
-//            userList.add(Users("창모", "nick8", 7))
-//            userList.add(Users("넉살", "nick9", 8))
-//        }
+                rankMap["correctRank"] = it.data.correctRank
+                rankMap["examRank"] = it.data.examRank
+                rankMap["wordRank"] = it.data.wordRank
+                Log.d("맵",rankMap.toString())
+            } else {
+                Log.d(Constants.TAG, "data get response null!")
+            }
+//            finishDialog()
+            rankingAdapter.rankingUpdateList(rankMap["correctRank"])
+        })
+
+        //TODO: 토큰 변경
+//        friendViewModel.getRank(MainActivity.getUserData().loginToken)
+        friendViewModel.getRank("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrbm93bm93IiwidXNlciI6ImFhYUBnbWFpbC5jb20iLCJ1c2VySWQiOjEsImlhdCI6MTYyMjUzODI2Mn0.tgUstyfdHJqjjIaErUNl_OFPHF_hmwvx10mdBmnHDXg")
     }
 
 }

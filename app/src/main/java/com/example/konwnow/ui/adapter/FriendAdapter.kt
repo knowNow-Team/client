@@ -16,7 +16,7 @@ class FriendAdapter : RecyclerView.Adapter<FriendAdapter.Holder>(){
 
     private lateinit var view: View
     private lateinit var context : Context
-    private var items = ArrayList<Friend>()
+    private var items = ArrayList<Friend.FriendData>()
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!){
         val profile =itemView!!.findViewById<ImageView>(R.id.iv_friend_profile)
@@ -42,12 +42,13 @@ class FriendAdapter : RecyclerView.Adapter<FriendAdapter.Holder>(){
             .circleCrop()
             .into(holder.profile)
 
-        holder.level.text = "Level${items[position].level}"
-        holder.nickname.text = items[position].nickname
-        holder.talk.text = items[position].talk
+        //TODO: level 대신
+        holder.level.text = "Level${items[position].userId}"
+        holder.nickname.text = items[position].nickName
+        holder.talk.text = items[position].state
     }
 
-    fun freindUpdateList(freindsItem: ArrayList<Friend>){
+    fun freindUpdateList(freindsItem: ArrayList<Friend.FriendData>){
         this.items.addAll(freindsItem)
     }
 }
