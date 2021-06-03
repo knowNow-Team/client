@@ -3,7 +3,26 @@ package com.example.konwnow.data.remote.dto
 import com.google.gson.annotations.SerializedName
 
 
-class Friend{
+class Friend {
+
+    data class FriendCodeResponse(
+        @SerializedName("data")
+        val `data`: String,
+        @SerializedName("error")
+        val error: Any,
+        @SerializedName("statusCode")
+        val statusCode: Int
+    )
+
+    data class PostFriendResponse(
+        @SerializedName("data")
+        val `data`: FriendData,
+        @SerializedName("error")
+        val error: Any,
+        @SerializedName("statusCode")
+        val statusCode: Int
+    )
+
 
     data class GETFriendResponse(
         @SerializedName("data")
@@ -58,4 +77,6 @@ class Friend{
         @SerializedName("friendAddTokens")
         val friendAddTokens: String
     )
+
+
 }

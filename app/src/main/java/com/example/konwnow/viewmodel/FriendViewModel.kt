@@ -4,18 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.konwnow.data.remote.dto.Friend
 import com.example.konwnow.data.remote.retrofit.RetrofitClient
-import com.example.konwnow.data.remote.retrofit.api.FriendsAPI
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.konwnow.data.remote.dto.Friend
-import com.example.konwnow.data.remote.dto.Users
-import com.example.konwnow.data.remote.dto.Words
-import com.example.konwnow.data.remote.retrofit.RetrofitClient
 import com.example.konwnow.data.remote.retrofit.api.FriendAPI
-import com.example.konwnow.data.remote.retrofit.api.LoginAPi
-import com.example.konwnow.data.remote.retrofit.api.WriteAPI
-import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,7 +13,7 @@ import retrofit2.Response
 class FriendViewModel : ViewModel() {
 
     var getCodeResponse : MutableLiveData<Friend.FriendCodeResponse> = MutableLiveData()
-    var friendResponse : MutableLiveData<Friend.> = MutableLiveData()
+    var postfriendResponse : MutableLiveData<Friend.PostFriendResponse> = MutableLiveData()
     var friendList : MutableLiveData<Friend.GETFriendResponse> = MutableLiveData()
     var rankList : MutableLiveData<Friend.GETRankResponse> = MutableLiveData()
 
@@ -40,12 +30,12 @@ class FriendViewModel : ViewModel() {
         return  getCodeResponse
     }
 
-    fun postFriendObserver() : MutableLiveData<Friend.FriendResponse>{
-        return friendResponse
+    fun postFriendObserver() : MutableLiveData<Friend.PostFriendResponse>{
+        return postfriendResponse
     }
 
     fun getCode(token: String){
-        val instance = RetrofitClient.getUserClient()?.create(FriendsAPI::class.java)
+        val instance = RetrofitClient.getUserClient()?.create(FriendAPI::class.java)
         val call = instance?.getFriendCode(token)
 
         call?.enqueue(object : retrofit2.Callback<Friend.FriendCodeResponse>{
@@ -64,18 +54,18 @@ class FriendViewModel : ViewModel() {
     }
 
     fun postFriend(token: String, friendToken : String){
-        val instance = RetrofitClient.getUserClient()?.create(FriendsAPI::class.java)
+        val instance = RetrofitClient.getUserClient()?.create(FriendAPI::class.java)
         val call = instance?.postFriend(token,Friend.PostFriendBody(friendToken))
 
-        call?.enqueue(object  : Callback<Friend.FriendResponse>{
+        call?.enqueue(object  : Callback<Friend.PostFriendResponse>{
             override fun onResponse(
-                call: Call<Friend.FriendResponse>,
-                response: Response<Friend.FriendResponse>
+                call: Call<Friend.PostFriendResponse>,
+                response: Response<Friend.PostFriendResponse>
             ) {
-                friendResponse.postValue(response.body())
+                postfriendResponse.postValue(response.body())
             }
 
-            override fun onFailure(call: Call<Friend.FriendResponse>, t: Throwable) {
+            override fun onFailure(call: Call<Friend.PostFriendResponse>, t: Throwable) {
 
             }
         })

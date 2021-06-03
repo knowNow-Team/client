@@ -60,6 +60,8 @@ object TEST{
 object FRIEND{
     const val GET_CODE : String ="v1/friends/code"
     const val POST_FRIEND : String = "v1/friends"
+    const val GET_FRIEND : String = "v1/friends"
+    const val GET_RANK : String = "v1/friends/rank"
 }
 
 object HOMEWORD{
@@ -80,12 +82,6 @@ object HOMEWORD{
         const val RANDOM : String ="랜덤"
     }
 }
-
-object FRIEND{
-    const val GET_FRIEND : String = "v1/friends"
-    const val GET_RANK : String = "v1/friends/rank"
-}
-
 
 
 object CAMERA{
