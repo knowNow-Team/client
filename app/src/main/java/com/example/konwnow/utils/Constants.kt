@@ -58,6 +58,7 @@ object TEST{
 
 object FRIEND{
     const val GET_CODE : String ="v1/friends/code"
+    const val POST_FRIEND : String = "v1/friends"
 }
 
 object HOMEWORD{

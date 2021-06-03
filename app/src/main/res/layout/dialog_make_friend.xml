@@ -37,13 +37,12 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/et_group_name"
+                android:id="@+id/et_friend_code"
                 style="@style/Font3"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/et_comment"
-                android:ems="10"
                 android:hint="친구 추가 코드를 입력하세요."
                 android:inputType="textPersonName"
                 android:padding="20dp"
@@ -53,13 +52,13 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_make_groups"
+        android:id="@+id/btn_make_friend"
         style="@style/FontCaption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/btn_submit"
-        android:text="적용하기"
+        android:text="추가하기"
         android:textColor="@color/bw_w"
         tools:layout_weight="1" />
 
