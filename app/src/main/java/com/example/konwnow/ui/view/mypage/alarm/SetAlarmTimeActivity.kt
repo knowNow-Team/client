@@ -1,4 +1,4 @@
-package com.example.konwnow.ui.view.mypage
+package com.example.konwnow.ui.view.mypage.alarm
 
 import android.app.*
 import android.content.DialogInterface
@@ -15,7 +15,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.konwnow.App
 import com.example.konwnow.R
-import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.utils.ALARM

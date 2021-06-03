@@ -57,6 +57,13 @@ object TEST{
     const val TEST_LOG : Int = 321
 }
 
+object FRIEND{
+    const val GET_CODE : String ="v1/friends/code"
+    const val POST_FRIEND : String = "v1/friends"
+    const val GET_FRIEND : String = "v1/friends"
+    const val GET_RANK : String = "v1/friends/rank"
+}
+
 object HOMEWORD{
     const val PUT_FILTER : String = "v1/wordbooks/{wordbookId}/{wordId}"
     const val MOVE_TRASH : String = "v1/wordbooks/{wordbookId}/words/{wordId}"
@@ -75,12 +82,6 @@ object HOMEWORD{
         const val RANDOM : String ="랜덤"
     }
 }
-
-object FRIEND{
-    const val GET_FRIEND : String = "v1/friends"
-    const val GET_RANK : String = "v1/friends/rank"
-}
-
 
 
 object CAMERA{

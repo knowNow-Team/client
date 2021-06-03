@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="8dp"
+    android:orientation="vertical"
+    android:padding="25dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="#00000000"
+                android:gravity="right"
+                app:srcCompat="@drawable/ic_close" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_friend_code"
+
+                style="@style/Font3"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/et_comment"
+                android:hint="친구 추가 코드를 입력하세요."
+                android:inputType="textMultiLine"
+                android:scrollHorizontally="false"
+                android:padding="20dp"
+                android:textColor="@color/bw_b" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_make_friend"
+        style="@style/FontCaption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_submit"
+        android:text="추가하기"
+        android:textColor="@color/bw_w"
+        tools:layout_weight="1" />
+
+
+</LinearLayout>

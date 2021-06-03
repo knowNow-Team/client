@@ -1,4 +1,4 @@
-package com.example.konwnow.ui.view.mypage
+package com.example.konwnow.ui.view.mypage.alarm
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -107,7 +107,7 @@ class SetAlarmActivity : AppCompatActivity() {
         btnNext.setOnClickListener {
             //선택된 태그 체크
             if(getCheckedTag()){
-                val mIntent = Intent(this,SetAlarmTimeActivity::class.java)
+                val mIntent = Intent(this, SetAlarmTimeActivity::class.java)
 //                var bundle = Bundle()
 //                bundle.putParcelableArrayList("folderList", selectedFolderList)
                 mIntent.putExtra("folder", selectedFolderList)

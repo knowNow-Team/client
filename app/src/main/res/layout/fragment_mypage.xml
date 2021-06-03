@@ -81,6 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:orientation="horizontal"
             android:padding="8dp">
 
             <TextView
@@ -92,6 +93,25 @@
                 android:layout_marginLeft="20dp"
                 android:padding="10dp"
                 android:text="친구관리" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/btn_make_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="친구 추가 코드"
+                    android:background="#00000000"
+                    style="@style/FontCaption"
+                    android:textColor="@color/colorMain"/>
+            </LinearLayout>
+
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
