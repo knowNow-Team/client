@@ -47,12 +47,17 @@ class FriendActivity : AppCompatActivity(), MakeFriendInterface {
     }
 
     private fun setRecycler() {
+        requestFriend()
         friendsAdapter = FriendAdapter()
         val rvFriend = findViewById<RecyclerView>(R.id.rv_friend)
         rvFriend.layoutManager = LinearLayoutManager(this)
 
         friendsAdapter.freindUpdateList(friendsItem)
         rvFriend.adapter = friendsAdapter
+    }
+
+    private fun requestFriend() {
+
     }
 
     private fun search() {

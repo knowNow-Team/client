@@ -19,5 +19,10 @@ interface FriendsAPI {
     fun postFriend(
         @Header("jwt-access-token") token : String,
         @Body friendAddTokens : Friend.PostFriendBody
-    ):Call<Friend.PostFriendResponse>
+    ):Call<Friend.FriendResponse>
+
+    @GET(FRIEND.POST_FRIEND)
+    fun getAllFriend(
+        @Header("jwt-access-token") token : String,
+    ):Call<Friend.FriendResponse>
 }

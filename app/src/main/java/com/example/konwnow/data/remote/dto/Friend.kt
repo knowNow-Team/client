@@ -13,7 +13,7 @@ class Friend {
         val statusCode: Int
     )
 
-    data class PostFriendResponse(
+    data class FriendResponse(
         @SerializedName("data")
         val `data`: Data,
         @SerializedName("error")
