@@ -1,13 +1,11 @@
 package com.example.konwnow.ui.view.mypage
 
-import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,18 +20,18 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.konwnow.App
 import com.example.konwnow.R
-import com.example.konwnow.data.local.UserDatabase
 import com.example.konwnow.ui.view.MainActivity
 import com.example.konwnow.ui.view.login.LoginActivity
+import com.example.konwnow.ui.view.mypage.alarm.AlarmBroadcastReceiver
+import com.example.konwnow.ui.view.mypage.alarm.SetAlarmActivity
+import com.example.konwnow.ui.view.mypage.friend.FriendActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 import com.example.konwnow.utils.ALARM
-import com.example.konwnow.utils.Constants
 import com.example.konwnow.utils.LOGIN
 import com.example.konwnow.viewmodel.FriendViewModel
-import com.example.konwnow.viewmodel.WordBookViewModel
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MypageFragment: Fragment() {
@@ -152,7 +150,15 @@ class MypageFragment: Fragment() {
         friendViewModel.getCodeObserver().observe(viewLifecycleOwner, {
             if(it != null){
                 val code = it.data
-                toast("친구 추가 코드 : ${code}")
+                val nickname = MainActivity.getUserData().nickname
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "KnowNow에서 ${nickname}(와)과 친구를 맺기 위한 초대장\uD83E\uDD73\uD83D\uDC8C\uD83E\uDD73\uD83D\uDC8C \n아래 코드를 복사하세요! \n\n $code")
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
             }
         })
         friendViewModel.getCode(MainActivity.getUserData().loginToken)

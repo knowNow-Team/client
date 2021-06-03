@@ -1,4 +1,4 @@
-package com.example.konwnow.ui.view.mypage
+package com.example.konwnow.ui.view.mypage.alarm
 
 import android.app.Notification
 import android.app.NotificationManager

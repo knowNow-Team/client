@@ -28,18 +28,16 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
         </include>
 
-        <TextView
-            android:id="@+id/tv_copy_link"
-            style="@style/FontCaption"
+        <ImageButton
+            android:id="@+id/ib_plus_friend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:background="#00000000"
-            android:includeFontPadding="false"
-            android:text="링크 복사"
+            android:src="@drawable/ic_user_plus"
             android:textColor="@color/colorMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -61,13 +59,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:background="@drawable/search_bg"
             app:queryHint="Search" />
 
-<!--        <View-->
-<!--            android:id="@+id/view4"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0.5dp"-->
-<!--            android:background="@color/bw_g7"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent" />-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_friend"
@@ -76,6 +67,4 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         app:layout_constraintTop_toBottomOf="@+id/cl_header"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-
-<!--</androidx.core.widget.NestedScrollView>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

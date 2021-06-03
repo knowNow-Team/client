@@ -1,4 +1,4 @@
-package com.example.konwnow.ui.view.mypage
+package com.example.konwnow.ui.view.mypage.friend
 
 import android.os.Bundle
 import android.widget.ImageButton
@@ -19,7 +19,7 @@ class FriendActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activiry_friend)
+        setContentView(R.layout.activity_friend)
 
         setToolbar()
         search()
@@ -57,7 +57,7 @@ class FriendActivity : AppCompatActivity() {
             finish()
         }
 
-        val copyLink = findViewById<TextView>(R.id.tv_copy_link)
+        val copyLink = findViewById<ImageButton>(R.id.ib_plus_friend)
         copyLink.setOnClickListener {
             Toast.makeText(this,"초대링크를 클립보드에 복사하였습니다!",Toast.LENGTH_SHORT).show()
         }

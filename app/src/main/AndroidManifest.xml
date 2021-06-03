@@ -37,10 +37,10 @@
         <activity android:name=".ui.view.group.GroupActivity" />
         <activity android:name=".ui.view.test.TestLogActivity" />
         <activity android:name=".ui.view.test.PuzzleTestActivity" />
-        <activity android:name=".ui.view.mypage.FriendActivity" />
-        <activity android:name=".ui.view.mypage.SetAlarmActivity" />
+        <activity android:name=".ui.view.mypage.friend.FriendActivity" />
+        <activity android:name=".ui.view.mypage.alarm.SetAlarmActivity" />
         <activity android:name=".ui.view.mypage.CommentActivity" />
-        <activity android:name=".ui.view.mypage.SetAlarmTimeActivity" />
+        <activity android:name=".ui.view.mypage.alarm.SetAlarmTimeActivity" />
         <activity
             android:name=".ui.view.test.DictationTestActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -49,10 +49,10 @@
         </activity>
 
         <receiver
-            android:name=".ui.view.mypage.ReplyReceiver"
+            android:name=".ui.view.mypage.alarm.ReplyReceiver"
             android:enabled="true"
             android:exported="false"/>
-        <receiver android:name=".ui.view.mypage.AlarmBroadcastReceiver"
+        <receiver android:name=".ui.view.mypage.alarm.AlarmBroadcastReceiver"
             android:exported="false">
         </receiver>
         <provider
