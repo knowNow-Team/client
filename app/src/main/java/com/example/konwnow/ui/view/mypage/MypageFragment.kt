@@ -153,7 +153,7 @@ class MypageFragment: Fragment() {
                 val nickname = MainActivity.getUserData().nickname
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, "KnowNow에서 ${nickname}(와)과 친구를 맺기 위한 초대장\uD83E\uDD73\uD83D\uDC8C\uD83E\uDD73\uD83D\uDC8C \n아래 코드를 복사하세요! \n\n $code")
+                    putExtra(Intent.EXTRA_TEXT, "KnowNow에서 ${nickname}님과 친구를 맺기 위한 초대장\uD83E\uDD73\uD83D\uDC8C\uD83E\uDD73\uD83D\uDC8C \n아래 코드를 복사하세요! \n\n$code")
                     type = "text/plain"
                 }
 
