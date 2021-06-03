@@ -18,6 +18,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.konwnow.App
 import com.example.konwnow.R
@@ -31,6 +32,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.example.konwnow.utils.ALARM
 import com.example.konwnow.utils.Constants
 import com.example.konwnow.utils.LOGIN
+import com.example.konwnow.viewmodel.FriendViewModel
+import com.example.konwnow.viewmodel.WordBookViewModel
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MypageFragment: Fragment() {
@@ -42,11 +45,12 @@ class MypageFragment: Fragment() {
     private lateinit var tvLogout: TextView
     private lateinit var mIntent : Intent
     private lateinit var btnUpdateProfile : Button
+    private lateinit var btnCodeCopy : Button
 
     lateinit var googleSignInClient : GoogleSignInClient
     private lateinit var switchAlarm: SwitchMaterial
 
-    private lateinit var db : UserDatabase
+    private lateinit var friendViewModel : FriendViewModel
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         v =  inflater.inflate(R.layout.fragment_mypage, container, false)
@@ -111,8 +115,7 @@ class MypageFragment: Fragment() {
         tvComment = v.findViewById(R.id.tv_comment)
         tvLogout = v.findViewById(R.id.tv_logout)
         btnUpdateProfile = v.findViewById(R.id.btn_update_profile)
-
-
+        btnCodeCopy = v.findViewById(R.id.btn_make_code)
 
         //클릭 이벤트
         tvFriend.setOnClickListener{
@@ -138,10 +141,24 @@ class MypageFragment: Fragment() {
             mIntent = Intent(activity, UpdateProfileActivity::class.java)
             startActivityForResult(mIntent,1)
         }
+
+        btnCodeCopy.setOnClickListener {
+            makeCode()
+        }
+    }
+
+    private fun makeCode() {
+        friendViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(FriendViewModel::class.java)
+        friendViewModel.getCodeObserver().observe(viewLifecycleOwner, {
+            if(it != null){
+                val code = it.data
+                toast("친구 추가 코드 : ${code}")
+            }
+        })
+        friendViewModel.getCode(MainActivity.getUserData().loginToken)
     }
 
     private fun signOut() {
-
         val gso: GoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestId()

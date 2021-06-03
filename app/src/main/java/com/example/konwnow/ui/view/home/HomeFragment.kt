@@ -145,26 +145,6 @@ class HomeFragment : Fragment(), HomeInterface {
         workBookViewModel.getDetailSettingWord(MainActivity.getUserData().loginToken,wordBookID,filter,order)
     }
 
-    private fun requestAllWord() {
-        workBookViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordBookViewModel::class.java)
-        workBookViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                Log.d(Constants.TAG, "단어 가져오기 성공!")
-                wordsList.clear()
-                for(datas in it.data) {
-                    if (!datas.words.isRemoved) {
-                        this.wordsList.add(datas)
-                    }
-                }
-            } else {
-                Log.d(Constants.TAG, "단어장 get response null!")
-            }
-            rvWords.adapter?.notifyDataSetChanged()
-        })
-        workBookViewModel.getAllWord(MainActivity.getUserData().loginToken,wordBookID)
-    }
-
-
     private fun requestTrashWord() {
         workBookViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
