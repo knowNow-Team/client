@@ -2,27 +2,38 @@ package com.example.konwnow.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-class Friend {
 
-    data class FriendCodeResponse(
+class Friend{
+
+    data class GETFriendResponse(
         @SerializedName("data")
-        val `data`: String,
+        val `data`: List<FriendData>,
         @SerializedName("error")
         val error: Any,
         @SerializedName("statusCode")
         val statusCode: Int
     )
 
-    data class FriendResponse(
+    data class GETRankResponse(
         @SerializedName("data")
-        val `data`: Data,
+        val `data`: GETRankResponseData,
         @SerializedName("error")
         val error: Any,
         @SerializedName("statusCode")
         val statusCode: Int
     )
 
-    data class Data(
+    data class GETRankResponseData(
+        @SerializedName("correctRank")
+        val correctRank: List<FriendData>,
+        @SerializedName("examRank")
+        val examRank: List<FriendData>,
+        @SerializedName("wordRank")
+        val wordRank: List<FriendData>
+    )
+
+
+    data class FriendData(
         @SerializedName("correctPercentage")
         val correctPercentage: Double,
         @SerializedName("examCount")
@@ -48,4 +59,3 @@ class Friend {
         val friendAddTokens: String
     )
 }
-

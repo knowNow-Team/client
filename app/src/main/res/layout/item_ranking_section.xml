@@ -15,15 +15,17 @@
         android:orientation="vertical"
         android:layout_marginVertical="15dp"
         >
+
         <TextView
+            android:id="@+id/tv_date"
+            style="@style/FontCaption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/bw_g3"
+            android:layout_marginVertical="5dp"
+            android:gravity="center_horizontal"
             android:text="기간 2021.04.12~"
             android:textAlignment="center"
-            android:gravity="center_horizontal"
-            android:layout_marginVertical="5dp"
-            style="@style/FontCaption"/>
+            android:textColor="@color/bw_g3" />
 
         <TextView
             android:id="@+id/tv_ranking_title"
@@ -110,7 +112,8 @@
                 <ImageView
                     android:id="@+id/iv_1st"
                     android:layout_width="100dp"
-                    android:layout_height="100dp"/>
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"/>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

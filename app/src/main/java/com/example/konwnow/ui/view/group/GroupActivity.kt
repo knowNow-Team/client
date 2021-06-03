@@ -52,7 +52,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
         btnPlus!!.visibility = VISIBLE
         btnPlus!!.setImageResource(R.drawable.ic_plus_groups)
         btnPlus!!.setOnClickListener {
-            val dlg = GroupDialog(this, this)
+            val dlg = GroupDialog(this, this,0,0)
             dlg.start()
         }
 
@@ -108,24 +108,54 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
     }
 
 
-    override fun makeWordBookClicked(name: String) {
-        viewModel.postDataResponse().observe(this, Observer {
-            if (it != null) {
-                Log.d(Constants.TAG, "단어장 만들기 성공!")
-                Log.d(Constants.TAG, "response Body : ${it}")
-                onResume()
-            } else {
-                Log.d(Constants.TAG, "단어장 post response null!")
+    override fun makeWordBookClicked(name: String, type : Int, postion: Int) {
+        // 0 : 생성, 1: 수정
+        when(type){
+            0 ->{
+                viewModel.postDataResponse().observe(this, Observer {
+                    if (it != null) {
+                        Log.d(Constants.TAG, "단어장 만들기 성공!")
+                        Log.d(Constants.TAG, "response Body : ${it}")
+                        onResume()
+                    } else {
+                        Log.d(Constants.TAG, "단어장 post response null!")
+                    }
+                })
+                val Body = WordBook.CreatedWordBookBody(name, MainActivity.getUserData().userID)
+                viewModel.postWordBook(MainActivity.getUserData().loginToken, Body)
             }
-        })
-        val Body = WordBook.CreatedWordBookBody(name, MainActivity.getUserData().userID)
-        viewModel.postWordBook(MainActivity.getUserData().loginToken, Body)
+            1-> {
+                viewModel.putWordBookTitleObserver().observe(this,{
+                    if (it!= null){
+                        Log.d(Constants.TAG, "단어장 타이틀 수정 성공!")
+                        onResume()
+                    }
+                })
+                viewModel.putWordBookTitle(MainActivity.getUserData().loginToken,groupsList[postion].wordBookID,name)
+            }
+        }
+
     }
 
     override fun applyGroupsCliked(selectedList: ArrayList<WordBook.WordBooks>) {
         selectedBook.clear()
         selectedBook.addAll(selectedList)
         Log.d(Constants.TAG, selectedBook.toString())
+    }
+
+    override fun deleteWordBookClicked(postion: Int) {
+        viewModel.deleteWordBookobserver().observe(this,{
+            if (it != null){
+                Log.d(Constants.TAG, "단어장 삭 성공!")
+                onResume()
+            }
+        })
+        viewModel.deleteWordBook(MainActivity.getUserData().loginToken, groupsList[postion].wordBookID)
+    }
+
+    override fun editWordBookClicked(postion: Int) {
+        val dlg = GroupDialog(this, this,1,postion)
+        dlg.start()
     }
 
 }

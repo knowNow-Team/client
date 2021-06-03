@@ -13,7 +13,7 @@ import android.widget.ImageButton
 import com.example.konwnow.App
 import com.example.konwnow.R
 
-class GroupDialog(context: Context,makeGroupInterface: MakeGroupInterface) : Dialog(context), View.OnClickListener{
+class GroupDialog(context: Context,makeGroupInterface: MakeGroupInterface,val type : Int, val position : Int) : Dialog(context), View.OnClickListener{
     private val dlg = Dialog(context)   //부모 액티비티의 context 가 들어감
     private lateinit var btnCancel: ImageButton
     private lateinit var btnMake : Button
@@ -36,8 +36,12 @@ class GroupDialog(context: Context,makeGroupInterface: MakeGroupInterface) : Dia
         btnCancel.setOnClickListener(this)
         dlg.show()
 
+
         etName = dlg.findViewById(R.id.et_group_name)
         btnMake = dlg.findViewById(R.id.btn_make_groups)
+        if(this.type == 1){
+            btnMake.text = "수정하기"
+        }
         btnMake.setOnClickListener(this)
     }
 
@@ -75,7 +79,7 @@ class GroupDialog(context: Context,makeGroupInterface: MakeGroupInterface) : Dia
     override fun onClick(v: View?) {
         when(v){
             btnMake -> {
-                this.makeGroupInterface?.makeWordBookClicked(etName.text.toString())
+                this.makeGroupInterface?.makeWordBookClicked(etName.text.toString(),this.type, this.position)
                 dlg.dismiss()
             }
 

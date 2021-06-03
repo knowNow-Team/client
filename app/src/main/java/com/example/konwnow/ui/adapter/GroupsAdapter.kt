@@ -6,9 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
@@ -34,6 +32,10 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface,var items: ArrayL
         val groupName = itemView!!.findViewById<TextView>(R.id.tv_groups_name)
         val wordsCount = itemView!!.findViewById<TextView>(R.id.tv_words_count)
         val groupImage = itemView!!.findViewById<ImageView>(R.id.iv_groups)
+        val optionBox = itemView!!.findViewById<LinearLayout>(R.id.ll_longButton)
+        val btnDelete = itemView!!.findViewById<TextView>(R.id.tv_delete)
+        val btnEdit = itemView!!.findViewById<TextView>(R.id.tv_edit)
+        val llBack = itemView!!.findViewById<LinearLayout>(R.id.ll_backgound)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupsAdapter.Holder {
@@ -56,7 +58,7 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface,var items: ArrayL
         }
 
         var i = 0
-        holder.itemView.setOnClickListener {
+        holder.groupImage.setOnClickListener {
             i = 1 - i
             when(i){
                 1 -> { // 선택하기
@@ -79,16 +81,26 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface,var items: ArrayL
             }
             this.applyGroupsInterface?.applyGroupsCliked(selectedBook)
         }
+
+        longCligkedEvent(holder, position)
     }
 
-    fun groupsUpdateList(groupsItem: ArrayList<WordBook.WordBooks>){
-        this.items.addAll(groupsItem)
+    private fun longCligkedEvent(holder : Holder, position: Int) {
+        var i = 0
+        holder.groupImage.setOnLongClickListener{
+            holder.optionBox.visibility = View.VISIBLE
+            holder.btnDelete.setOnClickListener {
+                this.applyGroupsInterface?.deleteWordBookClicked(position)
+            }
+            holder.btnEdit.setOnClickListener {
+                this.applyGroupsInterface?.editWordBookClicked(position)
+            }
+            holder.groupImage.setOnClickListener {
+                holder.optionBox.visibility = View.GONE
+            }
+            true
+        }
     }
 
-   fun makeClicked(name: String) {
-       //items.add(items.count(), WordBook.WordBooks(name,0,""))
-       Log.d("adapter maked Clicked",name)
-       //notifyItemInserted(items.count())
-    }
 
 }
