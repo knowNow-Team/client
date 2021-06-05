@@ -119,6 +119,8 @@ class WordBook {
     )
 
     data class Filter(
+        @SerializedName("filter")
+        val filter: String,
         @SerializedName("count")
         val count: Int
     )

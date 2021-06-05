@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.WordBook
 import com.example.konwnow.ui.view.test.TestFragment
+import com.example.konwnow.utils.Constants
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -45,7 +46,7 @@ class FolderAdapter(var folderList:ArrayList<WordBook.WordBookData>,val itemClic
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        var dataset = setChart()
+        var dataset = setChart(position)
         holder.foldingcell!!.setOnClickListener {
             if(holder.foldingcell.isSelected ){
                 holder.foldingcell.isSelected = false
@@ -93,13 +94,19 @@ class FolderAdapter(var folderList:ArrayList<WordBook.WordBookData>,val itemClic
         val oldDate: Date = oldFormat.parse(createdAt)
         return newFormat.format(oldDate)
     }
-
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun setChart():PieDataSet {
+    private fun setChart(position: Int):PieDataSet {
         var entries = ArrayList<PieEntry>()
-        entries.add(PieEntry(5f,"잘몰라요"))
-        entries.add(PieEntry(2f,"알아요"))
-        entries.add(PieEntry(3f,"헷갈려요"))
+        for(filter in items[position].filters){
+            Log.d(Constants.TAG,filter.toString())
+            if(filter.filter =="doNotKnow"){
+                entries.add(PieEntry(filter.count.toFloat(),"몰라요"))
+            }else if(filter.filter == "memorized"){
+                entries.add(PieEntry(filter.count.toFloat(),"알아요"))
+            }else{
+                entries.add(PieEntry(filter.count.toFloat(),"헷갈려요"))
+            }
+        }
 
         val colorsItems = ArrayList<Int>()
         colorsItems.add(view.context.getColor(R.color.colorAccent))

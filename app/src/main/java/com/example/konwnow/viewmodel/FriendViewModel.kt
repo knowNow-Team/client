@@ -6,6 +6,7 @@ import com.example.konwnow.data.remote.dto.Friend
 import com.example.konwnow.data.remote.retrofit.RetrofitClient
 import android.util.Log
 import com.example.konwnow.data.remote.retrofit.api.FriendAPI
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,7 +17,6 @@ class FriendViewModel : ViewModel() {
     var postfriendResponse : MutableLiveData<Friend.PostFriendResponse> = MutableLiveData()
     var friendList : MutableLiveData<Friend.GETFriendResponse> = MutableLiveData()
     var rankList : MutableLiveData<Friend.GETRankResponse> = MutableLiveData()
-
 
     fun getFriendListObserver() : MutableLiveData<Friend.GETFriendResponse>{
         return friendList
