@@ -69,7 +69,7 @@
         >
 
         <Button
-            android:id="@+id/btn_submit"
+            android:id="@+id/btn_retest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/edt_dictation"
@@ -79,7 +79,7 @@
             android:layout_marginHorizontal="18dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_submit"
-            android:text="재시험보기"
+            android:text="확인"
             style="@style/FontBody2"
             />
     </LinearLayout>

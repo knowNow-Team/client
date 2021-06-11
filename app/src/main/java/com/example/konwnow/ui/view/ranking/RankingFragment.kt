@@ -1,6 +1,8 @@
 package com.example.konwnow.ui.view.ranking
 
 import FadeOutTransformation
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -97,8 +99,12 @@ class RankingFragment: Fragment() {
                     Log.d("맵",rankMap.toString())
                     rankingAdapter.rankingUpdateList(rankMap["correctRank"])
                 } else {
-                    rankingVp.setBackgroundResource(R.mipmap.img_404)
-                    Log.d(Constants.TAG, "data get response null!")
+                    val dlg: AlertDialog.Builder = AlertDialog.Builder(context,android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+                    dlg.setTitle("친구 목록이 없습니다.")
+                    dlg.setMessage("친구를 추가해주세요.")
+                    dlg.setNeutralButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                    })
+                    dlg.show()
                 }
             })
 

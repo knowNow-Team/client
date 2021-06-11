@@ -7,6 +7,7 @@ import android.os.Build
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
@@ -19,6 +20,7 @@ import com.example.konwnow.data.remote.dto.Quiz
 import com.example.konwnow.data.remote.dto.TestLog
 import com.example.konwnow.ui.adapter.TestWordsAdapter
 import com.example.konwnow.ui.view.MainActivity
+import com.example.konwnow.utils.Constants
 import com.example.konwnow.viewmodel.TestLogViewModel
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -37,6 +39,7 @@ class TestLogDialog(private var mContext: Context, var lifecycleOwner: Lifecycle
     }
     private val dlg = Dialog(mContext)   //부모 액티비티의 context 가 들어감
     private lateinit var btnCancel: ImageButton
+    private lateinit var btnReTest: Button
     private lateinit var tvTestDate: TextView
     private lateinit var rvWords: RecyclerView
     private lateinit var wordsAdapter: TestWordsAdapter
@@ -52,9 +55,12 @@ class TestLogDialog(private var mContext: Context, var lifecycleOwner: Lifecycle
         (App.instance).dialogResize(dlg, 0.9f, 0.7f)
         setAdapter()
         requestWords(testId)
-
+        btnReTest = dlg.findViewById(R.id.btn_retest)
         btnCancel = dlg.findViewById(R.id.btn_cancle)
         btnCancel.setOnClickListener {
+            dlg.dismiss()
+        }
+        btnReTest.setOnClickListener {
             dlg.dismiss()
         }
         dlg.show()
@@ -68,7 +74,6 @@ class TestLogDialog(private var mContext: Context, var lifecycleOwner: Lifecycle
     }
 
     private fun requestWords(testId: String) {
-
         viewModel = TestLogActivity.getTestViewModel()
         viewModel.getTestDetailObserver().observe(lifecycleOwner, Observer<TestLog.TestDetails> {
             if (it != null) {
@@ -87,15 +92,7 @@ class TestLogDialog(private var mContext: Context, var lifecycleOwner: Lifecycle
         })
 
         viewModel.getTestById(MainActivity.getUserData()!!.loginToken, testId)
-//        wordsList.add(Quiz("Complex", "복잡한","complex",true))
-//        wordsList.add(Quiz("movie", "영화관","movie",true))
-//        wordsList.add(Quiz("Fragment", "조각","Fragment",true))
-//        wordsList.add(Quiz("Complex", "복잡한","cococo",false))
-//        wordsList.add(Quiz("movie", "영화관","momomo",false))
-//        wordsList.add(Quiz("Fragment", "조각","frfr",false))
-//        wordsList.add(Quiz("Complex", "복잡한","plpl",false))
-//        wordsList.add(Quiz("movie", "영화관","movie",true))
-//        wordsList.add(Quiz("Fragment", "조각","fafa",false))
+
 
     }
 
