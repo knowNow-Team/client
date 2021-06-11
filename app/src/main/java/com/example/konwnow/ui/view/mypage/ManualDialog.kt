@@ -5,10 +5,13 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Point
 import android.os.Build
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageButton
+import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
+import com.airbnb.lottie.LottieAnimationView
 import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.Manual
@@ -19,11 +22,12 @@ class ManualDialog(context: Context) {
     var mContext = context
     private val dlg = Dialog(context)   //부모 액티비티의 context 가 들어감
     private lateinit var btnCancel: ImageButton
+    private lateinit var lottie: LottieAnimationView
     private lateinit var manualVp: ViewPager2
     private lateinit var manualAdapter: ManualAdapter
     private var manualList = arrayListOf<Manual>()
     private var mIndicator: CircleIndicator3? = null
-    private val num_page = 3
+    private val num_page = 6
 
     fun start() {
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE)   //타이틀바 제거
@@ -31,7 +35,7 @@ class ManualDialog(context: Context) {
         dlg.setCancelable(false)    //다이얼로그의 바깥 화면을 눌렀을 때 다이얼로그가 닫히지 않도록 함
 
         (App.instance).dialogResize(dlg, 0.9f, 0.7f)
-
+        lottie = dlg.findViewById(R.id.lottie_manual)
         btnCancel = dlg.findViewById(R.id.btn_cancle)
         btnCancel.setOnClickListener {
             dlg.dismiss()
@@ -60,9 +64,12 @@ class ManualDialog(context: Context) {
     private fun setManual() {
         manualList.clear()
 
-        manualList.add(Manual(R.raw.ranking_lottie, mContext.getString(R.string.testString)))
-        manualList.add(Manual(R.raw.add_document, "설명2"))
-        manualList.add(Manual(R.raw.knownow, "설명3"))
+        manualList.add(Manual( mContext.getString(R.string.wordbookManual)))
+        manualList.add(Manual(mContext.getString(R.string.add_word_Manual)))
+        manualList.add(Manual( mContext.getString(R.string.test_Manual)))
+        manualList.add(Manual(mContext.getString(R.string.ranking_Manual)))
+        manualList.add(Manual(mContext.getString(R.string.friend_Manual)))
+        manualList.add(Manual( mContext.getString(R.string.alarm_Manual)))
     }
 
     fun Context.dialogResize(dialog: Dialog, width: Float, height: Float){

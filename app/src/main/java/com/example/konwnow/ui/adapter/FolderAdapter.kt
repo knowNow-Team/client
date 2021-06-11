@@ -34,7 +34,6 @@ class FolderAdapter(var folderList:ArrayList<WordBook.WordBookData>,val itemClic
         val openTitleTv = itemView?.findViewById<TextView>(R.id.tv_title_opened)
         val openCountTv = itemView?.findViewById<TextView>(R.id.tv_count_opened)
         val openDateTv = itemView?.findViewById<TextView>(R.id.tv_date_opened)
-//        val openwordTv = itemView?.findViewById<TextView>(R.id.tv_words_opened)
         val foldingcell = itemView?.findViewById<FoldingCell>(R.id.folding_cell)
         val pieChart = itemView?.findViewById<PieChart>(R.id.pieChart)
     }

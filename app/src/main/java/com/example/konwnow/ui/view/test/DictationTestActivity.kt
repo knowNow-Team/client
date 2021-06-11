@@ -225,6 +225,7 @@ class DictationTestActivity : AppCompatActivity() {
 
 //            toast(getString(R.string.lastPage))
             postTestLog()
+            setResult(Constants.RESULT_OK)
             finish()
 
         } else {

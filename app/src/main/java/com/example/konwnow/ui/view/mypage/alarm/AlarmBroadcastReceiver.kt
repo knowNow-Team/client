@@ -22,7 +22,6 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
     companion object {
         const val TAG = "AlarmReceiver"
         var count = 0
-
     }
     lateinit var notificationManager: NotificationManager
     lateinit var wordsList: ArrayList<Words.Word>
@@ -57,7 +56,7 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
         val contentIntent = Intent(context, ReplyReceiver::class.java).apply{
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
-        contentIntent.putExtra("wordEng",wordsList[count].word)
+        contentIntent.putExtra("wordEng",wordsList[count].word.toLowerCase(Locale.ROOT))
         contentIntent.putExtra("wordKor",wordsList[count].meanings[0])
         val contentPendingIntent = PendingIntent.getBroadcast(
             context,

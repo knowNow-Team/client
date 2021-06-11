@@ -236,6 +236,16 @@ class PuzzleTestActivity : AppCompatActivity() {
             //post
             postTestLog()
             setResult(Constants.RESULT_OK)
+//            val dlg: AlertDialog.Builder = AlertDialog.Builder(
+//                this,
+//                android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth
+//            )
+//            dlg.setTitle("시험이 종료되었습니다.")
+////            dlg.setMessage(R.string.closeSub)
+//            dlg.setNeutralButton("확인", DialogInterface.OnClickListener { dialog, which ->
+//                finish()
+//            })
+//            dlg.show()
             finish()
         } else {
                 quizVP.currentItem = quizVP.currentItem + 1

@@ -10,7 +10,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.Manual
 
-class ManualAdapter() : RecyclerView.Adapter<ManualAdapter.Holder>() {
+class ManualAdapter() :  RecyclerView.Adapter<ManualAdapter.Holder>() {
     lateinit var myContext: Context
     lateinit var mHloder:Holder
     private var manualList = ArrayList<Manual>()
@@ -18,7 +18,6 @@ class ManualAdapter() : RecyclerView.Adapter<ManualAdapter.Holder>() {
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val tvManualMention = itemView?.findViewById<TextView>(R.id.tv_manual_mention)
-        val ltManual = itemView?.findViewById<LottieAnimationView>(R.id.lt_manual)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -30,8 +29,29 @@ class ManualAdapter() : RecyclerView.Adapter<ManualAdapter.Holder>() {
 
 
     override fun onBindViewHolder(holder: Holder, position: Int){
-        holder.ltManual!!.setAnimation(manualList[position].lottie)
-        holder.tvManualMention!!.text = manualList[position].mention
+
+        when(position){
+
+            0 -> {
+                holder.tvManualMention!!.text = manualList[position].mention
+            }
+            1 -> {
+                holder.tvManualMention!!.text = manualList[position].mention
+            }
+            2 -> {
+                holder.tvManualMention!!.text = manualList[position].mention
+            }
+            3 -> {
+                holder.tvManualMention!!.text = manualList[position].mention
+            }
+            4 -> {
+                holder.tvManualMention!!.text = manualList[position].mention
+            }
+            5 -> {
+                holder.tvManualMention!!.text = manualList[position].mention
+            }
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -43,6 +63,8 @@ class ManualAdapter() : RecyclerView.Adapter<ManualAdapter.Holder>() {
         this.manualList.addAll(manualItem)
         notifyDataSetChanged()
     }
+
+
 
 
 }

@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.example.konwnow.R
 import com.example.konwnow.utils.ALARM
+import java.util.*
 
 class ReplyReceiver: BroadcastReceiver() {
     var mContext: Context? = null
@@ -44,18 +45,18 @@ class ReplyReceiver: BroadcastReceiver() {
         Log.d("eng", wordEng.toString())
         Log.d("userAnswer", userAnswer)
         lateinit var repliedNotification: Notification
-        if(userAnswer == wordEng!!.toLowerCase()){
+        if(userAnswer.equals(wordEng!!, ignoreCase = true)){
             repliedNotification =  NotificationCompat.Builder(mContext!!, ALARM.PRIMARY_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_hit)
                 .setContentTitle("정답입니다")
-                .setContentText(wordKor)
+                .setContentText(wordKor!!.toLowerCase(Locale.ROOT))
                 .setContentText(String.format(mContext!!.getString(R.string.rightNoti),text))
                 .build()
         }else{
             repliedNotification =  NotificationCompat.Builder(mContext!!, ALARM.PRIMARY_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_miss)
                 .setContentTitle("틀렸습니다")
-                .setContentText(wordKor)
+                .setContentText(wordKor!!.toLowerCase(Locale.ROOT))
                 .setContentText(String.format(mContext!!.getString(R.string.missNoti),userAnswer,wordEng))
                 .build()
         }
