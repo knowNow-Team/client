@@ -111,7 +111,7 @@ class RankingFragment: Fragment() {
 
         //TODO: 토큰 변경
         friendViewModel.getRank(MainActivity.getUserData().loginToken)
-//        friendViewModel.getRank("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrbm93bm93IiwidXNlciI6ImFhYUBnbWFpbC5jb20iLCJ1c2VySWQiOjEsImlhdCI6MTYyMjUzODI2Mn0.tgUstyfdHJqjjIaErUNl_OFPHF_hmwvx10mdBmnHDXg")
+        //friendViewModel.getRank("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrbm93bm93IiwidXNlciI6ImFhYUBnbWFpbC5jb20iLCJ1c2VySWQiOjEsImlhdCI6MTYyMjUzODI2Mn0.tgUstyfdHJqjjIaErUNl_OFPHF_hmwvx10mdBmnHDXg")
     }
 
 }

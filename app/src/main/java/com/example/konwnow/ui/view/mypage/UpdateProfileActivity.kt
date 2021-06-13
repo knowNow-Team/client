@@ -51,8 +51,11 @@ class UpdateProfileActivity : AppCompatActivity() {
 
 
     private fun setText() {
-        originedNick = MainActivity.getUserData().nickname
-        originedMessage = MainActivity.getUserData().message
+        if (intent.hasExtra("nickname") && intent.hasExtra("comment"))
+        {
+            originedNick = intent.getStringExtra("nickname").toString()
+            originedMessage = intent.getStringExtra("comment").toString()
+        }
         Log.d(Constants.TAG, originedMessage)
 
         nickname.setText(originedNick)
