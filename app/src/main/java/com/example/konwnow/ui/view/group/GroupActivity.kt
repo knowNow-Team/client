@@ -1,5 +1,7 @@
 package com.example.konwnow.ui.view.group
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -146,16 +148,29 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
     override fun deleteWordBookClicked(postion: Int) {
         viewModel.deleteWordBookobserver().observe(this,{
             if (it != null){
-                Log.d(Constants.TAG, "단어장 삭 성공!")
+                Log.d(Constants.TAG, "단어장 삭제 성공!")
                 onResume()
             }
         })
-        viewModel.deleteWordBook(MainActivity.getUserData().loginToken, groupsList[postion].wordBookID)
+        val dlg: AlertDialog.Builder = AlertDialog.Builder(this,android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+            dlg.setTitle("정말로 단어장을 삭제하시겠습니까?")
+            dlg.setMessage("단어장에 들어있는 단어는 모두 삭제됩니다.")
+            dlg.setNeutralButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                viewModel.deleteWordBook(MainActivity.getUserData().loginToken, groupsList[postion].wordBookID)
+            })
+            dlg.setNegativeButton("취소",DialogInterface.OnClickListener { dialog, which ->
+
+            })
+        dlg.show()
     }
 
     override fun editWordBookClicked(postion: Int) {
         val dlg = GroupDialog(this, this,1,postion)
         dlg.start()
     }
+
+}
+
+private fun AlertDialog.Builder.setNegativeButton(s: String, onCancelListener: AlertDialog.Builder?) {
 
 }

@@ -48,7 +48,7 @@ class SharedPreference(context: Context) {
     fun getFilter1() : Boolean? = sharedPreference!!.getBoolean(HOMEWORD.FILTER.doNotKnow,false)
     fun getFilter2() : Boolean? = sharedPreference!!.getBoolean(HOMEWORD.FILTER.confused,false)
     fun getFilter3() : Boolean? = sharedPreference!!.getBoolean(HOMEWORD.FILTER.memorized,false)
-    fun getOrder(): String? = sharedPreference!!.getString("order",HOMEWORD.ORDER.RANDOM)
+    fun getOrder(): String? = sharedPreference!!.getString("order",HOMEWORD.ORDER.NEWEST)
     fun getFirst() : Boolean = sharedPreference!!.getBoolean("first",true)
     fun getAlarm() : Boolean = sharedPreference!!.getBoolean("alarm",false)
 
