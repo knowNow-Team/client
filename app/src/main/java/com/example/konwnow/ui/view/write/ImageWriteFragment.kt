@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -41,6 +42,7 @@ class ImageWriteFragment: Fragment() {
     private lateinit var wordAdapter: WordListAdapter
     private lateinit var imageWriteIv: ImageView
     private lateinit var viewModel: WriteViewModel
+    private lateinit var wordViewModel: WordViewModel
     var myUri=Uri.parse("")
     lateinit var dlg: LottieDialog
 
@@ -50,6 +52,8 @@ class ImageWriteFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_image_write, container, false)
+        viewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WriteViewModel::class.java)
+        wordViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WordViewModel::class.java)
         setWordList()
         setImageWrite()
         return v
@@ -59,7 +63,6 @@ class ImageWriteFragment: Fragment() {
         super.onResume()
         if(myUri.toString() != ""){
             WriteActivity.clearList()
-            getWordFromImage()
             showDialog()
         }
     }
@@ -74,30 +77,28 @@ class ImageWriteFragment: Fragment() {
     }
 
     private fun getWordFromImage() {
-        viewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(WriteViewModel::class.java)
+        Log.d("실행","된다...")
         viewModel.getImageWordsListObserver().observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                Log.d(Constants.TAG, "이미지로 단어 가져오기 성공!")
                 textList.clear()
+                Log.d(Constants.TAG, "이미지로 단어 가져오기 성공!")
                 for (item in it.data!!) {
                     textList.add(item.text)
                 }
+                Log.d("실행", textList.toString())
                 requestWords()
             } else {
-                finishDialog()
                 Log.d(Constants.TAG, "data get response null!")
             }
         })
-        val file = File(myUri.path)
+        var file = File(myUri.path)
         var filepart = MultipartBody.Part.createFormData("imageFile", file.getName(), RequestBody.create(
-            "multipart/form-data/*".toMediaTypeOrNull(), file));
+            "multipart/form-data/*".toMediaTypeOrNull(), file))
         viewModel.getWordFromImage(filepart)
     }
 
     private fun requestWords() {
-        var WordViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(
-            WordViewModel::class.java)
-        WordViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
+        wordViewModel.getWordDataResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 wordList.clear()
                 wordList.addAll(it)
@@ -107,7 +108,7 @@ class ImageWriteFragment: Fragment() {
             }
             finishDialog()
         })
-        WordViewModel.postScrapWord(MainActivity.getUserData().loginToken,textList.toList())
+        wordViewModel.postScrapWord(MainActivity.getUserData().loginToken,textList.toList())
     }
 
 
@@ -117,7 +118,6 @@ class ImageWriteFragment: Fragment() {
         wordListRv.setHasFixedSize(true)
         wordListRv.layoutManager = LinearLayoutManager(context)
         wordAdapter = WordListAdapter(wordList)
-//        wordAdapter.wordUpdateList(wordList)
         wordListRv.adapter = wordAdapter
     }
 
@@ -128,6 +128,7 @@ class ImageWriteFragment: Fragment() {
             setImage(uri)
         }
         imageWriteIv.setOnClickListener {
+            myUri ="".toUri()
             dialog.show(fragmentManager!!, dialog.tag)
         }
 
@@ -151,6 +152,7 @@ class ImageWriteFragment: Fragment() {
                 null
             )
         }else{
+            getWordFromImage()
             imageWriteIv.setBackgroundColor(ContextCompat.getColor(context!!, R.color.black))
             imageWriteIv.setImageURI(uri)
         }

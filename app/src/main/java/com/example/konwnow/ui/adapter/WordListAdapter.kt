@@ -13,7 +13,7 @@ import com.example.konwnow.ui.view.write.WriteActivity
 class WordListAdapter(var wordlist: ArrayList<Words.Word>) :
         RecyclerView.Adapter<WordListAdapter.Holder>() {
     private var items = wordlist
-//    var checkedWords = mutableSetOf<Words.Word>()
+    var checkedWords = ArrayList<Words.Word>()
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val cbWord = itemView?.findViewById<CheckBox>(R.id.cb_word)
@@ -29,6 +29,7 @@ class WordListAdapter(var wordlist: ArrayList<Words.Word>) :
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.tvWord!!.text = items[position].word
         holder.tvMeaning!!.text = items[position].meanings[0]
+        holder.cbWord!!.isChecked = items[position].id in WriteActivity.selectedWords
         holder.cbWord!!.setOnClickListener {
             if(holder.cbWord!!.isChecked){
                 WriteActivity.addList(items[position].id)

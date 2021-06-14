@@ -105,8 +105,6 @@ class TextWriteFragment: Fragment() {
             WriteViewModel::class.java
         )
         showDialog()
-
-
         SetenceViewModel.getSentenceWordsListObserver().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 textList.clear()

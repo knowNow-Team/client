@@ -3,6 +3,7 @@ package com.example.konwnow.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.konwnow.data.remote.dto.TestLog
 import com.example.konwnow.data.remote.dto.Users
 import com.example.konwnow.data.remote.dto.Words
 import com.example.konwnow.data.remote.retrofit.RetrofitClient
@@ -18,6 +19,7 @@ class WriteViewModel : ViewModel() {
 
     var imageWordsList : MutableLiveData<Words.GetWordFromImageResponseBody> = MutableLiveData()
     var sentenceWordsList : MutableLiveData<Words.GetWordFromSentenceResponseBody> = MutableLiveData()
+
 
 
     fun getImageWordsListObserver() : MutableLiveData<Words.GetWordFromImageResponseBody>{
@@ -40,7 +42,7 @@ class WriteViewModel : ViewModel() {
                 Log.d("viewmodel", "success")
 
                 //업데이트 시켜주기.
-                imageWordsList.postValue(WordResponse.body())
+                imageWordsList.value = WordResponse.body()
             }
 
             override fun onFailure(call: Call<Words.GetWordFromImageResponseBody>, t: Throwable) {

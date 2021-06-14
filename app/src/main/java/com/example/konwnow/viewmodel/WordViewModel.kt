@@ -59,6 +59,7 @@ class WordViewModel : ViewModel() {
                 call: Call<Words.GetWordInfoResponseBody>,
                 response: Response<Words.GetWordInfoResponseBody>
             ) {
+                validWords.clear()
                 for(item in response.body()!!.data){
                     if(item == null){
                         Log.d("아이템","널널")
@@ -66,7 +67,7 @@ class WordViewModel : ViewModel() {
                         validWords.add(item)
                     }
                 }
-                getValidWordResponse.postValue(validWords)
+                getValidWordResponse.value = validWords
             }
 
             override fun onFailure(call: Call<Words.GetWordInfoResponseBody>, t: Throwable) {
