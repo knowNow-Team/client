@@ -25,13 +25,14 @@
         android:networkSecurityConfig="@xml/network_security_config">
         <activity android:name=".ui.view.mypage.UpdateProfileActivity"></activity>
         <activity android:name=".ui.view.login.AddInfoActivity" />
-        <activity android:name=".ui.view.login.LoginActivity">
+        <activity android:name=".ui.view.login.LoginActivity" />
+        <activity android:name=".ui.view.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ui.view.home.DetailSettingActivity" />
         <activity android:name=".ui.view.write.WriteActivity" />
         <activity android:name=".ui.view.group.GroupActivity" />

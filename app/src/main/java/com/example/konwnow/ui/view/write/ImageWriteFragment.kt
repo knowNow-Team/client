@@ -84,6 +84,7 @@ class ImageWriteFragment: Fragment() {
                 }
                 requestWords()
             } else {
+                finishDialog()
                 Log.d(Constants.TAG, "data get response null!")
             }
         })

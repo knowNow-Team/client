@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.Friend
 import android.util.Log
+import android.widget.LinearLayout
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,6 +35,9 @@ class RankingAdapter() : RecyclerView.Adapter<RankingAdapter.Holder>() {
         val tv3rdLevel = itemView?.findViewById<TextView>(R.id.tv_3rd_level)
         val tv3rdNick = itemView?.findViewById<TextView>(R.id.tv_3rd_nick)
         val iv3rdThumb = itemView?.findViewById<ImageView>(R.id.iv_3rd)
+        val ll1st = itemView?.findViewById<LinearLayout>(R.id.ll_1st)
+        val ll2nd = itemView?.findViewById<LinearLayout>(R.id.ll_2nd)
+        val ll3rd = itemView?.findViewById<LinearLayout>(R.id.ll_3rd)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -60,12 +64,23 @@ class RankingAdapter() : RecyclerView.Adapter<RankingAdapter.Holder>() {
         holder.tv1stLevel!!.text = String.format(myContext.getString(R.string.user_level),userList[0].level)
         holder.tv1stNick!!.text = String.format(myContext.getString(R.string.ranking_1st), userList[0].nickName)
         Glide.with(myContext).load(setLevelImage(0)).thumbnail(0.1f).into(holder.iv1stThumb!!)
-        holder.tv2ndLevel!!.text = String.format(myContext.getString(R.string.user_level),userList[1].level)
-        holder.tv2ndNick!!.text = String.format(myContext.getString(R.string.ranking_2nd), userList[1].nickName)
-        Glide.with(myContext).load(setLevelImage(1)).into(holder.iv2ndThumb!!)
-        holder.tv3rdLevel!!.text = String.format(myContext.getString(R.string.user_level),userList[2].level)
-        holder.tv3rdNick!!.text = String.format(myContext.getString(R.string.ranking_3rd), userList[2].nickName)
-        Glide.with(myContext).load(setLevelImage(2)).into(holder.iv3rdThumb!!)
+        if(userList.size > 1){
+            holder.tv2ndLevel!!.text = String.format(myContext.getString(R.string.user_level),userList[1].level)
+            holder.tv2ndNick!!.text = String.format(myContext.getString(R.string.ranking_2nd), userList[1].nickName)
+            Glide.with(myContext).load(setLevelImage(1)).into(holder.iv2ndThumb!!)
+        }else{
+            holder.ll2nd!!.visibility = View.GONE
+        }
+
+        if(userList.size == 3){
+            holder.tv3rdLevel!!.text = String.format(myContext.getString(R.string.user_level),userList[2].level)
+            holder.tv3rdNick!!.text = String.format(myContext.getString(R.string.ranking_3rd), userList[2].nickName)
+            Glide.with(myContext).load(setLevelImage(2)).into(holder.iv3rdThumb!!)
+        }else{
+            holder.ll3rd!!.visibility = View.GONE
+        }
+
+
     }
 
     private fun getStartDate(): String? {
