@@ -25,15 +25,18 @@ import com.example.konwnow.viewmodel.FriendViewModel
 class FriendActivity : AppCompatActivity(), MakeFriendInterface {
 
     private var friendsItem = arrayListOf<Friend.FriendData>()
-    private lateinit var friendsAdapter : FriendAdapter
+    private lateinit var friendsAdapter: FriendAdapter
     private lateinit var friendViewModel: FriendViewModel
-    private lateinit var rvFriend : RecyclerView
+    private lateinit var rvFriend: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friend)
 
-        friendViewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(FriendViewModel::class.java)
+        friendViewModel = ViewModelProvider(
+            this,
+            defaultViewModelProviderFactory
+        ).get(FriendViewModel::class.java)
 
         setToolbar()
         setRecycler()
@@ -50,7 +53,7 @@ class FriendActivity : AppCompatActivity(), MakeFriendInterface {
         rvFriend = findViewById(R.id.rv_friend)
         requestFriend()
 
-        friendsAdapter = FriendAdapter(friendsItem)
+        friendsAdapter = FriendAdapter(friendsItem, this)
         rvFriend.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = friendsAdapter
@@ -59,7 +62,7 @@ class FriendActivity : AppCompatActivity(), MakeFriendInterface {
 
     private fun requestFriend() {
         friendViewModel.getFriendListObserver().observe(this, {
-            if(it != null){
+            if (it != null) {
                 Log.d(Constants.TAG, "친구 가져오기 성공!")
                 friendsItem.clear()
                 friendsItem.addAll(it.data)
@@ -71,7 +74,7 @@ class FriendActivity : AppCompatActivity(), MakeFriendInterface {
 
 
     private fun setToolbar() {
-        val title  = findViewById<TextView>(R.id.tv_title)
+        val title = findViewById<TextView>(R.id.tv_title)
         title.text = "친구관리"
 
         val btnBack = findViewById<ImageButton>(R.id.ib_back)
@@ -82,7 +85,7 @@ class FriendActivity : AppCompatActivity(), MakeFriendInterface {
 
         val copyLink = findViewById<ImageButton>(R.id.ib_plus_friend)
         copyLink.setOnClickListener {
-            val dlg = FriendMakeDialog(this,this)
+            val dlg = FriendMakeDialog(this, this)
             dlg.start()
         }
     }
@@ -104,6 +107,26 @@ class FriendActivity : AppCompatActivity(), MakeFriendInterface {
                 Toast.makeText(this, "이미 친구이거나 유효하지 않은 코드입니다.", Toast.LENGTH_SHORT).show()
             }
         })
-        friendViewModel.postFriend(MainActivity.getUserData().loginToken,code)
+        friendViewModel.postFriend(MainActivity.getUserData().loginToken, code)
+    }
+
+    override fun deleteFriendClicked(friendId: Int) {
+        friendViewModel.deleteFriendObserver().observe(this, {
+            if (it != null && it.statusCode == 200) {
+                onResume()
+            }
+        })
+        val dlg: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(
+            this,
+            android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth
+        )
+        dlg.setTitle("정말로 친구를 삭제하시겠습니까?")
+        dlg.setNeutralButton("확인", DialogInterface.OnClickListener { dialog, which ->
+            friendViewModel.deleteFriend(MainActivity.getUserData().loginToken, friendId)
+        })
+        dlg.setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
+
+        })
+        dlg.show()
     }
 }

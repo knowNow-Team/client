@@ -1,5 +1,6 @@
 package com.example.konwnow.ui.view.home
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -207,8 +208,15 @@ class HomeFragment : Fragment(), HomeInterface {
     override fun trashClicked(position: Int) {
         wordViewModel.moveWordTrashObserver().observe(viewLifecycleOwner,{
             if(it != null){
-                Log.d(Constants.TAG, "휴지통으로 이동 성공!")
-                onResume()
+                val dlg: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(context,
+                    android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth
+                )
+                dlg.setTitle("휴지통으로 이동되었습니다.")
+                dlg.setNeutralButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                    onResume()
+                })
+                dlg.show()
+
             }else{
                 Log.d(Constants.TAG, "휴지통으로 이동 실패!")
             }
@@ -225,7 +233,18 @@ class HomeFragment : Fragment(), HomeInterface {
                 Log.d(Constants.TAG, "단어 완전 삭제 실!")
             }
         })
-        wordViewModel.deleteWord(MainActivity.getUserData().loginToken, wordsList[position].words.wordId)
+        val dlg: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(context,
+            android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth
+        )
+        dlg.setTitle("정말로 단어를 삭제하시겠습니까?")
+        dlg.setMessage("단어가 영구적으로 삭제됩니다.")
+        dlg.setNeutralButton("확인", DialogInterface.OnClickListener { dialog, which ->
+            wordViewModel.deleteWord(MainActivity.getUserData().loginToken, wordsList[position].words.wordId)
+        })
+        dlg.setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
+
+        })
+        dlg.show()
     }
 
     override fun recoveryWord(position: Int) {

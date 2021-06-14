@@ -67,7 +67,7 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
             App.sharedPrefs.saveWordBookId(wordBookID.joinToString(","))
             App.sharedPrefs.saveCount(wordBookID.size)
             App.sharedPrefs.saveTitle(selectedBook[0].title)
-            App.sharedPrefs.saveOrder(HOMEWORD.ORDER.RANDOM)
+            App.sharedPrefs.saveOrder(HOMEWORD.ORDER.NEWEST)
             selectedFilter.put(HOMEWORD.FILTER.doNotKnow,true)
             selectedFilter.put(HOMEWORD.FILTER.memorized,true)
             selectedFilter.put(HOMEWORD.FILTER.confused,true)
@@ -171,6 +171,3 @@ class GroupActivity : AppCompatActivity(), MakeGroupInterface,ApplyGroupsInterfa
 
 }
 
-private fun AlertDialog.Builder.setNegativeButton(s: String, onCancelListener: AlertDialog.Builder?) {
-
-}

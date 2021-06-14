@@ -6,7 +6,6 @@ import com.example.konwnow.data.remote.dto.Friend
 import com.example.konwnow.data.remote.retrofit.RetrofitClient
 import android.util.Log
 import com.example.konwnow.data.remote.retrofit.api.FriendAPI
-import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,6 +16,7 @@ class FriendViewModel : ViewModel() {
     var postfriendResponse : MutableLiveData<Friend.PostFriendResponse> = MutableLiveData()
     var friendList : MutableLiveData<Friend.GETFriendResponse> = MutableLiveData()
     var rankList : MutableLiveData<Friend.GETRankResponse> = MutableLiveData()
+    var deleteFriendResponse : MutableLiveData<Friend.DeleteFriendBody> = MutableLiveData()
 
     fun getFriendListObserver() : MutableLiveData<Friend.GETFriendResponse>{
         return friendList
@@ -32,6 +32,10 @@ class FriendViewModel : ViewModel() {
 
     fun postFriendObserver() : MutableLiveData<Friend.PostFriendResponse>{
         return postfriendResponse
+    }
+
+    fun deleteFriendObserver() : MutableLiveData<Friend.DeleteFriendBody>{
+        return deleteFriendResponse
     }
 
     fun getCode(token: String){
@@ -109,6 +113,25 @@ class FriendViewModel : ViewModel() {
             override fun onFailure(call: Call<Friend.GETRankResponse>, t: Throwable) {
                 Log.d("viewmodel", t.message.toString())
 
+            }
+
+        })
+    }
+
+    fun deleteFriend(token: String, friendId : Int){
+        val instance = RetrofitClient.getUserClient()?.create(FriendAPI::class.java)
+        val call = instance?.deleteFriend(token,friendId)
+
+        call?.enqueue(object  : Callback<Friend.DeleteFriendBody>{
+            override fun onResponse(
+                call: Call<Friend.DeleteFriendBody>,
+                response: Response<Friend.DeleteFriendBody>
+            ) {
+                deleteFriendResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Friend.DeleteFriendBody>, t: Throwable) {
+                TODO("Not yet implemented")
             }
 
         })

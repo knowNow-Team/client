@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -12,11 +13,18 @@ import com.example.konwnow.App
 import com.example.konwnow.R
 import com.example.konwnow.data.remote.dto.Friend
 import com.example.konwnow.ui.view.MainActivity
+import com.example.konwnow.ui.view.mypage.friend.MakeFriendInterface
 
-class FriendAdapter(private var items: ArrayList<Friend.FriendData>) : RecyclerView.Adapter<FriendAdapter.Holder>(){
+class FriendAdapter(private var items: ArrayList<Friend.FriendData>,makeFriendInterface: MakeFriendInterface) : RecyclerView.Adapter<FriendAdapter.Holder>(){
 
     private lateinit var view: View
     private lateinit var context : Context
+
+    private var makeFriendInterface : MakeFriendInterface? = null
+
+    init{
+        this.makeFriendInterface = makeFriendInterface
+    }
 
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!){
@@ -24,6 +32,7 @@ class FriendAdapter(private var items: ArrayList<Friend.FriendData>) : RecyclerV
         val level = itemView!!.findViewById<TextView>(R.id.tv_friend_level)
         val nickname = itemView!!.findViewById<TextView>(R.id.tv_friend_nickname)
         val talk = itemView!!.findViewById<TextView>(R.id.tv_friend_talk)
+        val delete = itemView!!.findViewById<ImageButton>(R.id.ib_delete)
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendAdapter.Holder {
@@ -57,9 +66,10 @@ class FriendAdapter(private var items: ArrayList<Friend.FriendData>) : RecyclerV
         holder.nickname.text = items[position].nickName
         holder.talk.text = items[position].profileMessage?:"상태메세지가 없습니다."
 
+        holder.delete.setOnClickListener {
+            this?.makeFriendInterface?.deleteFriendClicked(items[position].friendShipId)
+        }
+
     }
 
-    fun freindUpdateList(freindsItem: ArrayList<Friend.FriendData>){
-        this.items.addAll(freindsItem)
-    }
 }

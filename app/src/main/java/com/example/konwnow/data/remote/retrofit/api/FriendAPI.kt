@@ -33,4 +33,10 @@ interface FriendAPI {
     fun getRank(
         @Header("jwt-access-token") token : String,
     ): Call<Friend.GETRankResponse>
+
+    @DELETE(FRIEND.DELETE_FRIEND)
+    fun deleteFriend(
+        @Header("jwt-access-token") token : String,
+        @Path("friendShipId") userId : Int
+    ): Call<Friend.DeleteFriendBody>
 }

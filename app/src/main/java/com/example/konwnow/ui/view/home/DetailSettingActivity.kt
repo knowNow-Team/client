@@ -102,7 +102,6 @@ class DetailSettingActivity : AppCompatActivity(), View.OnClickListener {
         when(v){
             desc -> order = HOMEWORD.ORDER.DESC
             asc -> order =HOMEWORD.ORDER.ASC
-            random ->order =HOMEWORD.ORDER.RANDOM
             newest -> order =HOMEWORD.ORDER.NEWEST
 
             doNotKnow -> {
