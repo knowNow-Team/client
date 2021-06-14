@@ -80,9 +80,6 @@ class DetailSettingActivity : AppCompatActivity(), View.OnClickListener {
             HOMEWORD.ORDER.NEWEST -> {
                 newest.isChecked = true
             }
-            HOMEWORD.ORDER.RANDOM -> {
-                random.isChecked = true
-            }
         }
     }
 

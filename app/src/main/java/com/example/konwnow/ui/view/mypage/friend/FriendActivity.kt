@@ -36,7 +36,6 @@ class FriendActivity : AppCompatActivity(), MakeFriendInterface {
         friendViewModel = ViewModelProvider(this,defaultViewModelProviderFactory).get(FriendViewModel::class.java)
 
         setToolbar()
-        search()
         setRecycler()
     }
 
@@ -44,7 +43,6 @@ class FriendActivity : AppCompatActivity(), MakeFriendInterface {
         super.onResume()
         friendsItem.clear()
         setToolbar()
-        search()
         setRecycler()
     }
 
@@ -71,9 +69,6 @@ class FriendActivity : AppCompatActivity(), MakeFriendInterface {
         friendViewModel.getFriend(MainActivity.getUserData().loginToken)
     }
 
-    private fun search() {
-        val searchView = findViewById<androidx.appcompat.widget.SearchView>(R.id.sv_friend)
-    }
 
     private fun setToolbar() {
         val title  = findViewById<TextView>(R.id.tv_title)

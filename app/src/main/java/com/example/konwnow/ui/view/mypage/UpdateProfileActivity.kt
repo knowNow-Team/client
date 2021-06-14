@@ -1,5 +1,7 @@
 package com.example.konwnow.ui.view.mypage
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -51,8 +53,11 @@ class UpdateProfileActivity : AppCompatActivity() {
 
 
     private fun setText() {
-        originedNick = MainActivity.getUserData().nickname
-        originedMessage = MainActivity.getUserData().message
+        if (intent.hasExtra("nickname") && intent.hasExtra("comment"))
+        {
+            originedNick = intent.getStringExtra("nickname").toString()
+            originedMessage = intent.getStringExtra("comment").toString()
+        }
         Log.d(Constants.TAG, originedMessage)
 
         nickname.setText(originedNick)
@@ -93,7 +98,11 @@ class UpdateProfileActivity : AppCompatActivity() {
                 updateData(user)
                 finish()
             }else{
-
+                val dlg: AlertDialog.Builder = AlertDialog.Builder(this,android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+                dlg.setMessage("해당 닉네임이 이미 존재합니다.")
+                dlg.setNeutralButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                })
+                dlg.show()
             }
         })
         userViewModel.putuserNickname(loginToken,userID,nickname.text.toString())
@@ -108,7 +117,7 @@ class UpdateProfileActivity : AppCompatActivity() {
         val level = MainActivity.getUserData().level
         val email = MainActivity.getUserData().email
         userViewModel.putMessageObserver().observe(this, {
-            if(it != null ){
+            if(it.data != null ){
                 var user = UserEntity(1, google_id_token, loginToken, refreshToken, nickname, userID, email, level, message.text.toString())
                 updateData(user)
                 finish()

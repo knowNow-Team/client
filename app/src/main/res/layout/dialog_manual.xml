@@ -40,10 +40,10 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie_manual"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
-        app:lottie_rawRes="@raw/lottie_manual"
+        android:layout_height="120dp"
         app:layout_constraintBottom_toTopOf="@+id/fl_viewPager"
-        app:layout_constraintTop_toBottomOf="@+id/cl_header"/>
+        app:layout_constraintTop_toBottomOf="@+id/cl_header"
+        app:lottie_rawRes="@raw/lottie_manual" />
 
 
     <FrameLayout

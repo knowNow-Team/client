@@ -32,6 +32,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.example.konwnow.utils.ALARM
 import com.example.konwnow.utils.LOGIN
 import com.example.konwnow.viewmodel.FriendViewModel
+import com.example.konwnow.viewmodel.LoginViewModel
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MypageFragment: Fragment() {
@@ -49,6 +50,12 @@ class MypageFragment: Fragment() {
     private lateinit var switchAlarm: SwitchMaterial
 
     private lateinit var friendViewModel : FriendViewModel
+    private lateinit var userViewModel : LoginViewModel
+
+    private var nickname =""
+    private var comment =""
+    private var level : Int = 0
+
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         v =  inflater.inflate(R.layout.fragment_mypage, container, false)
@@ -67,8 +74,19 @@ class MypageFragment: Fragment() {
         val levelImage = v.findViewById<ImageView>(R.id.iv_user_image)
         val tvNickname = v.findViewById<TextView>(R.id.tv_user_nick)
         val tvLevel= v.findViewById<TextView>(R.id.tv_user_level)
-        tvNickname.text = MainActivity.getUserData().nickname
-        tvLevel.text = "Level ${MainActivity.getUserData().level}"
+
+        userViewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(LoginViewModel::class.java)
+        userViewModel.getUserObserver().observe(viewLifecycleOwner,{
+            if(it != null ){
+                nickname = it.data!!.nickName
+                level = it.data?.userLevel
+                comment = it.data.profileMessage!!
+                tvLevel.text = "Level $level"
+                tvNickname.text = nickname
+
+            }
+        })
+        userViewModel.getUser(MainActivity.getUserData().loginToken,MainActivity.getUserData().userID)
 
         var imgResource = R.drawable.ic_bronze
         when(MainActivity.getUserData().level){
@@ -137,6 +155,8 @@ class MypageFragment: Fragment() {
         }
         btnUpdateProfile.setOnClickListener {
             mIntent = Intent(activity, UpdateProfileActivity::class.java)
+            mIntent.putExtra("nickname",nickname)
+            mIntent.putExtra("comment",comment)
             startActivityForResult(mIntent,1)
         }
 

@@ -91,11 +91,10 @@ class GroupsAdapter(applyGroupsInterface: ApplyGroupsInterface,var items: ArrayL
             holder.optionBox.visibility = View.VISIBLE
             holder.btnDelete.setOnClickListener {
                 this.applyGroupsInterface?.deleteWordBookClicked(position)
+                holder.optionBox.visibility = View.GONE
             }
             holder.btnEdit.setOnClickListener {
                 this.applyGroupsInterface?.editWordBookClicked(position)
-            }
-            holder.groupImage.setOnClickListener {
                 holder.optionBox.visibility = View.GONE
             }
             true
