@@ -74,12 +74,15 @@ class RankingFragment: Fragment() {
                 super.onPageSelected(position)
                 if(position == 0){
                     //correctRank
+                        Log.d("맵","0번 실행")
                     rankingAdapter.rankingUpdateList(rankMap["correctRank"])
                 }else if(position == 1){
                     //examRank
+                    Log.d("맵","1번 실행")
                     rankingAdapter.rankingUpdateList(rankMap["examRank"])
                 }else{
                     //wordRank
+                    Log.d("맵","2번 실행")
                     rankingAdapter.rankingUpdateList(rankMap["wordRank"])
                 }
             }
