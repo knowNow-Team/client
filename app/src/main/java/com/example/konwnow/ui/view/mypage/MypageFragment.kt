@@ -80,10 +80,11 @@ class MypageFragment: Fragment() {
             if(it != null ){
                 nickname = it.data!!.nickName
                 level = it.data?.userLevel
-                comment = it.data.profileMessage!!
+                if(it.data.profileMessage != null){
+                    comment = it.data.profileMessage!!
+                }
                 tvLevel.text = "Level $level"
                 tvNickname.text = nickname
-
             }
         })
         userViewModel.getUser(MainActivity.getUserData().loginToken,MainActivity.getUserData().userID)
