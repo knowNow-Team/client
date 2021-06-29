@@ -77,14 +77,13 @@ viewmodel
 ### 클라이언트
 
 - **[김재원](https://github.com/ashwon12)** - 로그인, 홈, 단어장, 세부설정, 마이페이지, 친구관리, 의견보내기
-- **[이민환](https://github.com/wilybear)** - 테스트설정, 테스트, 테스트기록, 단어추가, 랭킹, 단어 알림, 도움말
+- **[이민환](https://github.com/minhvvan)** - 테스트설정, 테스트, 테스트기록, 단어추가, 랭킹, 단어 알림, 도움말
 
 
-### 서버
-
-- **[주성민](https://github.com/seoyoon528)** 
-- **[강영우](https://github.com/jyukki97)** 
-- **[이상혁](https://github.com/jisooHong)**
+### 서버 - [server Repository](https://github.com/knowNow-Team)
+- **[주성민](https://github.com/god9599)** 
+- **[강영우](https://github.com/rdd9223)** 
+- **[이상혁](https://github.com/ksshlee)** 
 
 
 ### 아키텍처
