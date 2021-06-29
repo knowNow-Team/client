@@ -32,8 +32,8 @@
 - **아키텍처**  -  MVVM, Observer Pattern
 - **네트워크(NetWork)**  -  Retrofit2 , Okhttp3
 - **내부 데이터베이스 (Local DataBase)**  -  Room `ver 2.2.5`
-- **(디자인 (Design)**  -  material, lottie
-- **other** - RecyclerView,ViewPager,seekBar
+- **디자인 (Design)**  -  material, lottie
+- **other** - RecyclerView,ViewPager,seekBar,Glide
 
 
 <br>
