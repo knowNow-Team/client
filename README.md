@@ -46,7 +46,7 @@
 
 <br>
 
-## 🌳 Diretory
+## 🌳 Directory
 
 ```
 data |- local  |- dao 
